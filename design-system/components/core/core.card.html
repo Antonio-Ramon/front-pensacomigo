@@ -1,0 +1,40 @@
+<!-- @dsCard group="Components" viewport="700x460" name="Core" subtitle="Buttons, tags, badges, inputs, avatar, empty state" -->
+<!DOCTYPE html><html><head><meta charset="utf-8"><link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js"></script>
+<script src="../../_ds_bundle.js"></script>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<style>body{margin:0;background:var(--bg-page);padding:28px;font-family:var(--font-ui)}
+.grid{display:flex;flex-direction:column;gap:26px}.r{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.lbl{font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-faint);margin-bottom:10px;font-weight:600}</style></head>
+<body><div id="root"></div>
+<script type="text/babel">
+const { Button, IconButton, Tag, Badge, Avatar, Input, Select, EmptyState, ConfirmDialog } = window.PensaComigoDesignSystem_3d6f1f;
+function Demo(){const [del,setDel]=React.useState(false);return(<div className="grid">
+<div><div className="lbl">Buttons</div><div className="r">
+<Button variant="primary">Publicar</Button>
+<Button variant="warm">Apoiar</Button>
+<Button variant="secondary">Cancelar</Button>
+<Button variant="ghost">Ler mais</Button>
+<Button variant="primary" disabled>Desativado</Button>
+<IconButton icon="search" label="Buscar" variant="outline"/>
+<IconButton icon="share-2" label="Partilhar"/>
+</div></div>
+<div><div className="lbl">Tags & badges</div><div className="r">
+<Tag>Meditação</Tag><Tag active>Fé</Tag><Tag tone="teal">Graça</Tag><Tag tone="teal" active>Dúvida</Tag><Tag onRemove={()=>{}}>Removível</Tag>
+<Badge tone="published">Publicado</Badge><Badge tone="draft">Rascunho</Badge>
+</div></div>
+<div><div className="lbl">Inputs</div><div className="r">
+<Input label="Nome" placeholder="Seu nome" wrapStyle={{width:220}}/>
+<Select label="Autor" options={["Antonio","Jéssica"]} wrapStyle={{width:180}}/>
+<Avatar name="Antonio"/><Avatar name="Jéssica"/>
+</div></div>
+<div><div className="lbl">Confirm dialog</div><div className="r">
+<Button variant="secondary" onClick={()=>setDel(true)}>Excluir publicação…</Button>
+</div></div>
+<ConfirmDialog open={del} tone="danger" title="Excluir meditação?" message="“O silêncio também é uma resposta” será removida permanentemente. Esta ação não pode ser desfeita." confirmLabel="Excluir" onCancel={()=>setDel(false)} onConfirm={()=>setDel(false)}/>
+</div>);}
+ReactDOM.createRoot(document.getElementById('root')).render(<Demo/>);
+setTimeout(()=>window.lucide&&lucide.createIcons(),60);
+</script></body></html>

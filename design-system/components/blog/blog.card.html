@@ -1,0 +1,33 @@
+<!-- @dsCard group="Components" viewport="700x760" name="Blog" subtitle="Post card (card + row), tag filter, link preview, comment, meta line" -->
+<!DOCTYPE html><html><head><meta charset="utf-8"><link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js"></script>
+<script src="../../_ds_bundle.js"></script>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<style>body{margin:0;background:var(--bg-page);padding:28px;font-family:var(--font-ui)}
+.grid{display:flex;flex-direction:column;gap:26px}
+.lbl{font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-faint);margin-bottom:10px;font-weight:600}
+.two{display:grid;grid-template-columns:300px 1fr;gap:22px;align-items:start}</style></head>
+<body><div id="root"></div>
+<script type="text/babel">
+const { PostCard, TagFilter, LinkPreview, Comment, MetaLine } = window.PensaComigoDesignSystem_3d6f1f;
+function Demo(){const [a,setA]=React.useState('Fé');return(<div className="grid">
+<div><div className="lbl">Tag filter</div>
+<TagFilter tags={["Fé","Graça","Dúvida","Silêncio","Oração"]} active={a} onChange={setA}/></div>
+<div className="two">
+<div><div className="lbl">Post card</div>
+<PostCard title="O silêncio também é uma resposta" excerpt="A gente aprende a orar pedindo. Mas e quando a única oração possível é ficar quieto? Pensa comigo sobre o peso do silêncio." author="Antonio" date="12 jul 2026" readTime="8 min" tags={["Fé","Silêncio"]}/></div>
+<div style={{display:'flex',flexDirection:'column',gap:22}}>
+<div><div className="lbl">Link preview</div>
+<LinkPreview url="https://youtube.com" title="A oração no deserto — uma conversa" description="Um ensaio em vídeo sobre o silêncio contemplativo e o abandono." domain="youtube.com"/></div>
+<div><div className="lbl">Comment</div>
+<Comment name="Maria Clara" time="há 2 dias" onReply={()=>{}} replies={[{name:"Antonio",time:"há 1 dia",children:"Obrigado por ler com atenção, Maria."}]}>Isso me tocou. Passei a semana tentando entender por que a quietude me assustava tanto.</Comment></div>
+</div>
+</div>
+<div><div className="lbl">Post card — layout="row" (editorial index)</div>
+<PostCard layout="row" title="Fé não é certeza" excerpt="Confundimos fé com convicção inabalável. Mas talvez fé seja justamente seguir andando sem ter certeza de nada." author="Antonio" date="5 jul 2026" readTime="6 min" tags={["Dúvida"]} style={{paddingTop:20,borderTop:'1px solid var(--border-hair)'}}/></div>
+</div>);}
+ReactDOM.createRoot(document.getElementById('root')).render(<Demo/>);
+setTimeout(()=>window.lucide&&lucide.createIcons(),60);
+</script></body></html>
