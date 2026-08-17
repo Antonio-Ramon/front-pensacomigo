@@ -1,7 +1,6 @@
 import * as React from 'react';
-/** Multiline text field matching Input styling. */
+/** Multi-line text field. */
 export interface TextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
-  label?: string;
-  wrapStyle?: React.CSSProperties;
+  label?: React.ReactNode; wrapStyle?: React.CSSProperties;
 }
 export function Textarea(props: TextareaProps): JSX.Element;

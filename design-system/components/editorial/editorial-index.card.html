@@ -1,0 +1,41 @@
+<!-- @dsCard group="Components" viewport="880x640" name="Editorial · índice" subtitle="Terminal de versículo, trilha, linhas de arquivo, rail" -->
+<!DOCTYPE html><html data-theme="papel"><head><meta charset="utf-8"><link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js"></script>
+<script src="../../_ds_bundle.js"></script>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<style>body{margin:0;background:var(--bg);padding:26px}.lbl{font-family:var(--font-mono);font-size:10px;letter-spacing:.12em;color:var(--faint);margin-bottom:12px}.grid{display:flex;flex-direction:column;gap:26px}.r{display:flex;align-items:center;gap:12px;flex-wrap:wrap}</style></head><body><div id="root"></div>
+<script type="text/babel">
+const { VerseTerminal, MoodChips, StageCard, PostRow, TocRail, Pager, NewsletterCTA, Button } = window.PensaComigoDesignSystem_3d6f1f;
+function Demo(){
+  const [mood,setMood]=React.useState('cansado');
+  const [sec,setSec]=React.useState('s2');
+  return(<div style={{display:'flex',flexDirection:'column',gap:30}}>
+    <MoodChips value={mood} onChange={setMood}
+      options={[{value:'cansado',label:'cansado'},{value:'duvida',label:'em dúvida'},{value:'medo',label:'com medo'},{value:'grato',label:'grato'},{value:'luto',label:'em luto'}]}/>
+    <VerseTerminal slug="mateus-11-28" command="abrir --estado=cansado" cite="Mateus 11:28">
+      “Vinde a mim, todos os que estais cansados e oprimidos, e eu vos aliviarei.”
+    </VerseTerminal>
+    <div style={{display:'grid',gridTemplateColumns:'repeat(2,1fr)',gap:1,background:'var(--line)',border:'1px solid var(--line)',borderRadius:'var(--radius-md)',overflow:'hidden'}}>
+      <StageCard number="01" title="A pergunta" description="Onde a dúvida é dita em voz alta, sem pedir desculpas." refs={['Habacuque 1:2','Salmos 13:1']}/>
+      <StageCard number="02" title="A busca" description="Estudo, contexto e a disciplina de não aceitar respostas fáceis." refs={['Atos 17:11','Provérbios 2:4']}/>
+    </div>
+    <div style={{display:'grid',gridTemplateColumns:'1fr var(--rail)',gap:40,alignItems:'start'}}>
+      <div style={{borderTop:'1px solid var(--line)'}}>
+        <PostRow date="14 ago 2026" title="Elias dormiu antes de ouvir a voz" tags={['1 Reis 19','descanso']}
+          dek="Antes da brisa suave, Deus mandou o profeta comer e descansar."/>
+        <PostRow date="11 ago 2026" title="Tomé não foi o incrédulo da história" tags={['João 20','dúvida']}
+          dek="Ele foi o único que pediu evidência — e recebeu."/>
+      </div>
+      <TocRail activeId={sec} onSelect={setSec}
+        sections={[{id:'s1',label:'A resposta de Deus não é um sermão'},{id:'s2',label:'A ordem importa mais do que parece'},{id:'s3',label:'Para a sua semana'}]}
+        tools={<div style={{display:'flex',gap:8}}><Button size="sm" variant="ghost">A−</Button><Button size="sm" variant="ghost">A+</Button></div>}/>
+    </div>
+    <NewsletterCTA description="Uma meditação por dia útil. Sem correntes, sem “compartilhe com sete pessoas”."/>
+    <Pager prev={{title:'O pão de cada dia era só de um dia'}} next={{title:'Quando a resposta demora'}}/>
+  </div>);
+}
+ReactDOM.createRoot(document.getElementById('root')).render(<Demo/>);
+</script>
+<script>setTimeout(()=>window.lucide&&lucide.createIcons(),80);</script></body></html>

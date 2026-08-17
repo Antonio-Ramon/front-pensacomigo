@@ -1,8 +1,6 @@
 import * as React from 'react';
-/** Round avatar with initial fallback. */
+/** Initials avatar (accent fill). */
 export interface AvatarProps extends React.HTMLAttributes<HTMLSpanElement> {
-  src?: string;
-  name?: string;
-  size?: number;
+  name?: string; initials?: string; size?: number;
 }
 export function Avatar(props: AvatarProps): JSX.Element;

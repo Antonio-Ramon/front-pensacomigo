@@ -1,0 +1,21 @@
+<!-- @dsCard group="Components" viewport="820x420" name="Editorial · imagens" subtitle="Fotos escolhidas pelo autor, com placeholder listrado" -->
+<!DOCTYPE html><html data-theme="papel"><head><meta charset="utf-8"><link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js"></script>
+<script src="../../_ds_bundle.js"></script>
+<style>body{margin:0;background:var(--bg);padding:26px}</style></head><body><div id="root"></div>
+<script type="text/babel">
+const { PostImage, Comment } = window.PensaComigoDesignSystem_3d6f1f;
+function Demo(){return(<div style={{display:'flex',flexDirection:'column',gap:26}}>
+  <PostImage caption="Ilustração: o deserto de Berseba ao entardecer" label="capa escolhida pelo autor · 16:9" height={190}/>
+  <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:14}}>
+    <PostImage label="imagem no meio do post" height={120}/>
+    <PostImage label="imagem no meio do post" height={120}/>
+  </div>
+  <Comment author="Marina" date="15 ago 2026" replies={[{author:'Antonio',date:'15 ago 2026',body:'Boa pergunta — o versículo 7 responde em parte.'}]}>
+    Li isso num dia em que eu tinha dormido quatro horas. Doeu na medida certa.
+  </Comment>
+</div>);}
+ReactDOM.createRoot(document.getElementById('root')).render(<Demo/>);
+</script></body></html>

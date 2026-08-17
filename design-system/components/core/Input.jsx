@@ -1,23 +1,18 @@
 import React from 'react';
 
-/** Text input with warm hairline border + accent focus ring. Pass `label` to render a field label. */
-export function Input({ label, id, style, wrapStyle, ...rest }) {
-  const [f, setF] = React.useState(false);
-  const input = (
-    <input id={id} onFocus={() => setF(true)} onBlur={() => setF(false)}
-      style={{ width: '100%', fontFamily: 'var(--font-ui)', fontSize: 'var(--fs-ui)',
-        color: 'var(--text-strong)', background: 'var(--surface-card)',
-        border: `1px solid ${f ? 'var(--accent-500)' : 'var(--border-strong)'}`,
-        borderRadius: 'var(--radius-md)', padding: '11px 14px', outline: 'none',
-        boxShadow: f ? 'var(--ring)' : 'none', transition: 'border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease)',
-        boxSizing: 'border-box', ...style }} {...rest} />
-  );
-  if (!label) return input;
+/** Pill text input. Set `shape="box"` for form fields inside panels. */
+export function Input({ label, hint, shape = 'pill', wrapStyle, style, ...rest }) {
   return (
-    <label htmlFor={id} style={{ display: 'block', ...wrapStyle }}>
-      <span style={{ display: 'block', fontFamily: 'var(--font-ui)', fontSize: 'var(--fs-ui-sm)',
-        fontWeight: 'var(--w-medium)', color: 'var(--text-body)', marginBottom: 'var(--sp-2)' }}>{label}</span>
-      {input}
+    <label style={{ display: 'block', ...wrapStyle }}>
+      {label && <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 10.5,
+        letterSpacing: '0.1em', color: 'var(--faint)', marginBottom: 8 }}>{label}</span>}
+      <input style={{
+        width: '100%', background: 'var(--bg)', border: '1px solid var(--line)', color: 'var(--ink)',
+        fontFamily: 'var(--font-ui)', fontSize: 14, padding: shape === 'pill' ? '11px 18px' : '10px 12px',
+        borderRadius: shape === 'pill' ? 'var(--radius-pill)' : 'var(--radius-sm)', outline: 'none', ...style,
+      }} {...rest} />
+      {hint && <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 11,
+        color: 'var(--faint)', marginTop: 6 }}>{hint}</span>}
     </label>
   );
 }

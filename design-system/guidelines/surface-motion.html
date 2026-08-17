@@ -1,0 +1,20 @@
+<!-- @dsCard group="Foundations" viewport="760x300" name="Superfícies &amp; movimento" subtitle="Tudo quadrado; hairlines antes de sombra" -->
+<!DOCTYPE html><html data-theme="papel"><head><meta charset="utf-8"><link rel="stylesheet" href="../styles.css">
+<style>body{margin:0;padding:28px;background:var(--bg);font-family:var(--font-ui)}
+.k{font-family:var(--font-mono);font-size:10px;letter-spacing:.12em;color:var(--faint);margin:0 0 12px}
+.row{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:26px;align-items:center}
+.box{width:120px;height:74px;background:var(--surface);border:1px solid var(--line);display:grid;place-items:center;font-family:var(--font-mono);font-size:10px;color:var(--soft)}
+.btn{font-family:var(--font-ui);font-size:14px;font-weight:500;padding:11px 20px;background:var(--primary);color:var(--on-primary);border:none}
+.inp{font-family:var(--font-ui);font-size:14px;padding:10px 14px;background:var(--bg);border:1px solid var(--line);color:var(--faint)}
+.note{font-size:14px;color:var(--soft);max-width:60ch;line-height:1.6;margin:0}</style></head>
+<body>
+<p class="k">CANTOS — 0PX EM TUDO</p>
+<div class="row">
+<button class="btn">Publicar</button>
+<span class="inp">seu@email.com</span>
+<div class="box">painel · hairline</div>
+<div class="box" style="box-shadow:var(--shadow-md);border-color:transparent">modal · shadow-md</div>
+</div>
+<p class="k">REGRA</p>
+<p class="note">Nenhum elemento tem border-radius: botões, campos, chips, tags, cards, avatares e miniaturas são retângulos exatos. A hierarquia é feita de linhas de 1px, não de sombras. Movimento: 150–350ms em cubic-bezier(.22,.9,.3,1) — a seta da lista avança, nada escala, nada quica.</p>
+</body></html>

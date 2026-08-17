@@ -1,8 +1,8 @@
 import * as React from 'react';
-/** Editorial section heading: CAPS overline + serif display title. */
+/**
+ * Eyebrow + serif title + hint.
+ */
 export interface SectionHeadingProps extends React.HTMLAttributes<HTMLDivElement> {
-  overline?: string;
-  title: string;
-  align?: 'left' | 'center';
+  eyebrow?: React.ReactNode; title: React.ReactNode; hint?: React.ReactNode; as?: 'h1' | 'h2' | 'h3';
 }
 export function SectionHeading(props: SectionHeadingProps): JSX.Element;

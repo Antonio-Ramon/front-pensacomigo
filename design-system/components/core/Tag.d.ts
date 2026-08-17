@@ -1,9 +1,4 @@
 import * as React from 'react';
-/** Fully-rounded pill tag; active state fills with accent; optional removable chip. */
-export interface TagProps extends React.HTMLAttributes<HTMLSpanElement> {
-  active?: boolean;
-  tone?: 'warm' | 'teal';
-  size?: 'sm' | 'md';
-  onRemove?: () => void;
-}
+/** Mono hairline tag for refs and topics. */
+export interface TagProps extends React.HTMLAttributes<HTMLSpanElement> { tone?: 'neutral' | 'accent' | 'primary'; }
 export function Tag(props: TagProps): JSX.Element;

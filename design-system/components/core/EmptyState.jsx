@@ -1,18 +1,15 @@
 import React from 'react';
 
-/** Empty-state block: quiet Lucide glyph, serif message, optional action. */
-export function EmptyState({ icon = 'feather', title, message, action, style, ...rest }) {
+/** Empty state: mono line, serif sentence, optional action. Never illustrated. */
+export function EmptyState({ label = 'vazio', title, action, style, ...rest }) {
   return (
-    <div style={{ textAlign: 'center', padding: 'var(--sp-9) var(--sp-5)', maxWidth: 420, margin: '0 auto', ...style }} {...rest}>
-      <div style={{ width: 56, height: 56, borderRadius: '50%', background: 'var(--surface-wash)',
-        display: 'inline-flex', alignItems: 'center', justifyContent: 'center', marginBottom: 'var(--sp-4)' }}>
-        <i data-lucide={icon} style={{ width: 24, height: 24, color: 'var(--accent-500)' }}></i>
-      </div>
-      <h3 style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--fs-h3)', fontWeight: 'var(--w-semibold)',
-        color: 'var(--text-strong)', margin: '0 0 var(--sp-2)' }}>{title}</h3>
-      {message && <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--fs-body-sm)', color: 'var(--text-muted)',
-        lineHeight: 1.6, margin: '0 0 var(--sp-5)' }}>{message}</p>}
-      {action}
+    <div style={{ border: '1px dashed var(--line)', borderRadius: 'var(--radius-md)', padding: '44px 28px',
+      textAlign: 'center', ...style }} {...rest}>
+      <p style={{ fontFamily: 'var(--font-mono)', fontSize: 11, letterSpacing: '0.12em',
+        color: 'var(--faint)', margin: 0 }}>{label}</p>
+      <p style={{ fontFamily: 'var(--font-display)', fontWeight: 'var(--w-light)', fontSize: 21,
+        color: 'var(--ink)', margin: '10px 0 0', lineHeight: 1.4 }}>{title}</p>
+      {action && <div style={{ marginTop: 20 }}>{action}</div>}
     </div>
   );
 }

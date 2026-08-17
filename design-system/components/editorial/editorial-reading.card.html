@@ -1,0 +1,25 @@
+<!-- @dsCard group="Components" viewport="820x620" name="Editorial · leitura" subtitle="Prosa, versículo, nota de estudo, aplicação, reações" -->
+<!DOCTYPE html><html data-theme="papel"><head><meta charset="utf-8"><link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js"></script>
+<script src="../../_ds_bundle.js"></script>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<style>body{margin:0;background:var(--bg);padding:26px}.lbl{font-family:var(--font-mono);font-size:10px;letter-spacing:.12em;color:var(--faint);margin-bottom:12px}.grid{display:flex;flex-direction:column;gap:26px}.r{display:flex;align-items:center;gap:12px;flex-wrap:wrap}</style></head><body><div id="root"></div>
+<script type="text/babel">
+const { Prose, VerseBlock, StudyNote, ApplyList, Reactions, AuthorBox } = window.PensaComigoDesignSystem_3d6f1f;
+const body = `
+<p>Elias acabou de vencer o maior confronto público da sua carreira profética. No capítulo 18, fogo desce do céu diante de centenas de testemunhas. No capítulo 19, ele está sentado debaixo de um arbusto no deserto, pedindo para morrer.</p>
+<h2>A resposta de Deus não é um sermão</h2>
+<p>Diante de um profeta em colapso, Deus não repreende. Manda um anjo com pão e água. E deixa ele dormir. <mark>Duas vezes.</mark></p>`;
+function Demo(){return(<div style={{display:'flex',flexDirection:'column',gap:34}}>
+  <Prose html={body}/>
+  <VerseBlock reference="1 Reis 19:7">“Levanta-te e come, porque o caminho te será longo demais.”</VerseBlock>
+  <StudyNote>O verbo hebraico usado para o toque do anjo (נָגַע, <em>naga</em>) é o mesmo empregado em contextos de contato físico gentil. Não é uma sacudida — é um toque.</StudyNote>
+  <ApplyList items={['Verifique quantas horas você realmente dormiu nesta semana','Faça uma refeição sem tela e sem pressa hoje','Antes de cobrar direção de Deus, pergunte se você deu ao corpo o que ele pediu']}/>
+  <Reactions options={[{label:'Isso me ajudou',count:128},{label:'Orei por isso',count:46},{label:'Vou reler',count:19}]}/>
+  <AuthorBox name="Antonio" initials="AR" bio="Escreve os textos de estudo do Pensa Comigo. Gosta de texto original e de perguntas que não têm resposta rápida."/>
+</div>);}
+ReactDOM.createRoot(document.getElementById('root')).render(<Demo/>);
+</script>
+<script>setTimeout(()=>window.lucide&&lucide.createIcons(),80);</script></body></html>

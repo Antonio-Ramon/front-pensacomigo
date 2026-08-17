@@ -1,9 +1,6 @@
 import * as React from 'react';
-/** Icon-only button rendering a Lucide glyph. */
+/** Square icon-only button (Lucide icon name). */
 export interface IconButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  icon: string;
-  label?: string;
-  size?: 'sm' | 'md' | 'lg';
-  variant?: 'ghost' | 'outline';
+  icon: string; label: string; variant?: 'ghost' | 'outline'; size?: number;
 }
 export function IconButton(props: IconButtonProps): JSX.Element;

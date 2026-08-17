@@ -1,7 +1,7 @@
 import * as React from 'react';
-/** Text input with optional field label and accent focus ring. */
+/** Text input, pill by default. */
 export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  label?: string;
+  label?: React.ReactNode; hint?: React.ReactNode; shape?: 'pill' | 'box';
   wrapStyle?: React.CSSProperties;
 }
 export function Input(props: InputProps): JSX.Element;

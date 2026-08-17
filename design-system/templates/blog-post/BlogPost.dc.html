@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<!-- @template name="Blog — meditação" description="Página de artigo: capa generativa, coluna de leitura com capitular, rail fixo, aplicação, reações e paginação." -->
+<helmet>
+<script src="./ds-base.js"></script>
+<style>body{margin:0}.pc-wrap{max-width:940px;margin:0 auto;padding:0 22px}@media(max-width:900px){.pc-article{grid-template-columns:1fr!important;gap:0!important}.pc-rail{display:none!important}}</style>
+</helmet>
+<div style="min-height:100vh;background:var(--bg);color:var(--ink);font-family:var(--font-ui)">
+<header style="position:sticky;top:0;z-index:60;background:var(--header-bg);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)">
+<div class="pc-wrap" style="display:flex;align-items:center;justify-content:space-between;height:58px;gap:16px">
+<a href="#" style="font-family:var(--font-mono);font-size:14px;font-weight:500;color:var(--ink);text-decoration:none">pensa<span style="color:var(--faint)">·</span>comigo</a>
+<div style="padding-left:16px;border-left:1px solid var(--line)"><x-import component-from-global-scope="PensaComigoDesignSystem_3d6f1f.ThemeSwitcher" hint-size="160px,28px"></x-import></div>
+</div>
+<div ref="{{ progressRef }}" style="position:absolute;left:0;bottom:-1px;height:2px;width:0;background:var(--accent)"></div>
+</header>
+<article class="pc-wrap" style="padding:20px 22px 90px">
+<a href="#" style="font-family:var(--font-mono);font-size:11.5px;color:var(--soft);display:inline-block;margin-bottom:30px;text-decoration:none">← todas as meditações</a>
+<p style="font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;text-transform:lowercase;color:var(--faint);margin:0">meditação · etapa <b style="color:var(--accent);font-weight:500">04 o descanso</b></p>
+<h1 style="font-family:var(--font-display);font-weight:400;font-size:clamp(31px,4.7vw,48px);line-height:1.06;letter-spacing:-.022em;margin:14px 0 0;max-width:21ch">Elias dormiu antes de ouvir a voz</h1>
+<p style="font-family:var(--font-display);font-weight:300;font-size:19px;color:var(--soft);margin:16px 0 0;max-width:54ch;line-height:1.55">Antes da brisa suave, Deus mandou o profeta comer e descansar. Um estudo sobre por que o cuidado com o corpo vem antes da revelação.</p>
+<div style="display:flex;align-items:center;gap:12px;margin-top:26px;flex-wrap:wrap;padding-bottom:28px;border-bottom:1px solid var(--line)">
+<x-import component-from-global-scope="PensaComigoDesignSystem_3d6f1f.Avatar" name="Antonio Ribeiro" hint-size="30px,30px"></x-import>
+<span>
+<span style="font-size:13.5px;color:var(--ink);font-weight:500">Antonio</span><br>
+<span style="font-family:var(--font-mono);font-size:11px;color:var(--faint)">14 ago 2026 · <b style="color:var(--soft);font-weight:400">6 min de leitura</b> · 1 Reis 19 · descanso</span>
+</span>
+</div>
+<div style="margin-top:28px">
+<x-import component-from-global-scope="PensaComigoDesignSystem_3d6f1f.PostImage" src="{{ coverSrc }}" label="capa escolhida pelo autor · solte a imagem aqui" caption="Foto: o deserto de Berseba ao entardecer" height="320" hint-size="100%,360px"></x-import>
+</div>
+<div class="pc-article" style="display:grid;grid-template-columns:1fr 190px;gap:56px;align-items:start">
+<div>
+<div style="margin-top:36px">
+<x-import component-from-global-scope="PensaComigoDesignSystem_3d6f1f.Prose" html="{{ body }}" font-size="{{ fontSize }}" hint-size="100%,520px"></x-import>
+</div>
+<div style="margin-top:52px">
+<x-import component-from-global-scope="PensaComigoDesignSystem_3d6f1f.ApplyList" items="{{ applyItems }}" hint-size="100%,240px"></x-import>
+</div>
+<div style="margin-top:40px">
+<x-import component-from-global-scope="PensaComigoDesignSystem_3d6f1f.Reactions" options="{{ reactions }}" hint-size="100%,44px"></x-import>
+</div>
+<div style="margin-top:48px">
+<x-import component-from-global-scope="PensaComigoDesignSystem_3d6f1f.AuthorBox" name="Antonio" initials="AR" bio="Desenvolvedor e adventista. Escreve os textos de estudo do Pensa Comigo. Gosta de texto original e de perguntas que não têm resposta rápida." hint-size="100%,120px"></x-import>
+</div>
+<div style="margin-top:44px">
+<x-import component-from-global-scope="PensaComigoDesignSystem_3d6f1f.NewsletterCTA" title="Recebe a próxima às 6h?" description="Uma meditação por dia útil. Sem correntes, sem “compartilhe com sete pessoas”." hint-size="100%,180px"></x-import>
+</div>
+<h3 style="font-family:var(--font-display);font-weight:400;font-size:26px;margin:56px 0 10px;letter-spacing:-.02em">Continue por aqui</h3>
+<div style="border-top:1px solid var(--line)">
+<sc-for list="{{ related }}" as="post" hint-placeholder-count="2">
+<x-import component-from-global-scope="PensaComigoDesignSystem_3d6f1f.PostRow" date="{{ post.date }}" title="{{ post.title }}" dek="{{ post.dek }}" tags="{{ post.tags }}" image="{{ post.image }}" hint-size="100%,110px"></x-import>
+</sc-for>
+</div>
+<div style="margin-top:56px">
+<x-import component-from-global-scope="PensaComigoDesignSystem_3d6f1f.Pager" prev="{{ prev }}" next="{{ next }}" hint-size="100%,70px"></x-import>
+</div>
+<section style="margin-top:64px;max-width:64ch">
+<p style="font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;text-transform:lowercase;color:var(--faint);margin:0">comentários · <b style="color:var(--accent);font-weight:500">{{ commentCount }}</b></p>
+<h3 style="font-family:var(--font-display);font-weight:400;font-size:26px;margin:12px 0 0;letter-spacing:-.02em">O que você pensou?</h3>
+<div style="display:flex;flex-direction:column;gap:26px;margin-top:28px;padding-top:26px;border-top:1px solid var(--line)">
+<sc-for list="{{ comments }}" as="c" hint-placeholder-count="2">
+<x-import component-from-global-scope="PensaComigoDesignSystem_3d6f1f.Comment" author="{{ c.author }}" date="{{ c.date }}" replies="{{ c.replies }}" hint-size="100%,90px">{{ c.body }}</x-import>
+</sc-for>
+</div>
+<div style="margin-top:36px;background:var(--surface);border:1px solid var(--line);padding:20px">
+<p style="font-family:var(--font-mono);font-size:10px;letter-spacing:.12em;color:var(--faint);margin:0 0 14px">DEIXE UM COMENTÁRIO</p>
+<label style="display:block;margin-bottom:14px">
+<span style="display:block;font-family:var(--font-mono);font-size:10.5px;letter-spacing:.1em;color:var(--faint);margin-bottom:8px">NOME <b style="color:var(--accent);font-weight:500">*</b></span>
+<input value="{{ cName }}" onChange="{{ setCName }}" placeholder="Seu nome (obrigatório)" style="width:100%;background:var(--bg);border:1px solid var(--line);color:var(--ink);font-family:var(--font-ui);font-size:14px;padding:10px 12px;outline:none;box-sizing:border-box">
+</label>
+<label style="display:block;margin-bottom:14px">
+<span style="display:block;font-family:var(--font-mono);font-size:10.5px;letter-spacing:.1em;color:var(--faint);margin-bottom:8px">COMENTÁRIO</span>
+<textarea rows="3" value="{{ cText }}" onChange="{{ setCText }}" placeholder="Pense junto — discordar com cuidado também é comentário." style="width:100%;background:var(--bg);border:1px solid var(--line);color:var(--ink);font-family:var(--font-ui);font-size:14px;line-height:1.6;padding:10px 12px;outline:none;resize:vertical;box-sizing:border-box"></textarea>
+</label>
+<div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+<x-import component-from-global-scope="PensaComigoDesignSystem_3d6f1f.Button" size="sm" on-click="{{ submitComment }}" hint-size="110px,34px">Comentar</x-import>
+<span style="font-family:var(--font-mono);font-size:11.5px;color:var(--accent);min-height:16px">{{ cMsg }}</span>
+</div>
+</div>
+</section>
+</div>
+<div class="pc-rail" style="align-self:stretch">
+<x-import component-from-global-scope="PensaComigoDesignSystem_3d6f1f.TocRail" sections="{{ sections }}" active-id="{{ activeSection }}" on-select="{{ selectSection }}" tools="{{ tools }}" hint-size="190px,300px"></x-import>
+</div>
+</div>
+</article>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1000,&quot;height&quot;:900},&quot;theme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;papel&quot;,&quot;tinta&quot;,&quot;terra&quot;],&quot;default&quot;:&quot;papel&quot;,&quot;tsType&quot;:&quot;'papel'|'tinta'|'terra'&quot;,&quot;section&quot;:&quot;Tema&quot;},&quot;coverSrc&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Capa&quot;}}">
+class Component extends DCLogic {
+  state = {
+    fontSize: 18.5, active: 'sec-1',
+    cName: '', cText: '', cMsg: '',
+    comments: [
+      { author: 'Marina', date: '15 ago 2026', body: 'Li isso num dia em que eu tinha dormido quatro horas. Doeu na medida certa.', replies: [{ author: 'Antonio', date: '15 ago 2026', body: 'Boa pergunta implícita aí — o versículo 7 responde em parte.' }] },
+      { author: 'Caio', date: '14 ago 2026', body: 'Nunca tinha reparado que a revelação vem depois das duas refeições. Muda o capítulo inteiro.', replies: [] },
+    ],
+  };
+  progressRef = React.createRef();
+
+  body = `
+  <p>Elias acabou de vencer o maior confronto público da sua carreira profética. No capítulo 18, fogo desce do céu diante de centenas de testemunhas. No capítulo 19, ele está sentado debaixo de um arbusto no deserto, pedindo para morrer.</p>
+  <p>Nove versículos separam o auge da queda. É um dado que a maioria das pregações sobre esse texto prefere não mencionar.</p>
+  <div class="verse"><div class="r">1 Reis 19:4</div><q>“Basta; toma agora, ó Senhor, a minha alma, pois não sou melhor do que meus pais.”</q></div>
+  <h2 id="sec-1">A resposta de Deus não é um sermão</h2>
+  <p>Aqui está a parte desconcertante. Diante de um profeta em colapso, Deus não repreende, não cita o milagre recente como prova de que Elias deveria confiar mais, não pergunta onde foi parar a fé dele.</p>
+  <p>Manda um anjo com pão e água. E deixa ele dormir. <mark>Duas vezes.</mark></p>
+  <div class="verse"><div class="r">1 Reis 19:7</div><q>“Levanta-te e come, porque o caminho te será longo demais.”</q></div>
+  <div class="aside"><b>nota de estudo</b>O verbo hebraico usado para o toque do anjo (נָגַע, <em>naga</em>) é o mesmo empregado em contextos de contato físico gentil. Não é uma sacudida para acordar — é um toque.</div>
+  <figure><div class="ph">imagem no meio do post · escolhida pelo autor</div><figcaption>O monte Horebe, destino dos quarenta dias</figcaption></figure>
+  <h2 id="sec-2">A ordem importa mais do que parece</h2>
+  <p>Só <strong>depois</strong> de duas refeições e dois períodos de sono é que a narrativa avança para o monte Horebe. E é lá, quarenta dias depois, que vêm o vento, o terremoto, o fogo — e finalmente a voz mansa e delicada.</p>
+  <p>A revelação chega no fim da sequência, não no começo. O cuidado com o corpo não é uma etapa preliminar irrelevante: é metade do capítulo.</p>
+  <h2 id="sec-3">Para a sua semana</h2>
+  <p>Se você tem orado por direção e não tem ouvido nada, vale fazer uma pergunta nada mística antes de qualquer outra: você dormiu? Você comeu? Você parou?</p>
+  <p>Às vezes o próximo passo de obediência é ir para a cama.</p>`;
+
+  sections = [
+    { id: 'sec-1', label: 'A resposta de Deus não é um sermão' },
+    { id: 'sec-2', label: 'A ordem importa mais do que parece' },
+    { id: 'sec-3', label: 'Para a sua semana' },
+  ];
+
+  related = [
+    { date: '4 ago 2026', title: 'O pão de cada dia era só de um dia', dek: 'O maná apodrecia se guardado. Sobre a economia estranha da provisão diária.', tags: ['Êxodo 16', 'gratidão'], image: '' },
+    { date: '31 jul 2026', title: 'Jesus chorou sabendo o final', dek: 'Ele ia ressuscitar Lázaro em minutos e ainda assim chorou.', tags: ['João 11', 'luto'], image: '' },
+  ];
+
+  componentDidMount() {
+    if (this.props.theme) document.documentElement.dataset.theme = this.props.theme;
+    this.onScroll = () => {
+      const h = document.body.scrollHeight - window.innerHeight;
+      const el = this.progressRef.current;
+      if (el) el.style.width = (h > 0 ? (window.scrollY / h) * 100 : 0) + '%';
+    };
+    window.addEventListener('scroll', this.onScroll, { passive: true });
+  }
+  componentWillUnmount() { window.removeEventListener('scroll', this.onScroll); }
+  componentDidUpdate() { if (this.props.theme) document.documentElement.dataset.theme = this.props.theme; }
+
+  setSize(delta) {
+    this.setState(s => ({ fontSize: Math.min(23, Math.max(16, s.fontSize + delta)) }));
+  }
+
+  renderVals() {
+    const btn = (label, onClick) => React.createElement('button', {
+      onClick, key: label,
+      style: {
+        fontFamily: 'var(--font-mono)', fontSize: 11, background: 'var(--surface)',
+        border: '1px solid var(--line)', borderRadius: 'var(--radius-sm)', color: 'var(--soft)',
+        padding: '0 10px', height: 24, cursor: 'pointer',
+      },
+    }, label);
+    return {
+      coverSrc: this.props.coverSrc || '',
+      body: this.body,
+      fontSize: this.state.fontSize,
+      sections: this.sections,
+      activeSection: this.state.active,
+      selectSection: id => {
+        this.setState({ active: id });
+        const el = document.getElementById(id);
+        if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 80, behavior: 'smooth' });
+      },
+      tools: React.createElement('div', { style: { display: 'flex', gap: 8, flexWrap: 'wrap' } }, [
+        btn('A−', () => this.setSize(-1.5)),
+        btn('A+', () => this.setSize(1.5)),
+        btn('salvar', () => {}),
+        btn('copiar link', () => {}),
+      ]),
+      applyItems: [
+        'Verifique quantas horas você realmente dormiu nesta semana',
+        'Faça uma refeição sem tela e sem pressa hoje',
+        'Antes de cobrar direção de Deus, pergunte se você deu ao corpo o que ele pediu',
+      ],
+      reactions: [
+        { label: 'Isso me ajudou', count: 128 },
+        { label: 'Orei por isso', count: 46 },
+        { label: 'Vou reler', count: 19 },
+      ],
+      related: this.related,
+      prev: { title: 'Quando a resposta demora' },
+      next: { title: 'Tomé não foi o incrédulo da história' },
+      progressRef: this.progressRef,
+      comments: this.state.comments,
+      commentCount: String(this.state.comments.length).padStart(2, '0'),
+      cName: this.state.cName, setCName: e => this.setState({ cName: e.target.value, cMsg: '' }),
+      cText: this.state.cText, setCText: e => this.setState({ cText: e.target.value, cMsg: '' }),
+      cMsg: this.state.cMsg,
+      submitComment: () => {
+        const name = this.state.cName.trim(), text = this.state.cText.trim();
+        if (!name) { this.setState({ cMsg: '⚠ o nome é obrigatório.' }); return; }
+        if (!text) { this.setState({ cMsg: '⚠ escreva o comentário.' }); return; }
+        this.setState(s => ({
+          comments: [...s.comments, { author: name, date: 'agora', body: text, replies: [] }],
+          cName: '', cText: '', cMsg: '✓ comentário publicado.',
+        }));
+      },
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,14 +1,13 @@
 import React from 'react';
 
-/** Round avatar. Falls back to an initial on the accent wash when no `src`. */
-export function Avatar({ src, name = '', size = 40, style, ...rest }) {
-  const initial = name.trim().charAt(0).toUpperCase() || '·';
+/** Initials avatar in accent — square, like everything else. */
+export function Avatar({ name = '', initials, size = 30, style, ...rest }) {
+  const ini = initials || name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
   return (
-    <span style={{ width: size, height: size, borderRadius: '50%', flexShrink: 0, overflow: 'hidden',
-      display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-      background: 'var(--accent-100)', color: 'var(--accent-700)', fontFamily: 'var(--font-ui)',
-      fontWeight: 'var(--w-semibold)', fontSize: size * 0.42, ...style }} {...rest}>
-      {src ? <img src={src} alt={name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : initial}
-    </span>
+    <span style={{
+      width: size, height: size, display: 'grid', placeItems: 'center', flex: 'none',
+      background: 'var(--accent)', color: 'var(--on-primary)', fontFamily: 'var(--font-mono)',
+      fontSize: Math.round(size * 0.35), ...style,
+    }} {...rest}>{ini}</span>
   );
 }

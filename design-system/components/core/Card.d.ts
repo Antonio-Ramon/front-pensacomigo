@@ -1,10 +1,8 @@
 import * as React from 'react';
 /**
- * White surface card with warm hairline + subtle shadow.
- * @startingPoint section="Core" subtitle="White surface container" viewport="700x220"
+ * Hairline surface panel.
  */
 export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
-  pad?: boolean;
-  hover?: boolean;
+  tone?: 'solid' | 'dashed'; padding?: number | string;
 }
 export function Card(props: CardProps): JSX.Element;

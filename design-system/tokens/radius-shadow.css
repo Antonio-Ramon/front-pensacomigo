@@ -1,23 +1,18 @@
 :root{
-  /* ---- Corner radii (medium, soft) ---- */
-  --radius-sm:2px;
-  --radius-md:6px;    /* default card/input radius */
-  --radius-lg:10px;
-  --radius-xl:16px;
-  --radius-pill:999px;
+  /* ---- Corner radii: NONE. Every surface is square (herdr-style brutalist rule) ---- */
+  --radius-xs:0;
+  --radius-sm:0;
+  --radius-md:0;
+  --radius-pill:0;
 
-  /* ---- Shadows (very subtle, warm-tinted) ---- */
-  --shadow-xs:0 1px 2px rgba(0,0,0,0.04);
-  --shadow-sm:0 1px 3px rgba(0,0,0,0.06),0 1px 2px rgba(0,0,0,0.04);
-  --shadow-md:0 4px 14px rgba(0,0,0,0.08);
-  --shadow-lg:0 12px 32px rgba(0,0,0,0.12);
-
-  /* ---- Focus ring ---- */
-  --ring:0 0 0 3px rgba(18,118,111,0.30);
+  /* ---- Elevation: hairlines first, shadow almost never ---- */
+  --shadow-none:none;
+  --shadow-sm:0 1px 2px rgba(0,0,0,.05);
+  --shadow-md:0 6px 22px rgba(0,0,0,.08);
 
   /* ---- Motion ---- */
-  --ease:cubic-bezier(0.4,0,0.2,1);  /* @kind other */
-  --dur-fast:120ms;  /* @kind other */
-  --dur:200ms;  /* @kind other */
-  --dur-slow:320ms;  /* @kind other */
+  --ease:cubic-bezier(.22,.9,.3,1);  /* @kind other */
+  --dur-fast:150ms;  /* @kind other */
+  --dur:200ms;       /* @kind other */
+  --dur-slow:350ms;  /* @kind other */
 }

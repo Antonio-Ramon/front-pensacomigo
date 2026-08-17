@@ -1,9 +1,7 @@
 import * as React from 'react';
-/** Styled native select with Lucide chevron. */
-export interface SelectOption { value: string; label: string; }
+/** Native select with system chrome. */
 export interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
-  label?: string;
-  options?: (SelectOption | string)[];
+  label?: React.ReactNode; options?: Array<string | { value: string; label: string }>;
   wrapStyle?: React.CSSProperties;
 }
 export function Select(props: SelectProps): JSX.Element;

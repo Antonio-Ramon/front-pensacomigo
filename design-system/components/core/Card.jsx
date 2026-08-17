@@ -1,16 +1,12 @@
 import React from 'react';
 
-/** Generic white surface card. `pad` toggles inner padding; `hover` enables lift on hover. */
-export function Card({ pad = true, hover = false, children, style, ...rest }) {
-  const [h, setH] = React.useState(false);
+/** Surface panel: hairline border, 10px radius, no shadow by default. `tone="dashed"` for opt-in blocks. */
+export function Card({ children, tone = 'solid', padding = 24, style, ...rest }) {
   return (
-    <div onMouseEnter={() => hover && setH(true)} onMouseLeave={() => hover && setH(false)}
-      style={{ background: 'var(--surface-card)', border: '1px solid var(--border-hair)',
-        borderRadius: 'var(--radius-lg)', padding: pad ? 'var(--sp-6)' : 0,
-        boxShadow: h ? 'var(--shadow-md)' : 'var(--shadow-sm)',
-        transition: 'box-shadow var(--dur) var(--ease), transform var(--dur) var(--ease)',
-        ...style }} {...rest}>
-      {children}
-    </div>
+    <div style={{
+      background: tone === 'dashed' ? 'transparent' : 'var(--surface)',
+      border: '1px ' + (tone === 'dashed' ? 'dashed' : 'solid') + ' var(--line)',
+      borderRadius: 'var(--radius-md)', padding, ...style,
+    }} {...rest}>{children}</div>
   );
 }

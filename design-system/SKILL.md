@@ -1,22 +1,20 @@
 ---
 name: pensa-comigo-design
-description: Use this skill to generate well-branded interfaces and assets for Pensa Comigo (blog cristão de meditações — "A fé que te obriga a pensar"), either for production or throwaway prototypes/mocks. Contains design guidelines, colors, type, fonts, assets, and UI kit components for prototyping.
+description: Use this skill to generate well-branded interfaces and assets for Pensa Comigo (blog cristão de meditações — "A fé que te obriga a pensar"), either for production or throwaway prototypes/mocks. Contains the three themes (papel, tinta, terra), tokens, components and blog templates.
 user-invocable: true
 ---
 
-Read the README.md file within this skill, and explore the other available files
-(tokens/, components/, ui_kits/, guidelines/).
+Read readme.md within this skill, then explore tokens/, components/, guidelines/ and templates/.
 
-If creating visual artifacts (slides, mocks, throwaway prototypes, etc), copy assets out
-and create static HTML files for the user to view. If working on production code, you can
-copy assets and read the rules here to become an expert in designing with this brand.
+Everything is themed. Set `<html data-theme="papel|tinta|terra">` and use only the
+semantic variables (--bg, --surface, --ink, --soft, --faint, --primary, --accent, --line,
+--mark, --glow). Never hardcode a hex.
 
-If the user invokes this skill without any other guidance, ask them what they want to
-build or design, ask some questions, and act as an expert designer who outputs HTML
-artifacts _or_ production code, depending on the need.
+Core of the brand: editorial, quiet, hairline-ruled. One 940px column on a warm page,
+serif Newsreader for titles and reading (300–500 weight), Inter Tight for interface,
+JetBrains Mono for eyebrows, scripture refs and the verse terminal. Square corners everywhere (border-radius:0 on buttons, inputs, chips, cards), 1px
+borders instead of shadows, real author-chosen photos (cover + in-post figures) with striped mono-labelled placeholders when missing.
+No gradients (except the single hero glow), no literal religious iconography, no emoji.
 
-Core of the brand: contemplative, editorial, airy. Cream page, white cards, near-black
-warm ink, a single earthy terracotta/taupe accent used sparingly. Serif display
-(Newsreader) + serif reading body (Source Serif 4, 19px/1.78) + grotesque UI (Instrument
-Sans). Medium radii, 1px warm hairlines, very subtle shadows, discreet motion. No
-gradients, no heavy shadows, no literal religious iconography, no emoji.
+If creating visual artifacts, copy the assets you need out and write static HTML. If the
+user invokes this skill with no other guidance, ask what they want to build.
