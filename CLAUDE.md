@@ -1,5 +1,18 @@
 # front-pensacomigo
 
+Front do blog de meditações cristãs **Pensa Comigo**.
+
+## Backend
+
+A API fica em `../service-pensacomigo` (repo irmão, mesma pasta do GitHub). Se não estiver lá,
+procure nas pastas vizinhas antes de desistir:
+`ls ../.. | grep -i pensacomigo` — e, sem resultado, pergunte ao usuário o caminho.
+
+Stack: .NET 10 + EF Core +
+PostgreSQL/Supabase, Clean Architecture + CQRS. Ao mexer em contrato de API — endpoints, DTOs,
+filtro/ordenação/paginação, formato de erro — leia `../service-pensacomigo/README.md` e
+`../service-pensacomigo/docs/` em vez de inferir pelo front.
+
 ## Agent skills
 
 ### Issue tracker
