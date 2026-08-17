@@ -1,0 +1,142 @@
+/* ============================================================
+   Tokens — Pensa Comigo. Três temas, um contrato.
+   Aplicar com <html data-theme="papel|tinta|terra">. Papel é o padrão.
+   Componentes usam SEMPRE estes tokens — nunca hex direto.
+   Valores transcritos da identidade (design-system/ é a referência visual).
+   ============================================================ */
+
+html[data-theme="papel"], :root {
+  --bg: #FAF8F5;            /* página */
+  --bg-alt: #F2EFEA;        /* faixa rebaixada, hover */
+  --surface: #FFFFFF;       /* cards, painéis */
+  --ink: #1B1A21;           /* texto primário */
+  --soft: #65616F;          /* texto secundário */
+  --faint: #9995A4;         /* meta, labels mono, placeholders */
+  --primary: #463C8C;       /* índigo — botões, links */
+  --on-primary: #FAF8F5;
+  --accent: #C2643F;        /* terracota — refs, marks */
+  --line: #E6E1D9;          /* hairlines */
+  --glow: rgba(70, 60, 140, .10);
+  --mark: rgba(194, 100, 63, .16);
+
+  --primary-strong: #372F70;
+  --primary-soft: #E7E3F3;
+  --accent-soft: #F5E5DC;
+
+  --success: #5C7052; --warning: #A8803A; --danger: #A2564B;
+  --success-soft: #E6ECE0; --warning-soft: #F3E9D4; --danger-soft: #F0DCD7;
+
+  --ring: 0 0 0 3px rgba(70, 60, 140, .28);
+  --header-bg: rgba(250, 248, 245, .88);
+}
+
+html[data-theme="tinta"] {
+  --bg: #0F0F13;
+  --bg-alt: #16161C;
+  --surface: #17171E;
+  --ink: #EBE9F2;
+  --soft: #9B96AB;
+  --faint: #6B6779;
+  --primary: #A99DF2;
+  --on-primary: #131218;
+  --accent: #E9A263;
+  --line: #26262F;
+  --glow: rgba(169, 157, 242, .11);
+  --mark: rgba(233, 162, 99, .20);
+
+  --primary-strong: #C4BBF7;
+  --primary-soft: #23203A;
+  --accent-soft: #33261A;
+
+  --success: #8FB082; --warning: #D3AD63; --danger: #D68A7E;
+  --success-soft: #1E2A1B; --warning-soft: #2E2617; --danger-soft: #2E1C19;
+
+  --ring: 0 0 0 3px rgba(169, 157, 242, .32);
+  --header-bg: rgba(15, 15, 19, .86);
+}
+
+html[data-theme="terra"] {
+  --bg: #EFE7DB;
+  --bg-alt: #E7DCCB;
+  --surface: #F8F3EA;
+  --ink: #2C2318;
+  --soft: #786752;
+  --faint: #9D8C75;
+  --primary: #8A5334;
+  --on-primary: #F8F3EA;
+  --accent: #3D5A73;
+  --line: #DDCFB9;
+  --glow: rgba(138, 83, 52, .11);
+  --mark: rgba(61, 90, 115, .18);
+
+  --primary-strong: #6E3F26;
+  --primary-soft: #E8D8C6;
+  --accent-soft: #DCE4EB;
+
+  --success: #5E7048; --warning: #9A7629; --danger: #9C4F3C;
+  --success-soft: #E2E4D2; --warning-soft: #EFE2C7; --danger-soft: #EEDAD1;
+
+  --ring: 0 0 0 3px rgba(138, 83, 52, .30);
+  --header-bg: rgba(239, 231, 219, .88);
+}
+
+:root {
+  /* ---- Famílias (variáveis injetadas pelo next/font em layout.tsx) ---- */
+  --font-display: var(--font-newsreader), Georgia, 'Times New Roman', serif;
+  --font-body: var(--font-display);
+  --font-ui: var(--font-inter-tight), system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, monospace;
+
+  /* ---- Escala display (serifa, leve, tracking negativo) ---- */
+  --fs-display: clamp(38px, 6.4vw, 66px);
+  --fs-h1: clamp(31px, 4.7vw, 48px);
+  --fs-h2: clamp(26px, 3.6vw, 36px);
+  --fs-h3: 20px;
+  --lh-display: 1.04;
+  --lh-heading: 1.25;
+  --tracking-display: -0.022em;
+  --tracking-heading: -0.015em;
+
+  /* ---- Leitura ---- */
+  --fs-lede: 17.5px;
+  --fs-prose: 18.5px;
+  --fs-body: 16px;
+  --fs-body-sm: 14px;
+  --lh-prose: 1.78;
+  --lh-lede: 1.62;
+
+  /* ---- UI ---- */
+  --fs-ui: 14px;
+  --fs-ui-sm: 13px;
+  --fs-ui-xs: 12px;
+  --lh-ui: 1.4;
+
+  /* ---- Labels mono ---- */
+  --fs-mono: 11.5px;
+  --fs-mono-sm: 10.5px;
+  --tracking-mono: 0.04em;
+  --tracking-eyebrow: 0.14em;
+
+  /* ---- Pesos ---- */
+  --w-light: 300;
+  --w-body: 400;
+  --w-medium: 500;
+  --w-semibold: 600;
+
+  /* ---- Espaçamento (base 4px) ---- */
+  --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px; --sp-5: 22px;
+  --sp-6: 30px; --sp-7: 48px; --sp-8: 74px; --sp-9: 96px;
+
+  /* ---- Layout — uma coluna estreita, centrada ---- */
+  --measure: 64ch;
+  --container: 940px;
+  --gutter: 22px;
+  --section-gap: var(--sp-9);
+  --rail: 190px;
+
+  /* ---- Movimento (cantos retos e borda 1px são regra: sem radius, sem sombra) ---- */
+  --ease: cubic-bezier(.22, .9, .3, 1);
+  --dur-fast: 150ms;
+  --dur: 200ms;
+  --dur-slow: 350ms;
+}
