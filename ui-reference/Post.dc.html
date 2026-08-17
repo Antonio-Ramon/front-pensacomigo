@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<!-- @template name="Blog — meditação" description="Página de artigo: capa generativa, coluna de leitura com capitular, rail fixo, aplicação, reações e paginação." -->
+<helmet>
+<script src="./ds-base.js"></script>
+<style>body{margin:0}.pc-wrap{max-width:940px;margin:0 auto;padding:0 22px}@media(max-width:900px){.pc-article{grid-template-columns:1fr!important;gap:0!important}.pc-rail{display:none!important}}</style>
+</helmet>
+<div style="min-height:100vh;background:var(--bg);color:var(--ink);font-family:var(--font-ui)">
+<header style="position:sticky;top:0;z-index:60;background:var(--header-bg);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)">
+<div class="pc-wrap" style="display:flex;align-items:center;justify-content:space-between;height:58px;gap:16px">
+<a href="Home.dc.html" style="font-family:var(--font-mono);font-size:14px;font-weight:500;color:var(--ink);text-decoration:none">pensa<span style="color:var(--faint)">·</span>comigo</a>
+<div style="padding-left:16px;border-left:1px solid var(--line)"><x-import component-from-global-scope="PensaComigoDesignSystem_3d6f1f.ThemeSwitcher" hint-size="160px,28px"></x-import></div>
+</div>
+<div ref="{{ progressRef }}" style="position:absolute;left:0;bottom:-1px;height:2px;width:0;background:var(--accent)"></div>
+</header>
+<article class="pc-wrap" style="padding:20px 22px 90px">
+<a href="Arquivo.dc.html" style="font-family:var(--font-mono);font-size:11.5px;color:var(--soft);display:inline-block;margin-bottom:30px;text-decoration:none">← todas as meditações</a>
+<p style="font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;text-transform:lowercase;color:var(--faint);margin:0">meditação · etapa <b style="color:var(--accent);font-weight:500">{{ stageLabel }}</b></p>
+<h1 style="font-family:var(--font-display);font-weight:400;font-size:clamp(31px,4.7vw,48px);line-height:1.06;letter-spacing:-.022em;margin:14px 0 0;max-width:21ch">{{ title }}</h1>
+<p style="font-family:var(--font-display);font-weight:300;font-size:19px;color:var(--soft);margin:16px 0 0;max-width:54ch;line-height:1.55">{{ dek }}</p>
+<div style="display:flex;align-items:center;gap:12px;margin-top:26px;flex-wrap:wrap;padding-bottom:28px;border-bottom:1px solid var(--line)">
+<x-import component-from-global-scope="PensaComigoDesignSystem_3d6f1f.Avatar" name="{{ authorFull }}" hint-size="30px,30px"></x-import>
+<span>
+<span style="font-size:13.5px;color:var(--ink);font-weight:500">{{ authorName }}</span><br>
+<span style="font-family:var(--font-mono);font-size:11px;color:var(--faint)">{{ date }} · <b style="color:var(--soft);font-weight:400">{{ readMin }} min de leitura</b> · {{ tagLine }}</span>
+</span>
+</div>
+<div style="margin-top:28px">
+<x-import component-from-global-scope="PensaComigoDesignSystem_3d6f1f.PostImage" src="{{ coverSrc }}" label="capa escolhida pelo autor · solte a imagem aqui" caption="{{ caption }}" height="320" hint-size="100%,360px"></x-import>
+</div>
+<div class="pc-article" style="display:grid;grid-template-columns:1fr 190px;gap:56px;align-items:start">
+<div>
+<div style="margin-top:36px">
+<x-import component-from-global-scope="PensaComigoDesignSystem_3d6f1f.Prose" html="{{ body }}" font-size="{{ fontSize }}" hint-size="100%,520px"></x-import>
+</div>
+<div style="margin-top:52px">
+<x-import component-from-global-scope="PensaComigoDesignSystem_3d6f1f.ApplyList" items="{{ applyItems }}" hint-size="100%,240px"></x-import>
+</div>
+<div style="margin-top:40px">
+<x-import component-from-global-scope="PensaComigoDesignSystem_3d6f1f.Reactions" options="{{ reactions }}" hint-size="100%,44px"></x-import>
+</div>
+<div style="margin-top:48px">
+<x-import component-from-global-scope="PensaComigoDesignSystem_3d6f1f.AuthorBox" name="{{ authorName }}" initials="{{ authorInitials }}" bio="{{ authorBio }}" hint-size="100%,120px"></x-import>
+</div>
+<div style="margin-top:44px">
+<x-import component-from-global-scope="PensaComigoDesignSystem_3d6f1f.NewsletterCTA" title="Recebe a próxima às 6h?" description="Uma meditação por dia útil. Sem correntes, sem “compartilhe com sete pessoas”." hint-size="100%,180px"></x-import>
+</div>
+<h3 style="font-family:var(--font-display);font-weight:400;font-size:26px;margin:56px 0 10px;letter-spacing:-.02em">Continue por aqui</h3>
+<div style="border-top:1px solid var(--line)">
+<sc-for list="{{ related }}" as="post" hint-placeholder-count="2">
+<x-import component-from-global-scope="PensaComigoDesignSystem_3d6f1f.PostRow" date="{{ post.date }}" title="{{ post.title }}" dek="{{ post.dek }}" tags="{{ post.tags }}" href="Post.dc.html?slug={{ post.slug }}" hint-size="100%,110px"></x-import>
+</sc-for>
+</div>
+<div style="margin-top:56px">
+<x-import component-from-global-scope="PensaComigoDesignSystem_3d6f1f.Pager" prev="{{ prev }}" next="{{ next }}" hint-size="100%,70px"></x-import>
+</div>
+<section style="margin-top:64px;max-width:64ch">
+<p style="font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;text-transform:lowercase;color:var(--faint);margin:0">comentários · <b style="color:var(--accent);font-weight:500">{{ commentCount }}</b></p>
+<h3 style="font-family:var(--font-display);font-weight:400;font-size:26px;margin:12px 0 0;letter-spacing:-.02em">O que você pensou?</h3>
+<div style="display:flex;flex-direction:column;gap:26px;margin-top:28px;padding-top:26px;border-top:1px solid var(--line)">
+<sc-for list="{{ comments }}" as="c" hint-placeholder-count="2">
+<x-import component-from-global-scope="PensaComigoDesignSystem_3d6f1f.Comment" author="{{ c.author }}" date="{{ c.date }}" replies="{{ c.replies }}" hint-size="100%,90px">{{ c.body }}</x-import>
+</sc-for>
+</div>
+<div style="margin-top:36px;background:var(--surface);border:1px solid var(--line);padding:20px">
+<p style="font-family:var(--font-mono);font-size:10px;letter-spacing:.12em;color:var(--faint);margin:0 0 14px">DEIXE UM COMENTÁRIO</p>
+<label style="display:block;margin-bottom:14px">
+<span style="display:block;font-family:var(--font-mono);font-size:10.5px;letter-spacing:.1em;color:var(--faint);margin-bottom:8px">NOME <b style="color:var(--accent);font-weight:500">*</b></span>
+<input value="{{ cName }}" onChange="{{ setCName }}" placeholder="Seu nome (obrigatório)" style="width:100%;background:var(--bg);border:1px solid var(--line);color:var(--ink);font-family:var(--font-ui);font-size:14px;padding:10px 12px;outline:none;box-sizing:border-box">
+</label>
+<label style="display:block;margin-bottom:14px">
+<span style="display:block;font-family:var(--font-mono);font-size:10.5px;letter-spacing:.1em;color:var(--faint);margin-bottom:8px">COMENTÁRIO</span>
+<textarea rows="3" value="{{ cText }}" onChange="{{ setCText }}" placeholder="Pense junto — discordar com cuidado também é comentário." style="width:100%;background:var(--bg);border:1px solid var(--line);color:var(--ink);font-family:var(--font-ui);font-size:14px;line-height:1.6;padding:10px 12px;outline:none;resize:vertical;box-sizing:border-box"></textarea>
+</label>
+<div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+<x-import component-from-global-scope="PensaComigoDesignSystem_3d6f1f.Button" size="sm" on-click="{{ submitComment }}" hint-size="110px,34px">Comentar</x-import>
+<span style="font-family:var(--font-mono);font-size:11.5px;color:var(--accent);min-height:16px">{{ cMsg }}</span>
+</div>
+</div>
+</section>
+</div>
+<div class="pc-rail" style="align-self:stretch">
+<x-import component-from-global-scope="PensaComigoDesignSystem_3d6f1f.TocRail" sections="{{ sections }}" active-id="{{ activeSection }}" on-select="{{ selectSection }}" tools="{{ tools }}" hint-size="190px,300px"></x-import>
+</div>
+</div>
+</article>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1000,&quot;height&quot;:900},&quot;theme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;papel&quot;,&quot;tinta&quot;,&quot;terra&quot;],&quot;default&quot;:&quot;papel&quot;,&quot;tsType&quot;:&quot;'papel'|'tinta'|'terra'&quot;,&quot;section&quot;:&quot;Tema&quot;},&quot;coverSrc&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Capa&quot;}}">
+class Component extends DCLogic {
+  state = {
+    db: null, idx: 0,
+    fontSize: 18.5, active: 'sec-1',
+    cName: '', cText: '', cMsg: '',
+    comments: [],
+  };
+  progressRef = React.createRef();
+
+  componentDidMount() {
+    let saved = null; try { saved = localStorage.getItem('pc-theme'); } catch (e) {}
+    const t = saved || this.props.theme;
+    if (t) document.documentElement.dataset.theme = t;
+    this.onScroll = () => {
+      const h = document.body.scrollHeight - window.innerHeight;
+      const el = this.progressRef.current;
+      if (el) el.style.width = (h > 0 ? (window.scrollY / h) * 100 : 0) + '%';
+    };
+    window.addEventListener('scroll', this.onScroll, { passive: true });
+    import('./posts.js').then(m => {
+      const slug = new URLSearchParams(location.search).get('slug');
+      const { post, index } = m.findPost(slug || '');
+      document.title = post.title + ' · pensa comigo';
+      this.setState({ db: m, idx: index, comments: post.comments, active: post.sections.length ? post.sections[0].id : '' });
+    });
+  }
+  componentWillUnmount() { window.removeEventListener('scroll', this.onScroll); }
+  componentDidUpdate(prev) { if (prev.theme !== this.props.theme && this.props.theme) document.documentElement.dataset.theme = this.props.theme; }
+
+  setSize(delta) {
+    this.setState(s => ({ fontSize: Math.min(23, Math.max(16, s.fontSize + delta)) }));
+  }
+
+  renderVals() {
+    const btn = (label, onClick) => React.createElement('button', {
+      onClick, key: label,
+      style: {
+        fontFamily: 'var(--font-mono)', fontSize: 11, background: 'var(--surface)',
+        border: '1px solid var(--line)', borderRadius: 'var(--radius-sm)', color: 'var(--soft)',
+        padding: '0 10px', height: 24, cursor: 'pointer',
+      },
+    }, label);
+    const { db, idx } = this.state;
+    const posts = db ? db.POSTS : [];
+    const post = posts[idx];
+    const stage = post && db ? db.STAGES.find(s => s.number === post.stage) : null;
+    const author = post && db ? db.AUTHORS[post.author] : null;
+    const href = p => 'Post.dc.html?slug=' + p.slug;
+    const prevP = posts[idx + 1], nextP = posts[idx - 1];
+    const related = posts.filter((p, i) => i !== idx && (p.stage === (post && post.stage) || p.mood.some(mo => post && post.mood.includes(mo)))).slice(0, 2);
+    return {
+      stageLabel: stage ? stage.number + ' ' + stage.title.toLowerCase() : '…',
+      title: post ? post.title : '…',
+      dek: post ? post.dek : '',
+      date: post ? post.date : '',
+      readMin: post ? post.readMin : '',
+      tagLine: post ? post.tags.join(' · ') : '',
+      caption: post ? post.caption : '',
+      authorName: author ? author.name : '',
+      authorFull: author ? author.full : '',
+      authorInitials: author ? author.initials : '',
+      authorBio: author ? author.bio : '',
+      coverSrc: this.props.coverSrc || '',
+      body: post ? post.body : '<p>…</p>',
+      fontSize: this.state.fontSize,
+      sections: post ? post.sections : [],
+      activeSection: this.state.active,
+      selectSection: id => {
+        this.setState({ active: id });
+        const el = document.getElementById(id);
+        if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 80, behavior: 'smooth' });
+      },
+      tools: React.createElement('div', { style: { display: 'flex', gap: 8, flexWrap: 'wrap' } }, [
+        btn('A−', () => this.setSize(-1.5)),
+        btn('A+', () => this.setSize(1.5)),
+        btn('topo ↑', () => window.scrollTo({ top: 0, behavior: 'smooth' })),
+        btn('copiar link', () => { try { navigator.clipboard.writeText(location.href); } catch (e) {} }),
+      ]),
+      applyItems: post ? post.apply : [],
+      reactions: post ? post.reactions : [],
+      related: related.map(p => ({ ...p, href: href(p) })),
+      prev: prevP ? { title: prevP.title, href: href(prevP) } : null,
+      next: nextP ? { title: nextP.title, href: href(nextP) } : null,
+      progressRef: this.progressRef,
+      comments: this.state.comments,
+      commentCount: String(this.state.comments.length).padStart(2, '0'),
+      cName: this.state.cName, setCName: e => this.setState({ cName: e.target.value, cMsg: '' }),
+      cText: this.state.cText, setCText: e => this.setState({ cText: e.target.value, cMsg: '' }),
+      cMsg: this.state.cMsg,
+      submitComment: () => {
+        const name = this.state.cName.trim(), text = this.state.cText.trim();
+        if (!name) { this.setState({ cMsg: '⚠ o nome é obrigatório.' }); return; }
+        if (!text) { this.setState({ cMsg: '⚠ escreva o comentário.' }); return; }
+        this.setState(s => ({
+          comments: [...s.comments, { author: name, date: 'agora', body: text, replies: [] }],
+          cName: '', cText: '', cMsg: '✓ comentário publicado.',
+        }));
+      },
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+:root{
+  /* ---- Families ---- */
+  --font-display:'Newsreader',Georgia,'Times New Roman',serif;  /* titles + long-form reading */
+  --font-body:var(--font-display);                              /* prose is the same serif, weight 300 */
+  --font-ui:'Inter Tight',system-ui,-apple-system,'Segoe UI',sans-serif; /* nav, buttons, meta */
+  --font-mono:'JetBrains Mono',ui-monospace,SFMono-Regular,monospace;    /* eyebrows, refs, terminal */
+
+  /* ---- Display scale (serif, light-to-regular, negative tracking) ---- */
+  --fs-display:clamp(38px,6.4vw,66px);  /* @kind font */
+  --fs-h1:clamp(31px,4.7vw,48px);       /* @kind font */
+  --fs-h2:clamp(26px,3.6vw,36px);       /* @kind font */
+  --fs-h3:20px;                          /* @kind font */
+  --lh-display:1.04;                     /* @kind font */
+  --lh-heading:1.25;                     /* @kind font */
+  --tracking-display:-0.022em;           /* @kind font */
+  --tracking-heading:-0.015em;           /* @kind font */
+
+  /* ---- Reading ---- */
+  --fs-lede:17.5px;   /* @kind font */
+  --fs-prose:18.5px;  /* @kind font */
+  --fs-body:16px;     /* @kind font */
+  --fs-body-sm:14px;  /* @kind font */
+  --lh-prose:1.78;    /* @kind font */
+  --lh-lede:1.62;     /* @kind font */
+
+  /* ---- UI ---- */
+  --fs-ui:14px;       /* @kind font */
+  --fs-ui-sm:13px;    /* @kind font */
+  --fs-ui-xs:12px;    /* @kind font */
+  --lh-ui:1.4;        /* @kind font */
+
+  /* ---- Mono labels ---- */
+  --fs-mono:11.5px;      /* @kind font */
+  --fs-mono-sm:10.5px;   /* @kind font */
+  --tracking-mono:0.04em;      /* @kind font */
+  --tracking-eyebrow:0.14em;   /* @kind font */
+
+  /* ---- Weights ---- */
+  --w-light:300;    /* @kind font */
+  --w-body:400;     /* @kind font */
+  --w-medium:500;   /* @kind font */
+  --w-semibold:600; /* @kind font */
+}

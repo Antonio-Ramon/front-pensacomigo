@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<!-- @template name="Admin — editor de post" description="Criação de meditação: editor de blocos com drag-and-drop (parágrafo, subtítulo, versículo, nota, aplicação) e sidebar de metadados." -->
+<helmet>
+<script src="./ds-base.js"></script>
+<style>body{margin:0}.pe-wrap{max-width:1200px;margin:0 auto;padding:0 22px}@media(max-width:900px){.pe-cols{grid-template-columns:1fr!important}}
+.pe-title{width:100%;background:transparent;border:none;outline:none;font-family:var(--font-display);font-weight:400;font-size:clamp(28px,4vw,42px);letter-spacing:-.022em;color:var(--ink);padding:0}
+.pe-title::placeholder{color:var(--faint)}
+.pe-ta{width:100%;background:transparent;border:none;outline:none;resize:none;font-family:var(--font-display);font-weight:300;font-size:17px;line-height:1.7;color:var(--ink);padding:0}
+.pe-ta::placeholder{color:var(--faint)}
+.pe-ta.mono{font-family:var(--font-ui);font-size:14px;line-height:1.6;color:var(--soft)}
+.pe-block{background:var(--surface);border:1px solid var(--line)}
+.pe-block[data-drag="over"]{border-color:var(--accent)}
+.pe-block[data-drag="dragging"]{opacity:.4}
+.pe-ta[data-bt="paragrafo"]{font-size:17px;font-weight:300}
+.pe-ta[data-bt="subtitulo"]{font-size:22px;font-weight:500}
+.pe-ta[data-bt="versiculo"]{font-size:18px;font-weight:300}
+.pe-ta[data-bt="nota"],.pe-ta[data-bt="aplicacao"]{font-family:var(--font-ui);font-size:14.5px;font-weight:400}
+</style>
+</helmet>
+<div style="min-height:100vh;background:var(--bg);color:var(--ink);font-family:var(--font-ui)">
+<header style="position:sticky;top:0;z-index:60;background:var(--header-bg);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)">
+<div class="pe-wrap" style="display:flex;align-items:center;justify-content:space-between;height:58px;gap:16px">
+<div style="display:flex;align-items:center;gap:16px">
+<a href="Home.dc.html" style="font-family:var(--font-mono);font-size:14px;font-weight:500;color:var(--ink);text-decoration:none">pensa<span style="color:var(--faint)">·</span>comigo</a>
+<span style="font-family:var(--font-mono);font-size:11px;color:var(--faint)">/ <a href="Admin.dc.html" style="color:var(--soft);text-decoration:none">admin</a> / nova meditação</span>
+<x-import component-from-global-scope="PensaComigoDesignSystem_3d6f1f.Badge" tone="{{ badgeTone }}" hint-size="80px,22px">{{ badgeLabel }}</x-import>
+</div>
+<div style="display:flex;align-items:center;gap:10px">
+<sc-if value="{{ published }}" hint-placeholder-val="{{ false }}">
+<a href="Post.dc.html?slug=elias-dormiu-antes-de-ouvir-a-voz" style="font-family:var(--font-mono);font-size:11px;color:var(--accent);text-decoration:none">ver no blog →</a>
+</sc-if>
+<x-import component-from-global-scope="PensaComigoDesignSystem_3d6f1f.Button" variant="ghost" size="sm" on-click="{{ save }}" hint-size="120px,34px">{{ saveLabel }}</x-import>
+<x-import component-from-global-scope="PensaComigoDesignSystem_3d6f1f.Button" size="sm" on-click="{{ askPublish }}" hint-size="100px,34px">Publicar</x-import>
+<div style="padding-left:12px;border-left:1px solid var(--line)"><x-import component-from-global-scope="PensaComigoDesignSystem_3d6f1f.ThemeSwitcher" hint-size="160px,28px"></x-import></div>
+</div>
+</div>
+</header>
+<main class="pe-wrap">
+<div class="pe-cols" style="display:grid;grid-template-columns:1fr 300px;gap:48px;align-items:start;padding:38px 0 90px">
+<section>
+<p style="font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;text-transform:lowercase;color:var(--faint);margin:0 0 14px">título</p>
+<input class="pe-title" value="{{ title }}" onChange="{{ setTitle }}" placeholder="Elias dormiu antes de ouvir a voz">
+<p style="font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;text-transform:lowercase;color:var(--faint);margin:28px 0 10px">dek</p>
+<textarea class="pe-ta mono" rows="2" value="{{ dek }}" onChange="{{ setDek }}" placeholder="Uma frase que resume a meditação sem entregar a conclusão."></textarea>
+<div style="display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin:36px 0 12px;padding-top:24px;border-top:1px solid var(--line)">
+<p style="font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;text-transform:lowercase;color:var(--faint);margin:0">conteúdo · arraste <span style="color:var(--accent)">⠿</span> para reordenar</p>
+<span style="font-family:var(--font-mono);font-size:11px;color:var(--faint)">{{ blockCount }} blocos</span>
+</div>
+<div style="display:flex;flex-direction:column;gap:10px">
+<sc-for list="{{ blocks }}" as="block" hint-placeholder-count="4">
+<div class="pe-block" draggable="true" data-drag="{{ block.dragState }}" onDragStart="{{ block.dragStart }}" onDragOver="{{ block.dragOver }}" onDrop="{{ block.drop }}" onDragEnd="{{ block.dragEnd }}">
+<div style="display:flex;align-items:center;gap:10px;padding:8px 12px;border-bottom:1px solid var(--line);background:var(--bg-alt)">
+<span style="cursor:grab;color:var(--faint);font-size:14px;line-height:1" title="Arrastar para reordenar">⠿</span>
+<span style="font-family:var(--font-mono);font-size:10px;letter-spacing:.1em;color:var(--accent)">{{ block.label }}</span>
+<span style="margin-left:auto;display:flex;gap:2px">
+<button onClick="{{ block.moveUp }}" title="Mover para cima" style="font-family:var(--font-mono);font-size:11px;background:none;border:none;color:var(--faint);cursor:pointer;padding:2px 6px">↑</button>
+<button onClick="{{ block.moveDown }}" title="Mover para baixo" style="font-family:var(--font-mono);font-size:11px;background:none;border:none;color:var(--faint);cursor:pointer;padding:2px 6px">↓</button>
+<button onClick="{{ block.remove }}" title="Remover bloco" style="font-family:var(--font-mono);font-size:11px;background:none;border:none;color:var(--faint);cursor:pointer;padding:2px 6px">×</button>
+</span>
+</div>
+<div style="padding:14px 16px">
+<sc-if value="{{ block.hasRef }}" hint-placeholder-val="{{ false }}">
+<input value="{{ block.ref }}" onChange="{{ block.setRef }}" placeholder="Referência — ex. 1 Reis 19:7" style="width:100%;background:transparent;border:none;outline:none;font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;color:var(--accent);padding:0;margin-bottom:10px">
+</sc-if>
+<sc-if value="{{ block.hasImg }}" hint-placeholder-val="{{ false }}">
+<div style="margin-bottom:10px">
+<x-import component-from-global-scope="PensaComigoDesignSystem_3d6f1f.PostImage" src="{{ block.imgSrc }}" label="imagem do post" height="140" hint-size="100%,140px"></x-import>
+</div>
+<input value="{{ block.imgSrc }}" onChange="{{ block.setImgSrc }}" placeholder="URL da imagem — https://…" style="width:100%;background:transparent;border:none;outline:none;font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;color:var(--accent);padding:0;margin-bottom:10px">
+</sc-if>
+<textarea class="pe-ta" data-bt="{{ block.type }}" rows="{{ block.rows }}" value="{{ block.text }}" onChange="{{ block.setText }}" placeholder="{{ block.placeholder }}"></textarea>
+</div>
+</div>
+</sc-for>
+</div>
+<div style="margin-top:22px;border:1px dashed var(--line);padding:16px;display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+<span style="font-family:var(--font-mono);font-size:11px;letter-spacing:.1em;color:var(--faint);marginRight:4px">+ adicionar</span>
+<sc-for list="{{ blockTypes }}" as="bt" hint-placeholder-count="5">
+<x-import component-from-global-scope="PensaComigoDesignSystem_3d6f1f.Chip" on-click="{{ bt.add }}" hint-size="110px,36px">{{ bt.label }}</x-import>
+</sc-for>
+</div>
+</section>
+<aside style="display:flex;flex-direction:column;gap:22px;position:sticky;top:82px">
+<div style="background:var(--surface);border:1px solid var(--line);padding:20px;display:flex;flex-direction:column;gap:16px">
+<p style="font-family:var(--font-mono);font-size:10px;letter-spacing:.12em;color:var(--faint);margin:0">METADADOS</p>
+<x-import component-from-global-scope="PensaComigoDesignSystem_3d6f1f.Input" label="SLUG" shape="box" value="{{ slug }}" read-only="{{ true }}" hint="gerado do título" hint-size="100%,70px"></x-import>
+<x-import component-from-global-scope="PensaComigoDesignSystem_3d6f1f.Select" label="AUTOR" options="{{ authors }}" hint-size="100%,64px"></x-import>
+<x-import component-from-global-scope="PensaComigoDesignSystem_3d6f1f.Input" label="DATA" shape="box" value="17 ago 2026" hint-size="100%,64px"></x-import>
+<x-import component-from-global-scope="PensaComigoDesignSystem_3d6f1f.Input" label="TAGS" shape="box" value="1 Reis 19, descanso" hint="separadas por vírgula" hint-size="100%,70px"></x-import>
+</div>
+<div style="background:var(--surface);border:1px solid var(--line);padding:20px">
+<p style="font-family:var(--font-mono);font-size:10px;letter-spacing:.12em;color:var(--faint);margin:0 0 10px">ESTADO DE CHEGADA</p>
+<x-import component-from-global-scope="PensaComigoDesignSystem_3d6f1f.MoodChips" options="{{ moodOptions }}" value="{{ mood }}" on-change="{{ setMood }}" hint-size="100%,80px"></x-import>
+</div>
+<div style="background:var(--surface);border:1px solid var(--line);padding:20px">
+<p style="font-family:var(--font-mono);font-size:10px;letter-spacing:.12em;color:var(--faint);margin:0 0 12px">CAPA DO POST</p>
+<div style="margin-bottom:12px">
+<x-import component-from-global-scope="PensaComigoDesignSystem_3d6f1f.PostImage" src="{{ cover }}" label="capa escolhida pelo autor" height="130" hint-size="100%,130px"></x-import>
+</div>
+<x-import component-from-global-scope="PensaComigoDesignSystem_3d6f1f.Input" label="URL DA IMAGEM" shape="box" value="{{ cover }}" on-change="{{ setCover }}" placeholder="https://…" hint="cole a URL da foto escolhida" hint-size="100%,70px"></x-import>
+</div>
+</aside>
+</div>
+</main>
+<x-import component-from-global-scope="PensaComigoDesignSystem_3d6f1f.ConfirmDialog" open="{{ confirmOpen }}" title="Publicar esta meditação?" message="Ela entra no arquivo e sai na newsletter das 6h de amanhã. Dá para despublicar depois." confirm-label="Publicar agora" cancel-label="Ainda não" on-confirm="{{ doPublish }}" on-cancel="{{ cancelPublish }}" hint-size="0,0"></x-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1200,&quot;height&quot;:900},&quot;theme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;papel&quot;,&quot;tinta&quot;,&quot;terra&quot;],&quot;default&quot;:&quot;papel&quot;,&quot;tsType&quot;:&quot;'papel'|'tinta'|'terra'&quot;,&quot;section&quot;:&quot;Tema&quot;}}">
+class Component extends DCLogic {
+  types = {
+    paragrafo: { label: 'PARÁGRAFO', placeholder: 'Escreva pensando junto, não pregando…', rows: 3, fontSize: '17px', fontWeight: 300 },
+    subtitulo: { label: 'SUBTÍTULO', placeholder: 'Um subtítulo em sentence case', rows: 1, fontSize: '22px', fontWeight: 500 },
+    versiculo: { label: 'VERSÍCULO', placeholder: '“O texto entre aspas curvas…”', rows: 2, fontSize: '18px', fontWeight: 300, hasRef: true },
+    nota: { label: 'NOTA DE ESTUDO', placeholder: 'O termo original, o contexto, o detalhe que se perde na tradução…', rows: 2, fontSize: '14.5px', fontWeight: 400 },
+    aplicacao: { label: 'APLICAÇÃO', placeholder: 'Um item prático por linha', rows: 3, fontSize: '14.5px', fontWeight: 400 },
+    imagem: { label: 'IMAGEM', placeholder: 'Legenda da imagem (opcional)', rows: 1, fontSize: '14.5px', fontWeight: 400, hasImg: true },
+  };
+
+  state = {
+    title: 'Elias dormiu antes de ouvir a voz',
+    dek: 'Antes da brisa suave, Deus mandou o profeta comer e descansar.',
+    mood: 'cansado',
+    cover: '',
+    saved: false,
+    published: false,
+    confirmOpen: false,
+    dragging: null,
+    over: null,
+    blocks: [
+      { id: 1, type: 'paragrafo', text: 'Elias acabou de vencer o maior confronto público da sua carreira profética. No capítulo 18, fogo desce do céu. No capítulo 19, ele está debaixo de um arbusto no deserto, pedindo para morrer.' },
+      { id: 2, type: 'versiculo', ref: '1 Reis 19:4', text: '“Basta; toma agora, ó Senhor, a minha alma, pois não sou melhor do que meus pais.”' },
+      { id: 3, type: 'subtitulo', text: 'A resposta de Deus não é um sermão' },
+      { id: 4, type: 'nota', text: 'O verbo hebraico usado para o toque do anjo (naga) é o mesmo de contextos de contato físico gentil. Não é uma sacudida — é um toque.' },
+      { id: 5, type: 'aplicacao', text: 'Verifique quantas horas você realmente dormiu nesta semana\nFaça uma refeição sem tela e sem pressa hoje' },
+    ],
+  };
+  nextId = 6;
+
+  componentDidMount() {
+    let saved = null; try { saved = localStorage.getItem('pc-theme'); } catch (e) {}
+    const t = saved || this.props.theme;
+    if (t) document.documentElement.dataset.theme = t;
+  }
+  componentDidUpdate(prev) { if (prev.theme !== this.props.theme && this.props.theme) document.documentElement.dataset.theme = this.props.theme; }
+
+  patch(i, p) { this.setState(s => ({ saved: false, blocks: s.blocks.map((b, j) => j === i ? { ...b, ...p } : b) })); }
+  move(i, to) {
+    this.setState(s => {
+      if (to < 0 || to >= s.blocks.length) return null;
+      const blocks = [...s.blocks];
+      const [b] = blocks.splice(i, 1);
+      blocks.splice(to, 0, b);
+      return { blocks, saved: false };
+    });
+  }
+
+  renderVals() {
+    const s = this.state;
+    return {
+      title: s.title, setTitle: e => this.setState({ title: e.target.value, saved: false }),
+      dek: s.dek, setDek: e => this.setState({ dek: e.target.value, saved: false }),
+      slug: s.title.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''),
+      blockCount: String(s.blocks.length).padStart(2, '0'),
+      saveLabel: s.saved ? '✓ salvo' : 'Salvar rascunho',
+      save: () => this.setState({ saved: true }),
+      published: s.published,
+      badgeTone: s.published ? 'published' : 'draft',
+      badgeLabel: s.published ? 'publicado' : 'rascunho',
+      confirmOpen: s.confirmOpen,
+      askPublish: () => this.setState({ confirmOpen: true }),
+      cancelPublish: () => this.setState({ confirmOpen: false }),
+      doPublish: () => this.setState({ confirmOpen: false, published: true, saved: true }),
+      authors: ['Antonio', 'Jéssica'],
+      mood: s.mood, setMood: v => this.setState({ mood: v }),
+      moodOptions: [
+        { value: 'cansado', label: 'cansado' }, { value: 'duvida', label: 'em dúvida' },
+        { value: 'medo', label: 'com medo' }, { value: 'grato', label: 'grato' }, { value: 'luto', label: 'em luto' },
+      ],
+      cover: s.cover,
+      setCover: e => this.setState({ cover: e.target.value, saved: false }),
+      blockTypes: Object.entries(this.types).map(([type, t]) => ({
+        label: t.label.toLowerCase(),
+        add: () => this.setState(st => ({ saved: false, blocks: [...st.blocks, { id: this.nextId++, type, text: '', ref: '' }] })),
+      })),
+      blocks: s.blocks.map((b, i) => {
+        const t = this.types[b.type];
+        const isOver = s.over === i && s.dragging !== null && s.dragging !== i;
+        return {
+          ...t,
+          type: b.type,
+          hasRef: !!t.hasRef,
+          hasImg: !!t.hasImg,
+          ref: b.ref || '',
+          imgSrc: b.imgSrc || '',
+          setImgSrc: e => this.patch(i, { imgSrc: e.target.value }),
+          text: b.text,
+          rows: t.rows,
+          dragState: s.dragging === i ? 'dragging' : (isOver ? 'over' : 'idle'),
+          setText: e => this.patch(i, { text: e.target.value }),
+          setRef: e => this.patch(i, { ref: e.target.value }),
+          remove: () => this.setState(st => ({ saved: false, blocks: st.blocks.filter((_, j) => j !== i) })),
+          moveUp: () => this.move(i, i - 1),
+          moveDown: () => this.move(i, i + 1),
+          dragStart: e => { e.dataTransfer.effectAllowed = 'move'; this.setState({ dragging: i }); },
+          dragOver: e => { e.preventDefault(); if (s.over !== i) this.setState({ over: i }); },
+          drop: e => {
+            e.preventDefault();
+            const from = this.state.dragging;
+            if (from !== null && from !== i) this.move(from, i);
+            this.setState({ dragging: null, over: null });
+          },
+          dragEnd: () => this.setState({ dragging: null, over: null }),
+        };
+      }),
+    };
+  }
+}
+</script>
+</body>
+</html>

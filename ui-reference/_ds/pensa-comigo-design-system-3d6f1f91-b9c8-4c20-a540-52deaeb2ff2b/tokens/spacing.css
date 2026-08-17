@@ -1,0 +1,12 @@
+:root{
+  /* 4px base */
+  --sp-1:4px; --sp-2:8px; --sp-3:12px; --sp-4:16px; --sp-5:22px;
+  --sp-6:30px; --sp-7:48px; --sp-8:74px; --sp-9:96px;
+
+  /* Layout — one narrow column, centered */
+  --measure:64ch; /* @kind spacing */
+  --container:940px; /* @kind spacing */
+  --gutter:22px;                   /* @kind spacing */
+  --section-gap:var(--sp-9);       /* @kind spacing */
+  --rail:190px; /* @kind spacing */
+}

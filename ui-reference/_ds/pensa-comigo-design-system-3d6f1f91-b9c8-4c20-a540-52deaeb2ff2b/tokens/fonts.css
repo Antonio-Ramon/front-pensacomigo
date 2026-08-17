@@ -1,0 +1,4 @@
+/* Pensa Comigo webfonts — Google Fonts CDN.
+   Newsreader = display + reading serif · Inter Tight = UI · JetBrains Mono = labels, refs, terminal.
+   SUBSTITUTION NOTE: no font files were provided; swap the @import if you self-host. */
+@import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,300;1,6..72,400&family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');

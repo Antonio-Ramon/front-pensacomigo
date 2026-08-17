@@ -1,0 +1,104 @@
+/* ============================================================
+   COLOR — three themes, one contract.
+   Apply with <html data-theme="papel|tinta|terra">. Papel is the default.
+   Every theme declares the SAME 12 primitives; everything else derives.
+   ============================================================ */
+
+html[data-theme="papel"], :root{
+  --bg:#FAF8F5;            /* page */
+  --bg-alt:#F2EFEA;        /* sunken band, hover fill, terminal chrome */
+  --surface:#FFFFFF;       /* cards, panels, rows */
+  --ink:#1B1A21;           /* primary text */
+  --soft:#65616F;          /* secondary text */
+  --faint:#9995A4;         /* meta, mono labels, placeholders */
+  --primary:#463C8C;       /* indigo — buttons, links, drop cap */
+  --on-primary:#FAF8F5;    /* text on primary */
+  --accent:#C2643F;        /* terracotta — refs, marks, arrows */
+  --line:#E6E1D9;          /* hairlines */
+  --glow:rgba(70,60,140,.10);   /* hero radial */
+  --mark:rgba(194,100,63,.16);  /* <mark> highlight */
+
+  --primary-strong:#372F70;
+  --primary-soft:#E7E3F3;
+  --accent-soft:#F5E5DC;
+
+  --success:#5C7052; --warning:#A8803A; --danger:#A2564B;
+  --success-soft:#E6ECE0; --warning-soft:#F3E9D4; --danger-soft:#F0DCD7;
+
+  --ring:0 0 0 3px rgba(70,60,140,.28);
+  --header-bg:rgba(250,248,245,.88);
+}
+
+html[data-theme="tinta"]{
+  --bg:#0F0F13;
+  --bg-alt:#16161C;
+  --surface:#17171E;
+  --ink:#EBE9F2;
+  --soft:#9B96AB;
+  --faint:#6B6779;
+  --primary:#A99DF2;
+  --on-primary:#131218;
+  --accent:#E9A263;
+  --line:#26262F;
+  --glow:rgba(169,157,242,.11);
+  --mark:rgba(233,162,99,.20);
+
+  --primary-strong:#C4BBF7;
+  --primary-soft:#23203A;
+  --accent-soft:#33261A;
+
+  --success:#8FB082; --warning:#D3AD63; --danger:#D68A7E;
+  --success-soft:#1E2A1B; --warning-soft:#2E2617; --danger-soft:#2E1C19;
+
+  --ring:0 0 0 3px rgba(169,157,242,.32);
+  --header-bg:rgba(15,15,19,.86);
+}
+
+html[data-theme="terra"]{
+  --bg:#EFE7DB;
+  --bg-alt:#E7DCCB;
+  --surface:#F8F3EA;
+  --ink:#2C2318;
+  --soft:#786752;
+  --faint:#9D8C75;
+  --primary:#8A5334;
+  --on-primary:#F8F3EA;
+  --accent:#3D5A73;
+  --line:#DDCFB9;
+  --glow:rgba(138,83,52,.11);
+  --mark:rgba(61,90,115,.18);
+
+  --primary-strong:#6E3F26;
+  --primary-soft:#E8D8C6;
+  --accent-soft:#DCE4EB;
+
+  --success:#5E7048; --warning:#9A7629; --danger:#9C4F3C;
+  --success-soft:#E2E4D2; --warning-soft:#EFE2C7; --danger-soft:#EEDAD1;
+
+  --ring:0 0 0 3px rgba(138,83,52,.30);
+  --header-bg:rgba(239,231,219,.88);
+}
+
+/* ---- Semantic aliases (theme-agnostic; use these in components) ---- */
+:root{
+  --bg-page:var(--bg);
+  --surface-card:var(--surface);
+  --surface-sunken:var(--bg-alt);
+
+  --text-strong:var(--ink);
+  --text-body:var(--ink);
+  --text-muted:var(--soft);
+  --text-faint:var(--faint);
+  --text-on-accent:var(--on-primary);
+
+  --border-hair:var(--line);
+  --border-strong:var(--line);
+
+  --link:var(--primary);
+  --link-hover:var(--accent);
+
+  --tag-bg:transparent;
+  --tag-text:var(--faint);
+  --tag-active-bg:var(--primary);
+  --tag-active-text:var(--on-primary);
+}
