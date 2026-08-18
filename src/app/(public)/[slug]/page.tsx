@@ -7,6 +7,9 @@ import { urlDaImagem } from "@/lib/imagens";
 import { bioDoAutor } from "@/lib/autores";
 import { Prose } from "@/components/blog/Prose";
 import { ShareButton } from "@/components/blog/ShareButton";
+import { ProgressoLeitura } from "@/components/blog/ProgressoLeitura";
+import { Curtidas } from "@/components/blog/Curtidas";
+import { Comentarios } from "@/components/blog/Comentarios";
 import { PostList } from "@/components/blog/PostRow";
 import { dataPorExtenso } from "@/lib/datas";
 import styles from "./post.module.css";
@@ -51,6 +54,8 @@ export default async function PaginaPost({ params }: Props) {
 
   return (
     <article className={styles.artigo}>
+      <ProgressoLeitura />
+
       {(post.tags?.length ?? 0) > 0 && (
         <div className={styles.tags}>
           {post.tags!.map((t) => (
@@ -68,6 +73,7 @@ export default async function PaginaPost({ params }: Props) {
         {post.autor?.nome && <span className={styles.autorNome}>{post.autor.nome}</span>}
         <span>{dataPorExtenso(post.dataCriacao)}</span>
         <span>· {post.tempoLeitura} min</span>
+        <span>· {post.qtdVisualizacoes} leituras</span>
       </div>
 
       {capa && <img src={capa} alt="" className={styles.capa} />}
@@ -75,6 +81,7 @@ export default async function PaginaPost({ params }: Props) {
       <Prose conteudo={post.conteudo} />
 
       <div className={styles.rodapeArtigo}>
+        <Curtidas postId={post.id!} inicial={post.qtdCurtidas ?? 0} />
         <ShareButton titulo={post.titulo ?? "Pensa Comigo"} />
       </div>
 
@@ -86,6 +93,8 @@ export default async function PaginaPost({ params }: Props) {
           </p>
         </div>
       )}
+
+      <Comentarios postId={post.id!} />
 
       {relacionados.length > 0 && (
         <section className={styles.relacionados}>
