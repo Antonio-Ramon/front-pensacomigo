@@ -1,0 +1,145 @@
+/* Prose — estiliza EXATAMENTE a whitelist de HTML do CONTEXT.md.
+   Tag nova na whitelist = estilizar aqui junto (editor + sanitizador + CSS andam juntos). */
+
+.prose {
+  max-width: var(--measure);
+  font-family: var(--font-body);
+  font-size: var(--fs-prose);
+  font-weight: var(--w-light);
+  line-height: var(--lh-prose);
+}
+
+.prose p { margin: 0 0 var(--sp-5); }
+
+.prose h2,
+.prose h3 {
+  font-family: var(--font-display);
+  font-weight: var(--w-medium);
+  line-height: var(--lh-heading);
+  letter-spacing: var(--tracking-heading);
+  margin: var(--sp-7) 0 var(--sp-4);
+}
+.prose h2 { font-size: var(--fs-h2); }
+.prose h3 { font-size: var(--fs-h3); }
+
+.prose a {
+  color: var(--primary);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.prose a:hover { color: var(--accent); }
+
+.prose ul,
+.prose ol { margin: 0 0 var(--sp-5); padding-left: var(--sp-5); }
+.prose li { margin-bottom: var(--sp-2); }
+
+.prose blockquote {
+  margin: var(--sp-6) 0;
+  padding-left: var(--sp-5);
+  border-left: 2px solid var(--accent);
+  font-style: italic;
+  color: var(--soft);
+}
+
+.prose code {
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  background: var(--bg-alt);
+  padding: 2px 5px;
+}
+
+.prose mark { background: var(--mark); color: inherit; padding: 0 2px; }
+
+.prose hr {
+  border: none;
+  border-top: 1px solid var(--line);
+  margin: var(--sp-7) auto;
+  width: 120px;
+}
+
+/* Versículo: div.verse > div.r (referência mono) + q (citação serifada) */
+.prose .verse {
+  margin: var(--sp-6) 0;
+  padding: var(--sp-5);
+  border: 1px solid var(--line);
+  background: var(--surface);
+}
+.prose .verse .r {
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: var(--sp-2);
+}
+.prose .verse q {
+  font-family: var(--font-display);
+  font-size: var(--fs-lede);
+  font-style: italic;
+  line-height: var(--lh-lede);
+  quotes: "“" "”";
+}
+
+/* Nota lateral: div.aside (com b para o rótulo) */
+.prose .aside {
+  margin: var(--sp-6) 0;
+  padding: var(--sp-4) var(--sp-5);
+  border-left: 2px solid var(--primary);
+  background: var(--bg-alt);
+  font-size: var(--fs-body);
+  color: var(--soft);
+}
+.prose .aside b {
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono);
+  font-weight: var(--w-medium);
+  letter-spacing: var(--tracking-mono);
+  text-transform: uppercase;
+  color: var(--primary);
+  display: block;
+  margin-bottom: var(--sp-1);
+}
+
+/* ---- Blocos não-texto (tipo 1 e 2) ---- */
+.prose figure { margin: var(--sp-6) 0; }
+.prose figure img {
+  width: 100%;
+  display: block;
+  border: 1px solid var(--line);
+}
+
+.linkCard {
+  display: flex;
+  gap: var(--sp-4);
+  align-items: stretch;
+  margin: var(--sp-6) 0;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  text-decoration: none;
+  transition: border-color var(--dur) var(--ease);
+}
+.linkCard:hover { border-color: var(--primary); }
+.linkCard img {
+  width: 140px;
+  object-fit: cover;
+  border-right: 1px solid var(--line);
+}
+.linkCard .lc-corpo { padding: var(--sp-4); min-width: 0; }
+.linkCard .lc-site {
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono);
+  letter-spacing: var(--tracking-mono);
+  text-transform: uppercase;
+  color: var(--faint);
+}
+.linkCard .lc-titulo {
+  font-family: var(--font-ui);
+  font-weight: var(--w-medium);
+  color: var(--ink);
+  margin: var(--sp-1) 0;
+}
+.linkCard .lc-desc {
+  font-size: var(--fs-ui-sm);
+  color: var(--soft);
+  margin: 0;
+}
