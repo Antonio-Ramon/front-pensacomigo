@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Newsreader, Inter_Tight, JetBrains_Mono } from "next/font/google";
 import "@/styles/tokens.css";
+import "@/styles/prose.css";
 import "./globals.css";
 
 const newsreader = Newsreader({
@@ -23,6 +25,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"),
   title: { default: "Pensa Comigo", template: "%s · Pensa Comigo" },
   description: "Meditações cristãs reflexivas — a fé que te obriga a pensar.",
 };
@@ -36,7 +39,13 @@ export default function RootLayout({
       data-theme="papel"
       className={`${newsreader.variable} ${interTight.variable} ${jetbrainsMono.variable}`}
     >
-      <body>{children}</body>
+      <body>
+        {/* aplica o tema salvo antes da pintura, evitando flash do tema padrão */}
+        <Script id="tema" strategy="beforeInteractive">
+          {'try{var t=localStorage.getItem("tema");if(t)document.documentElement.dataset.theme=t}catch(e){}'}
+        </Script>
+        {children}
+      </body>
     </html>
   );
 }
