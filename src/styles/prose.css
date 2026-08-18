@@ -10,6 +10,15 @@
 }
 
 .prose p { margin: 0 0 var(--sp-5); }
+/* Capitular do primeiro paragrafo — assinatura da coluna de leitura na referencia. */
+.prose > p:first-of-type::first-letter {
+  float: left;
+  font-size: 3.15em;
+  line-height: 0.86;
+  font-weight: var(--w-body);
+  padding: 6px 12px 0 0;
+  color: var(--primary);
+}
 
 .prose h2,
 .prose h3 {
