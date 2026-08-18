@@ -7,7 +7,8 @@ import { urlDaImagem } from "@/lib/imagens";
 import { bioDoAutor } from "@/lib/autores";
 import { Prose } from "@/components/blog/Prose";
 import { ShareButton } from "@/components/blog/ShareButton";
-import { PostGrid, dataPorExtenso } from "@/components/blog/PostCard";
+import { PostList } from "@/components/blog/PostRow";
+import { dataPorExtenso } from "@/lib/datas";
 import styles from "./post.module.css";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -89,7 +90,7 @@ export default async function PaginaPost({ params }: Props) {
       {relacionados.length > 0 && (
         <section className={styles.relacionados}>
           <h2 className={styles.relacionadosTitulo}>Continue pensando</h2>
-          <PostGrid posts={relacionados} />
+          <PostList posts={relacionados} />
         </section>
       )}
     </article>

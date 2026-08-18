@@ -7,12 +7,14 @@ export function Header() {
     <header className={styles.header}>
       <div className={styles.headerInner}>
         <Link href="/" className={styles.wordmark}>
-          Pensa Comigo
+          pensa<span>·</span>comigo
         </Link>
         <nav className={styles.nav}>
-          <Link href="/">Início</Link>
-          <ThemeSwitcher />
+          <Link href="/meditacoes">meditações</Link>
         </nav>
+        <div className={styles.temaBox}>
+          <ThemeSwitcher />
+        </div>
       </div>
     </header>
   );

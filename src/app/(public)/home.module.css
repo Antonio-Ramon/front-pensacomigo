@@ -1,85 +1,128 @@
 .hero {
   position: relative;
-  margin-bottom: var(--sp-8);
-  padding: var(--sp-7) 0;
+  padding: var(--sp-8) 0 var(--sp-5);
 }
 .hero::before {
   content: "";
   position: absolute;
-  inset: 0;
-  background: radial-gradient(ellipse 60% 80% at 30% 20%, var(--glow), transparent);
+  inset: -40% 40% 40% -20%;
+  background: radial-gradient(circle, var(--glow), transparent 68%);
   pointer-events: none;
 }
-
-.heroEyebrow {
-  font-family: var(--font-mono);
-  font-size: var(--fs-mono);
-  letter-spacing: var(--tracking-eyebrow);
-  text-transform: uppercase;
-  color: var(--accent);
-  margin: 0 0 var(--sp-3);
-}
+.heroConteudo { position: relative; }
 
 .heroTitulo {
   font-family: var(--font-display);
-  font-size: var(--fs-display);
   font-weight: var(--w-light);
+  font-size: clamp(38px, 6.4vw, 66px);
   line-height: var(--lh-display);
   letter-spacing: var(--tracking-display);
-  margin: 0 0 var(--sp-4);
-  max-width: 18ch;
+  margin: var(--sp-4) 0 0;
+  max-width: 16ch;
 }
-.heroTitulo a { color: var(--ink); }
-.heroTitulo a:hover { color: var(--primary); }
+.heroTitulo em { font-style: italic; color: var(--primary); }
 
-.heroMeta {
-  font-family: var(--font-mono);
-  font-size: var(--fs-mono);
-  letter-spacing: var(--tracking-mono);
-  text-transform: uppercase;
-  color: var(--faint);
-  margin: 0;
+.heroLede {
+  margin: var(--sp-4) 0 0;
+  max-width: 50ch;
+  font-family: var(--font-display);
+  font-weight: var(--w-light);
+  font-size: var(--fs-lede);
+  line-height: var(--lh-lede);
+  color: var(--soft);
 }
 
-.busca {
+.heroBotoes {
   display: flex;
-  gap: 0;
-  margin-bottom: var(--sp-6);
-  max-width: 420px;
+  flex-wrap: wrap;
+  gap: var(--sp-3);
+  margin-top: var(--sp-6);
 }
-.busca input {
-  flex: 1;
+.botao, .botaoGhost {
   font-family: var(--font-ui);
   font-size: var(--fs-ui);
-  color: var(--ink);
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-right: none;
-  padding: var(--sp-2) var(--sp-3);
-}
-.busca input::placeholder { color: var(--faint); }
-.busca input:focus { outline: none; border-color: var(--primary); }
-.busca button {
-  font-family: var(--font-mono);
-  font-size: var(--fs-mono);
-  letter-spacing: var(--tracking-mono);
-  text-transform: uppercase;
-  color: var(--on-primary);
-  background: var(--primary);
+  font-weight: var(--w-medium);
+  padding: var(--sp-3) var(--sp-5);
   border: 1px solid var(--primary);
-  padding: var(--sp-2) var(--sp-4);
-  cursor: pointer;
+  transition: background var(--dur) var(--ease), color var(--dur) var(--ease);
 }
-.busca button:hover { background: var(--primary-strong); }
+.botao { background: var(--primary); color: var(--on-primary); }
+.botao:hover { background: var(--primary-strong); border-color: var(--primary-strong); color: var(--on-primary); }
+.botaoGhost { background: transparent; color: var(--ink); border-color: var(--line); }
+.botaoGhost:hover { border-color: var(--primary); color: var(--primary); }
 
-.paginacao {
+.stats {
+  display: flex;
+  gap: var(--sp-8);
+  flex-wrap: wrap;
+  margin-top: var(--sp-7);
+  padding-top: var(--sp-5);
+  border-top: 1px solid var(--line);
+}
+.statNum {
+  font-family: var(--font-display);
+  font-size: 28px;
+  letter-spacing: var(--tracking-display);
+}
+.statRotulo {
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono-sm);
+  letter-spacing: var(--tracking-eyebrow);
+  color: var(--faint);
+}
+
+.secao { margin-top: var(--section-gap); }
+
+.secaoTopo {
   display: flex;
   justify-content: space-between;
-  margin-top: var(--sp-7);
+  align-items: baseline;
+  gap: var(--sp-4);
+  flex-wrap: wrap;
+}
+.linkArquivo {
   font-family: var(--font-mono);
   font-size: var(--fs-mono);
-  letter-spacing: var(--tracking-mono);
-  text-transform: uppercase;
+  color: var(--soft);
+}
+
+.lista { margin-top: var(--sp-5); }
+
+.autores {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+  margin-top: var(--sp-5);
+}
+.autor {
+  display: flex;
+  gap: var(--sp-4);
+  background: var(--surface);
+  padding: var(--sp-5);
+}
+.iniciais {
+  width: 30px;
+  height: 30px;
+  flex: none;
+  display: grid;
+  place-items: center;
+  background: var(--accent);
+  color: var(--on-primary);
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono);
+}
+.autorNome {
+  font-size: var(--fs-ui);
+  font-weight: var(--w-medium);
+  color: var(--ink);
+  margin: 0 0 var(--sp-2);
+}
+.autorBio {
+  font-size: var(--fs-body-sm);
+  color: var(--soft);
+  margin: 0;
 }
 
 .vazio {

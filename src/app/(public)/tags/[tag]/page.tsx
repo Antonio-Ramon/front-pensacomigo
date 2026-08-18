@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { listarPosts } from "@/lib/api";
-import { PostGrid } from "@/components/blog/PostCard";
+import { PostList } from "@/components/blog/PostRow";
 
 type Props = { params: Promise<{ tag: string }> };
 
@@ -16,27 +16,8 @@ export default async function PaginaTag({ params }: Props) {
 
   return (
     <>
-      <p
-        style={{
-          fontFamily: "var(--font-mono)",
-          fontSize: "var(--fs-mono)",
-          letterSpacing: "var(--tracking-eyebrow)",
-          textTransform: "uppercase",
-          color: "var(--accent)",
-          margin: "0 0 var(--sp-2)",
-        }}
-      >
-        Tag
-      </p>
-      <h1
-        style={{
-          fontFamily: "var(--font-display)",
-          fontSize: "var(--fs-h1)",
-          fontWeight: "var(--w-light)",
-          letterSpacing: "var(--tracking-display)",
-          margin: "0 0 var(--sp-6)",
-        }}
-      >
+      <p className="pc-eyebrow">tag</p>
+      <h1 className="pc-titulo" style={{ marginBottom: "var(--sp-6)" }}>
         {slug}
       </h1>
       {items.length === 0 ? (
@@ -44,7 +25,7 @@ export default async function PaginaTag({ params }: Props) {
           Nenhuma meditação com esta tag.
         </p>
       ) : (
-        <PostGrid posts={items} />
+        <PostList posts={items} />
       )}
     </>
   );

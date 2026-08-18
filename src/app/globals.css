@@ -29,3 +29,29 @@ a:hover { color: var(--accent); }
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; scroll-behavior: auto !important; }
 }
+
+/* Cabeçalho de seção — mesmo trio (eyebrow, título, lede) em toda página. */
+.pc-eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono);
+  letter-spacing: var(--tracking-eyebrow);
+  color: var(--faint);
+  margin: 0;
+}
+.pc-eyebrow b { color: var(--accent); font-weight: var(--w-medium); }
+
+.pc-titulo {
+  font-family: var(--font-display);
+  font-weight: var(--w-light);
+  letter-spacing: var(--tracking-display);
+  line-height: var(--lh-heading);
+  font-size: clamp(26px, 3.6vw, 36px);
+  margin: var(--sp-3) 0 0;
+}
+
+.pc-lede {
+  font-size: var(--fs-body-sm);
+  color: var(--soft);
+  max-width: 52ch;
+  margin: var(--sp-2) 0 0;
+}
