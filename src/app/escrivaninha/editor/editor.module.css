@@ -310,6 +310,8 @@
   flex-wrap: wrap;
   gap: 8px;
   margin-bottom: 12px;
+  max-height: 240px;
+  overflow-y: auto;
 }
 .novaTag { display: flex; gap: 6px; }
 .novaTag input {
