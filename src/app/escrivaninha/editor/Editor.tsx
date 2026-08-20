@@ -6,6 +6,7 @@ import Link from "next/link";
 import type { Tag } from "@/lib/api";
 import { urlDaImagem } from "@/lib/imagens";
 import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
+import { CortadorImagem } from "@/components/ui/CortadorImagem";
 import { buscarPreviewLink, criarTag, enviarImagem, salvarPost } from "./actions";
 import { paraConteudo, novoBloco, type BlocoEditor, type TipoEditor } from "./blocos";
 import styles from "./editor.module.css";
@@ -52,6 +53,10 @@ export function Editor({
   const [arrastando, setArrastando] = useState<number | null>(null);
   const [sobre, setSobre] = useState<number | null>(null);
   const [confirmaPublicar, setConfirmaPublicar] = useState(false);
+  // upload adiado: a capa escolhida fica local (File + preview) e só sobe no salvar
+  const [capaArquivo, setCapaArquivo] = useState<File | null>(null);
+  const [capaPreview, setCapaPreview] = useState<string | null>(null);
+  const [corte, setCorte] = useState<{ url: string; aplicar: (f: File) => void } | null>(null);
 
   const sujou = () => setSalvo(false);
 
@@ -74,15 +79,45 @@ export function Editor({
     setBlocos((bs) => [...bs, { ...novoBloco(tipo), key: proximaKey.current++ }]);
   }
 
+  async function subir(arquivo: File) {
+    const fd = new FormData();
+    fd.set("arquivo", arquivo);
+    return enviarImagem(fd);
+  }
+
   function salvar(novoStatus: 0 | 1) {
     setErro(null);
     startTransition(async () => {
+      // as imagens pendentes sobem agora, só na hora de salvar
+      let prontos = blocos;
+      for (let i = 0; i < prontos.length; i++) {
+        const b = prontos[i];
+        if (b.tipo !== "imagem" || !b.arquivo) continue;
+        const r = await subir(b.arquivo);
+        if (!r.ok) return setErro(r.erro);
+        prontos = prontos.map((x, j) =>
+          j === i
+            ? { ...x, imagemPath: r.dados.path, imagemUrl: r.dados.url, arquivo: undefined }
+            : x,
+        );
+      }
+      let capaFinal = capa;
+      if (capaArquivo) {
+        const r = await subir(capaArquivo);
+        if (!r.ok) return setErro(r.erro);
+        capaFinal = r.dados.url ?? r.dados.path ?? "";
+        setCapa(capaFinal);
+        setCapaArquivo(null);
+        setCapaPreview(null);
+      }
+      setBlocos(prontos);
+
       const r = await salvarPost({
         id: post?.id,
         titulo,
-        imagemCapa: capa || null,
+        imagemCapa: capaFinal || null,
         tagIds,
-        conteudo: paraConteudo(blocos),
+        conteudo: paraConteudo(prontos),
         status: novoStatus,
       });
       if (!r.ok) return setErro(r.erro);
@@ -92,14 +127,11 @@ export function Editor({
     });
   }
 
-  async function subirImagem(arquivo: File, aplicar: (path: string, url: string | null) => void) {
-    setErro(null);
-    const fd = new FormData();
-    fd.set("arquivo", arquivo);
-    const r = await enviarImagem(fd);
-    if (!r.ok) return setErro(r.erro);
-    aplicar(r.dados.path ?? "", r.dados.url ?? null);
-    sujou();
+  /** abre o cortador com o arquivo escolhido; `aplicar` recebe o webp recortado */
+  function escolher(e: React.ChangeEvent<HTMLInputElement>, aplicar: (f: File) => void) {
+    const f = e.target.files?.[0];
+    e.target.value = ""; // permite escolher o mesmo arquivo de novo
+    if (f) setCorte({ url: URL.createObjectURL(f), aplicar });
   }
 
   function adicionarTag() {
@@ -229,19 +261,29 @@ export function Editor({
                 )}
                 {b.tipo === "imagem" && (
                   <div className={styles.blocoImagem}>
-                    {urlDaImagem(b.imagemUrl ?? b.imagemPath) ? (
-                      <img src={urlDaImagem(b.imagemUrl ?? b.imagemPath)} alt="" />
+                    {b.previewUrl || urlDaImagem(b.imagemUrl ?? b.imagemPath) ? (
+                      <img src={b.previewUrl ?? urlDaImagem(b.imagemUrl ?? b.imagemPath)} alt="" />
                     ) : (
                       <span className={styles.imagemVazia}>imagem do post</span>
                     )}
-                    <input
-                      type="file"
-                      accept="image/jpeg,image/png,image/webp"
-                      onChange={(e) => {
-                        const f = e.target.files?.[0];
-                        if (f) subirImagem(f, (path, url) => patch(i, { imagemPath: path, imagemUrl: url }));
-                      }}
-                    />
+                    <label className={styles.escolherArquivo}>
+                      {b.previewUrl || b.imagemPath || b.imagemUrl ? "trocar imagem" : "escolher imagem"}
+                      <input
+                        type="file"
+                        accept="image/jpeg,image/png,image/webp"
+                        onChange={(e) =>
+                          escolher(e, (f) =>
+                            patch(i, {
+                              arquivo: f,
+                              previewUrl: URL.createObjectURL(f),
+                              imagemPath: null,
+                              imagemUrl: null,
+                            }),
+                          )
+                        }
+                      />
+                    </label>
+                    {b.arquivo && <span className={styles.pendenteUpload}>sobe ao salvar</span>}
                   </div>
                 )}
                 {b.tipo === "link" ? (
@@ -334,23 +376,46 @@ export function Editor({
 
         <div className={styles.card}>
           <p className={styles.cardTitulo}>CAPA DO POST</p>
-          {urlDaImagem(capa) ? (
-            <img className={styles.capaPreview} src={urlDaImagem(capa)} alt="" />
+          {capaPreview || urlDaImagem(capa) ? (
+            <img className={styles.capaPreview} src={capaPreview ?? urlDaImagem(capa)} alt="" />
           ) : (
             <span className={`${styles.imagemVazia} ${styles.capaVazia}`}>
               capa escolhida pelo autor
             </span>
           )}
-          <input
-            type="file"
-            accept="image/jpeg,image/png,image/webp"
-            onChange={(e) => {
-              const f = e.target.files?.[0];
-              if (f) subirImagem(f, (path, url) => setCapa(url ?? path));
-            }}
-          />
+          <label className={styles.escolherArquivo}>
+            {capaPreview || capa ? "trocar capa" : "escolher capa"}
+            <input
+              type="file"
+              accept="image/jpeg,image/png,image/webp"
+              onChange={(e) =>
+                escolher(e, (f) => {
+                  setCapaArquivo(f);
+                  setCapaPreview(URL.createObjectURL(f));
+                  sujou();
+                })
+              }
+            />
+          </label>
+          {capaArquivo && <span className={styles.pendenteUpload}>sobe ao salvar</span>}
         </div>
       </aside>
+
+      {corte && (
+        <CortadorImagem
+          url={corte.url}
+          onCancelar={() => {
+            URL.revokeObjectURL(corte.url);
+            setCorte(null);
+          }}
+          onConfirmar={(f) => {
+            corte.aplicar(f);
+            URL.revokeObjectURL(corte.url);
+            setCorte(null);
+            sujou();
+          }}
+        />
+      )}
 
       <ConfirmDialog
         open={confirmaPublicar}

@@ -215,13 +215,27 @@
   display: block;
   margin-bottom: 10px;
 }
-.blocoImagem input[type="file"],
-.card input[type="file"] {
+/* input nativo escondido atrás de um botão ghost do DS */
+.escolherArquivo {
+  display: inline-block;
+  font-family: var(--font-ui);
+  font-size: var(--fs-ui-sm);
+  font-weight: var(--w-medium);
+  color: var(--ink);
+  background: transparent;
+  border: 1px solid var(--line);
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: all var(--dur-fast) var(--ease);
+}
+.escolherArquivo:hover { border-color: var(--primary); color: var(--primary); }
+.escolherArquivo input[type="file"] { display: none; }
+
+.pendenteUpload {
   font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--soft);
-  margin-bottom: 10px;
-  max-width: 100%;
+  font-size: var(--fs-mono-sm);
+  color: var(--accent);
+  margin-left: 10px;
 }
 
 .linkPreview {

@@ -22,6 +22,9 @@ export type BlocoEditor = {
   ref: string;
   imagemPath?: string | null;
   imagemUrl?: string | null;
+  /** transientes do editor: imagem escolhida mas ainda não enviada (sobe no salvar) */
+  arquivo?: File;
+  previewUrl?: string;
   linkUrl?: string;
   linkTitulo?: string | null;
   linkDescricao?: string | null;

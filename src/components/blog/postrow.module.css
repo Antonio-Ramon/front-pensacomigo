@@ -4,7 +4,7 @@
   display: grid;
   grid-template-columns: 86px 96px 1fr 30px;
   gap: 20px;
-  align-items: start;
+  align-items: center;
   padding: 20px 6px;
   border-bottom: 1px solid var(--line);
   color: var(--ink);
@@ -58,7 +58,7 @@
   padding-top: 4px;
   color: var(--faint);
   opacity: 0.55;
-  transform: translateX(-8px);
+  transform: translateX(-6px);
   transition: transform 220ms var(--ease), opacity var(--dur), color var(--dur);
 }
 /* ponytail: para em 0 (a referência vai a +4px, mas aqui estoura o gutter e encosta na borda) */
