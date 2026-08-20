@@ -69,7 +69,7 @@ export default async function PainelAdmin({
               <span className={styles.data}>{dataCurta(p.dataPublicacao ?? p.dataCriacao)}</span>
               <span>
                 <Link
-                  href={publicado ? `/${p.slug}` : `/escrivaninha/editor/${p.id}`}
+                  href={publicado ? `/${p.slug}` : `/escrivaninha/editor/${p.slug}`}
                   className={styles.tituloPost}
                 >
                   {p.titulo}
@@ -86,7 +86,7 @@ export default async function PainelAdmin({
                 </span>
               </span>
               <span className={styles.acoes}>
-                <Link href={`/escrivaninha/editor/${p.id}`}>editar →</Link>
+                <Link href={`/escrivaninha/editor/${p.slug}`}>editar →</Link>
                 <BotaoExcluir id={p.id!} titulo={p.titulo ?? ""} />
               </span>
             </div>
