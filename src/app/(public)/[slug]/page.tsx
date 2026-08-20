@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import { abrirPost, listarPosts, type Bloco } from "@/lib/api";
 import { resumoDoPost } from "@/lib/resumo";
 import { urlDaImagem } from "@/lib/imagens";
@@ -87,7 +88,7 @@ export default async function PaginaPost({ params }: Props) {
       <ProgressoLeitura />
 
       <Link href="/meditacoes" className={styles.voltar}>
-        ← todas as meditações
+        <ArrowLeft size={12} /> todas as meditações
       </Link>
 
       <p className="pc-eyebrow">meditação</p>
@@ -157,7 +158,9 @@ export default async function PaginaPost({ params }: Props) {
             <nav className={styles.pager}>
               {anterior ? (
                 <Link href={`/${anterior.slug}`} className={styles.pagerLado}>
-                  <span className={styles.pagerKicker}>← anterior</span>
+                  <span className={styles.pagerKicker}>
+                    <ArrowLeft size={11} /> anterior
+                  </span>
                   <span className={styles.pagerTitulo}>{anterior.titulo}</span>
                 </Link>
               ) : (
@@ -165,7 +168,9 @@ export default async function PaginaPost({ params }: Props) {
               )}
               {proxima ? (
                 <Link href={`/${proxima.slug}`} className={`${styles.pagerLado} ${styles.pagerDireita}`}>
-                  <span className={styles.pagerKicker}>próxima →</span>
+                  <span className={styles.pagerKicker}>
+                    próxima <ArrowRight size={11} />
+                  </span>
                   <span className={styles.pagerTitulo}>{proxima.titulo}</span>
                 </Link>
               ) : (

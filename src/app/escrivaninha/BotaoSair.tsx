@@ -1,5 +1,6 @@
 "use client";
 
+import { LogOut } from "lucide-react";
 import { API_PUBLICA } from "@/lib/navegador";
 import styles from "./escrivaninha.module.css";
 
@@ -14,8 +15,8 @@ export function BotaoSair() {
   }
 
   return (
-    <button type="button" className={styles.btnExcluir} onClick={sair}>
-      sair
+    <button type="button" className={styles.btnExcluir} onClick={sair} title="Sair">
+      <LogOut size={12} /> sair
     </button>
   );
 }

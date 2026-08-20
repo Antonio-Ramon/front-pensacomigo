@@ -3,6 +3,7 @@
 import { useRef, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { ArrowDown, ArrowLeft, ArrowRight, ArrowUp, Check, GripVertical, Plus, X } from "lucide-react";
 import type { Tag } from "@/lib/api";
 import { urlDaImagem } from "@/lib/imagens";
 import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
@@ -154,14 +155,14 @@ export function Editor({
       <section>
         <div className={styles.barra}>
           <Link href="/escrivaninha" className={styles.voltar}>
-            ← meditações
+            <ArrowLeft size={12} /> meditações
           </Link>
           <span className={`${styles.badge} ${publicado ? styles.badgePublicado : ""}`}>
             {publicado ? "publicado" : "rascunho"}
           </span>
           {publicado && post && (
             <Link href={`/${post.slug}`} className={styles.verNoBlog}>
-              ver no blog →
+              ver no blog <ArrowRight size={12} />
             </Link>
           )}
           <span className={styles.barraAcoes}>
@@ -171,7 +172,17 @@ export function Editor({
               </button>
             )}
             <button type="button" className={styles.btnGhost} disabled={pendente} onClick={() => salvar(status)}>
-              {pendente ? "salvando…" : salvo ? "✓ salvo" : publicado ? "Salvar" : "Salvar rascunho"}
+              {pendente ? (
+                "salvando…"
+              ) : salvo ? (
+                <>
+                  <Check size={13} /> salvo
+                </>
+              ) : publicado ? (
+                "Salvar"
+              ) : (
+                "Salvar rascunho"
+              )}
             </button>
             {!publicado && (
               <button
@@ -202,7 +213,7 @@ export function Editor({
 
         <div className={styles.divisorConteudo}>
           <p className={styles.rotulo} style={{ margin: 0 }}>
-            conteúdo · arraste <span className={styles.acento}>⠿</span> para reordenar
+            conteúdo · arraste <GripVertical size={12} className={styles.acento} /> para reordenar
           </p>
           <span className={styles.contagem}>{String(blocos.length).padStart(2, "0")} blocos</span>
         </div>
@@ -216,6 +227,10 @@ export function Editor({
               draggable
               onDragStart={(e) => {
                 e.dataTransfer.effectAllowed = "move";
+                // some com o ghost lavado do navegador — o próprio bloco (borda+sombra) é o feedback
+                const px = document.createElement("canvas");
+                px.width = px.height = 1;
+                e.dataTransfer.setDragImage(px, 0, 0);
                 setArrastando(i);
               }}
               onDragOver={(e) => {
@@ -235,12 +250,16 @@ export function Editor({
             >
               <div className={styles.blocoCabecalho}>
                 <span className={styles.alca} title="Arrastar para reordenar">
-                  ⠿
+                  <GripVertical size={14} />
                 </span>
                 <span className={styles.blocoTipo}>{META[b.tipo].label}</span>
                 <span className={styles.blocoAcoes}>
-                  <button type="button" title="Mover para cima" onClick={() => mover(i, i - 1)}>↑</button>
-                  <button type="button" title="Mover para baixo" onClick={() => mover(i, i + 1)}>↓</button>
+                  <button type="button" title="Mover para cima" onClick={() => mover(i, i - 1)}>
+                    <ArrowUp size={13} />
+                  </button>
+                  <button type="button" title="Mover para baixo" onClick={() => mover(i, i + 1)}>
+                    <ArrowDown size={13} />
+                  </button>
                   <button
                     type="button"
                     title="Remover bloco"
@@ -249,7 +268,7 @@ export function Editor({
                       setBlocos((bs) => bs.filter((_, j) => j !== i));
                     }}
                   >
-                    ×
+                    <X size={13} />
                   </button>
                 </span>
               </div>
@@ -333,7 +352,7 @@ export function Editor({
 
         <div className={styles.adicionar}>
           <span className={styles.rotulo} style={{ margin: 0 }}>
-            + adicionar
+            <Plus size={12} /> adicionar
           </span>
           {TIPOS.map((t) => (
             <button key={t.tipo} type="button" className={styles.chip} onClick={() => adicionar(t.tipo)}>
@@ -372,7 +391,7 @@ export function Editor({
               placeholder="nova tag…"
             />
             <button type="button" onClick={adicionarTag} disabled={pendente || !novaTag.trim()}>
-              +
+              <Plus size={14} />
             </button>
           </div>
         </div>

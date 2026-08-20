@@ -45,6 +45,9 @@ a:hover { color: var(--accent); }
 
 ::selection { background: var(--mark); }
 
+/* ícones lucide alinham com a linha de texto ao lado */
+svg.lucide { vertical-align: -0.125em; flex: none; }
+
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; scroll-behavior: auto !important; }
 }

@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
+import { Search } from "lucide-react";
 import styles from "./escrivaninha.module.css";
 
 export function BuscaAdmin() {
@@ -9,6 +10,7 @@ export function BuscaAdmin() {
 
   return (
     <form
+      className={styles.buscaBox}
       onSubmit={(e) => {
         e.preventDefault();
         const q = new URLSearchParams(params);
@@ -18,6 +20,7 @@ export function BuscaAdmin() {
         router.push(`/escrivaninha?${q}`);
       }}
     >
+      <Search size={13} className={styles.buscaIcone} aria-hidden />
       <input
         type="search"
         name="busca"

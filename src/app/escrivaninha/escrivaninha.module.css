@@ -141,6 +141,15 @@ a.botaoNova:hover { filter: brightness(1.12); color: var(--on-primary); }
   color: var(--on-primary);
   border-color: var(--primary);
 }
+.buscaBox { position: relative; }
+.buscaIcone {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--faint);
+  pointer-events: none;
+}
 .buscaInput {
   width: 260px;
   background: var(--surface);
@@ -148,7 +157,7 @@ a.botaoNova:hover { filter: brightness(1.12); color: var(--on-primary); }
   color: var(--ink);
   font-family: var(--font-mono);
   font-size: 12px;
-  padding: 9px 12px;
+  padding: 9px 12px 9px 34px;
 }
 .buscaInput:focus { outline: none; border-color: var(--primary); }
 

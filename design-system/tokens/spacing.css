@@ -4,7 +4,7 @@
   --sp-6:30px; --sp-7:48px; --sp-8:74px; --sp-9:96px;
 
   /* Layout — one narrow column, centered */
-  --measure:64ch; /* @kind spacing */
+  --measure:100%; /* @kind spacing */
   --container:940px; /* @kind spacing */
   --gutter:22px;                   /* @kind spacing */
   --section-gap:var(--sp-9);       /* @kind spacing */

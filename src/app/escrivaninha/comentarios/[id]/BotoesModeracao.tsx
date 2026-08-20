@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import { EyeOff, Trash2 } from "lucide-react";
 import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
 import { excluirComentario, ocultarComentario } from "../../actions";
 import styles from "../../escrivaninha.module.css";
@@ -17,7 +18,7 @@ export function BotoesModeracao({ postId, id }: { postId: string; id: string }) 
         disabled={pendente}
         onClick={() => startTransition(() => ocultarComentario(postId, id))}
       >
-        ocultar
+        <EyeOff size={12} /> ocultar
       </button>
       <button
         type="button"
@@ -25,7 +26,7 @@ export function BotoesModeracao({ postId, id }: { postId: string; id: string }) 
         disabled={pendente}
         onClick={() => setAberto(true)}
       >
-        excluir
+        <Trash2 size={12} /> excluir
       </button>
       <ConfirmDialog
         open={aberto}

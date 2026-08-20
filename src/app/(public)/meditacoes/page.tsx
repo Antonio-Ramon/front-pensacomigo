@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import { listarPosts } from "@/lib/api";
 import { PostList } from "@/components/blog/PostRow";
 import { EmptyState } from "@/components/ui/EmptyState";
@@ -69,7 +70,7 @@ export default async function Arquivo({
                   query: { ...(busca && { busca }), pagina: pagina - 1 },
                 }}
               >
-                ← mais recentes
+                <ArrowLeft size={11} /> mais recentes
               </Link>
             )}
           </span>
@@ -84,7 +85,7 @@ export default async function Arquivo({
                   query: { ...(busca && { busca }), pagina: pagina + 1 },
                 }}
               >
-                mais antigas →
+                mais antigas <ArrowRight size={11} />
               </Link>
             )}
           </span>

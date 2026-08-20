@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 import type { PostResumo } from "@/lib/api";
 import { urlDaImagem } from "@/lib/imagens";
 import { dataCurta } from "@/lib/datas";
@@ -22,7 +23,7 @@ export function PostRow({ post }: { post: PostResumo }) {
         <p className={styles.meta}>{post.tempoLeitura} min de leitura</p>
       </span>
       <span className={styles.seta} aria-hidden>
-        →
+        <ArrowRight size={15} />
       </span>
     </Link>
   );

@@ -13,7 +13,7 @@
   font-weight: var(--w-body);
   line-height: 1.06;
   letter-spacing: var(--tracking-display);
-  max-width: 21ch;
+  max-width: 100%;
   margin: 14px 0 0;
 }
 

@@ -130,7 +130,7 @@
 }
 .bloco[data-drag="over"] { border-color: var(--accent); }
 .bloco[data-drag="dragging"] {
-  opacity: 0.9;
+  opacity: 1;
   border-color: var(--primary);
   box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
   cursor: grabbing;

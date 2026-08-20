@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 import { urlLoginGoogle, usuarioLogado } from "@/lib/api-admin";
 import { urlDaImagem } from "@/lib/imagens";
 import { ThemeSwitcher } from "@/components/layout/ThemeSwitcher";
@@ -38,7 +39,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
           </div>
           <div className={styles.acoesHeader}>
             <Link href="/" className={styles.linkVerBlog}>
-              ver blog →
+              ver blog <ArrowRight size={11} />
             </Link>
             <Link href="/escrivaninha/editor" className={styles.botaoNova}>
               Nova meditação

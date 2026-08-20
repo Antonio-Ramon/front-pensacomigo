@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { ArrowUpToLine, Check, Link2 } from "lucide-react";
 import styles from "./tocrail.module.css";
 
 export type SecaoToc = { id: string; label: string };
@@ -69,7 +70,7 @@ export function TocRail({ secoes }: { secoes: SecaoToc[] }) {
         </button>
         <button type="button" onClick={() => ajustarFonte(1.5)}>A+</button>
         <button type="button" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
-          topo ↑
+          topo <ArrowUpToLine size={11} />
         </button>
         <button
           type="button"
@@ -81,7 +82,15 @@ export function TocRail({ secoes }: { secoes: SecaoToc[] }) {
             } catch {}
           }}
         >
-          {copiado ? "✓ copiado" : "copiar link"}
+          {copiado ? (
+            <>
+              <Check size={11} /> copiado
+            </>
+          ) : (
+            <>
+              <Link2 size={11} /> copiar link
+            </>
+          )}
         </button>
       </div>
     </aside>

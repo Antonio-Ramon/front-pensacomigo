@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { Search } from "lucide-react";
 import styles from "./arquivo.module.css";
 
 /** Navegação client-side: evita o reload da página (que piscava o tema). */
@@ -17,6 +18,7 @@ export function BuscaForm({ busca }: { busca?: string }) {
       }}
     >
       {/* sem botão, como na referência: Enter submete */}
+      <Search size={14} className={styles.buscaIcone} aria-hidden />
       <input
         type="search"
         name="busca"

@@ -11,7 +11,16 @@
 
 .busca {
   display: flex;
+  position: relative;
   margin: 34px 0 var(--sp-6);
+}
+.buscaIcone {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--faint);
+  pointer-events: none;
 }
 .busca input {
   flex: 1;
@@ -22,7 +31,7 @@
   color: var(--ink);
   background: var(--surface);
   border: 1px solid var(--line);
-  padding: 13px 16px;
+  padding: 13px 16px 13px 38px;
 }
 .busca input::placeholder { color: var(--faint); }
 .busca input:focus { outline: none; border-color: var(--primary); }
