@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { MessageSquare, Pencil } from "lucide-react";
 import type { PostResumo } from "@/lib/api";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { fetchAdmin } from "@/lib/api-admin";
@@ -87,9 +88,15 @@ export default async function PainelAdmin({
                 </span>
               </span>
               <span className={styles.acoes}>
-                <Link href={`/escrivaninha/editor/${p.slug}`}>editar</Link>
-                <Link href={{ pathname: `/escrivaninha/comentarios/${p.id}`, query: { titulo: p.titulo ?? "" } }}>
-                  comentários
+                <Link href={`/escrivaninha/editor/${p.slug}`} title="Editar" aria-label="Editar">
+                  <Pencil size={15} />
+                </Link>
+                <Link
+                  href={{ pathname: `/escrivaninha/comentarios/${p.id}`, query: { titulo: p.titulo ?? "" } }}
+                  title="Comentários"
+                  aria-label="Comentários"
+                >
+                  <MessageSquare size={15} />
                 </Link>
                 <BotaoExcluir id={p.id!} titulo={p.titulo ?? ""} />
               </span>

@@ -164,7 +164,7 @@ a.botaoNova:hover { filter: brightness(1.12); color: var(--on-primary); }
 .tabela { margin-top: 22px; border-top: 1px solid var(--line); }
 .linha {
   display: grid;
-  grid-template-columns: 110px 1fr 150px 110px 170px;
+  grid-template-columns: 110px 1fr 150px 110px 110px;
   gap: var(--sp-4);
   align-items: center;
   padding: 16px 12px;
@@ -223,7 +223,11 @@ a.botaoNova:hover { filter: brightness(1.12); color: var(--on-primary); }
   font-family: var(--font-mono);
   font-size: 11px;
 }
-.acoes a { color: var(--soft); }
+.acoes a {
+  display: inline-flex;
+  color: var(--faint);
+  transition: color var(--dur-fast) var(--ease);
+}
 .acoes a:hover { color: var(--primary); }
 .btnExcluir {
   font-family: var(--font-mono);

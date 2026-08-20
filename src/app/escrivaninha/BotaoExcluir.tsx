@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import { Trash2 } from "lucide-react";
 import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
 import { excluirPost } from "./actions";
 import styles from "./escrivaninha.module.css";
@@ -15,9 +16,11 @@ export function BotaoExcluir({ id, titulo }: { id: string; titulo: string }) {
         type="button"
         className={styles.btnExcluir}
         disabled={pendente}
+        title="Excluir"
+        aria-label="Excluir"
         onClick={() => setAberto(true)}
       >
-        {pendente ? "excluindo…" : "excluir"}
+        <Trash2 size={15} />
       </button>
       <ConfirmDialog
         open={aberto}
