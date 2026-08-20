@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { listarAutores, listarPosts } from "@/lib/api";
+import { versoDoDia } from "@/lib/versos";
 import { urlDaImagem } from "@/lib/imagens";
 import { PostList } from "@/components/blog/PostRow";
 import { NewsletterCTA } from "@/components/layout/NewsletterCTA";
@@ -8,9 +9,10 @@ import styles from "./home.module.css";
 const NA_HOME = 6;
 
 export default async function Home() {
-  const [{ items, totalItems }, autores] = await Promise.all([
+  const [{ items, totalItems }, autores, verso] = await Promise.all([
     listarPosts({ pageSize: NA_HOME }),
     listarAutores(),
+    versoDoDia(),
   ]);
   const minutos = items.length
     ? Math.round(items.reduce((s, p) => s + (p.tempoLeitura ?? 0), 0) / items.length)
@@ -55,7 +57,7 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* ponytail: MoodChips e verso-por-estado esperam campos de mood na API — por ora, um versículo fixo */}
+      {/* ponytail: MoodChips e verso-por-estado esperam campos de mood na API — por ora, verso do dia */}
       <section className={styles.secao} id="hoje">
         <p className="pc-eyebrow">ponto de partida</p>
         <h2 className="pc-titulo">Como você chega hoje?</h2>
@@ -67,12 +69,10 @@ export default async function Home() {
           </div>
           <div className={styles.terminalCorpo}>
             <p className={styles.terminalCmd}>
-              <span>› </span>abrir 1-reis-19.7
+              <span>› </span>abrir {verso.referencia.toLowerCase().replace(/\s+/g, "-").replace(/:/g, ".")}
             </p>
-            <blockquote className={styles.terminalVerso}>
-              “Levanta-te e come, porque o caminho te será sobremodo longo.”
-            </blockquote>
-            <cite className={styles.terminalCite}>1 Reis 19:7</cite>
+            <blockquote className={styles.terminalVerso}>“{verso.texto}”</blockquote>
+            <cite className={styles.terminalCite}>{verso.referencia}</cite>
           </div>
         </div>
       </section>

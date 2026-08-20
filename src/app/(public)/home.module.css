@@ -18,7 +18,7 @@
   line-height: var(--lh-display);
   letter-spacing: var(--tracking-display);
   margin: 20px 0 0;
-  max-width: 16ch;
+  max-width: 22ch; /* 16ch da referência amontoava no container de 1100 */
 }
 .heroTitulo em { font-style: italic; color: var(--primary); }
 
