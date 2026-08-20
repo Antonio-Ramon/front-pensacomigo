@@ -16,6 +16,7 @@ export function BuscaForm({ busca }: { busca?: string }) {
         router.push(valor ? `/meditacoes?busca=${encodeURIComponent(valor)}` : "/meditacoes");
       }}
     >
+      {/* sem botão, como na referência: Enter submete */}
       <input
         type="search"
         name="busca"
@@ -23,7 +24,6 @@ export function BuscaForm({ busca }: { busca?: string }) {
         defaultValue={busca ?? ""}
         aria-label="Buscar meditações por título"
       />
-      <button type="submit">buscar</button>
     </form>
   );
 }

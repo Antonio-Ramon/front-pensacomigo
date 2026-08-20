@@ -1,42 +1,31 @@
-.cabecalho { padding: var(--sp-7) 0 0; }
+.cabecalho { padding: 64px 0 0; }
 
 .h1 {
   font-family: var(--font-display);
-  font-weight: var(--w-light);
+  font-weight: var(--w-body);
   font-size: clamp(32px, 5vw, 52px);
-  line-height: var(--lh-display);
+  line-height: 1.06;
   letter-spacing: var(--tracking-display);
   margin: var(--sp-3) 0 0;
 }
 
 .busca {
   display: flex;
-  margin: var(--sp-6) 0 var(--sp-6);
+  margin: 34px 0 var(--sp-6);
 }
 .busca input {
   flex: 1;
   min-width: 0;
   font-family: var(--font-mono);
   font-size: var(--fs-ui-sm);
+  letter-spacing: 0.02em;
   color: var(--ink);
   background: var(--surface);
   border: 1px solid var(--line);
-  border-right: none;
   padding: 13px 16px;
 }
 .busca input::placeholder { color: var(--faint); }
 .busca input:focus { outline: none; border-color: var(--primary); }
-.busca button {
-  font-family: var(--font-mono);
-  font-size: var(--fs-mono);
-  letter-spacing: var(--tracking-mono);
-  color: var(--on-primary);
-  background: var(--primary);
-  border: 1px solid var(--primary);
-  padding: 0 var(--sp-5);
-  cursor: pointer;
-}
-.busca button:hover { background: var(--primary-strong); }
 
 .paginacao {
   display: flex;
@@ -50,9 +39,12 @@
 }
 .contador { color: var(--faint); }
 
-.vazio {
-  color: var(--soft);
-  font-size: var(--fs-lede);
-  padding: var(--sp-8) 0;
-  text-align: center;
+.newsletter { margin-top: var(--sp-8); }
+
+.nota {
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono);
+  color: var(--faint);
+  margin: 0 0 10px;
+  min-height: 18px;
 }

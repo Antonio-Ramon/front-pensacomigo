@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { listarPosts } from "@/lib/api";
 import { PostList } from "@/components/blog/PostRow";
+import { EmptyState } from "@/components/ui/EmptyState";
+import { NewsletterCTA } from "@/components/layout/NewsletterCTA";
 import { BuscaForm } from "./BuscaForm";
 import styles from "./arquivo.module.css";
 
@@ -37,10 +39,22 @@ export default async function Arquivo({
 
       <BuscaForm busca={busca} />
 
+      <p className={styles.nota}>
+        {busca
+          ? `${totalItems} resultado${totalItems === 1 ? "" : "s"} para “${busca}”`
+          : `${totalItems} meditações, da mais recente à mais antiga`}
+      </p>
+
       {items.length === 0 ? (
-        <p className={styles.vazio}>
-          {busca ? `Nada encontrado para “${busca}”.` : "Nenhuma meditação publicada ainda."}
-        </p>
+        <EmptyState
+          rotulo="NADA ENCONTRADO"
+          frase={
+            busca
+              ? `Nenhuma meditação bate com “${busca}”. Tente um termo mais curto.`
+              : "Nenhuma meditação publicada ainda."
+          }
+          acao={busca ? { label: "limpar a busca →", href: "/meditacoes" } : undefined}
+        />
       ) : (
         <PostList posts={items} />
       )}
@@ -76,6 +90,10 @@ export default async function Arquivo({
           </span>
         </nav>
       )}
+
+      <div className={styles.newsletter}>
+        <NewsletterCTA />
+      </div>
     </>
   );
 }
