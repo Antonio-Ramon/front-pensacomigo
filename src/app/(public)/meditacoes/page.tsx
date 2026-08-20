@@ -20,7 +20,8 @@ export default async function Arquivo({
   const { items, totalItems } = await listarPosts({
     pagina,
     pageSize: PAGE_SIZE,
-    filter: busca ? `titulo=*${busca}` : undefined,
+    // Gridify: =* é contains, /i ignora maiúsculas
+    filter: busca ? `titulo=*${busca}/i` : undefined,
   });
   const totalPaginas = Math.ceil(totalItems / PAGE_SIZE);
 
