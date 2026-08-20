@@ -5,11 +5,12 @@
   max-width: var(--measure);
   font-family: var(--font-body);
   font-size: var(--fs-prose);
-  font-weight: var(--w-light);
+  /* 400: no Windows o traço do peso 300 fica fino demais e serrilha no ClearType */
+  font-weight: var(--w-body);
   line-height: var(--lh-prose);
 }
 
-.prose p { margin: 0 0 var(--sp-5); }
+.prose p { margin: 0 0 24px; }
 /* Capitular do primeiro paragrafo — assinatura da coluna de leitura na referencia. */
 .prose > p:first-of-type::first-letter {
   float: left;
@@ -27,9 +28,10 @@
   line-height: var(--lh-heading);
   letter-spacing: var(--tracking-heading);
   margin: var(--sp-7) 0 var(--sp-4);
+  scroll-margin-top: 80px; /* âncora do TocRail não para sob o header sticky */
 }
-.prose h2 { font-size: var(--fs-h2); }
-.prose h3 { font-size: var(--fs-h3); }
+.prose h2 { font-size: 1.36em; }
+.prose h3 { font-size: 1.1em; }
 
 .prose a {
   color: var(--primary);
@@ -75,36 +77,38 @@
 }
 .prose .verse .r {
   font-family: var(--font-mono);
-  font-size: var(--fs-mono);
-  letter-spacing: var(--tracking-eyebrow);
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--accent);
   margin-bottom: var(--sp-2);
 }
+.prose .verse .r::before { content: "› "; color: var(--faint); }
 .prose .verse q {
   font-family: var(--font-display);
   font-size: var(--fs-lede);
-  font-style: italic;
+  font-style: normal;
   line-height: var(--lh-lede);
   quotes: "“" "”";
 }
 
-/* Nota lateral: div.aside (com b para o rótulo) */
+/* Nota lateral: div.aside (com b para o rótulo) — régua accent, sem fundo */
 .prose .aside {
   margin: var(--sp-6) 0;
-  padding: var(--sp-4) var(--sp-5);
-  border-left: 2px solid var(--primary);
-  background: var(--bg-alt);
-  font-size: var(--fs-body);
+  padding: 2px 0 2px 20px;
+  border-left: 2px solid var(--accent);
+  font-family: var(--font-ui);
+  font-size: 0.79em;
+  line-height: 1.6;
   color: var(--soft);
 }
 .prose .aside b {
   font-family: var(--font-mono);
-  font-size: var(--fs-mono);
+  font-size: var(--fs-mono-sm);
   font-weight: var(--w-medium);
   letter-spacing: var(--tracking-mono);
   text-transform: uppercase;
-  color: var(--primary);
+  color: var(--accent);
   display: block;
   margin-bottom: var(--sp-1);
 }
@@ -116,14 +120,24 @@
   display: block;
   border: 1px solid var(--line);
 }
+.prose figcaption {
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono-sm);
+  color: var(--faint);
+  margin-top: 10px;
+}
 
-.linkCard {
+/* .prose a aplica sublinhado/serif nos links de texto — o card opta por fora */
+.linkCard,
+.prose a.linkCard {
   display: flex;
   gap: var(--sp-4);
   align-items: stretch;
   margin: var(--sp-6) 0;
   border: 1px solid var(--line);
   background: var(--surface);
+  font-family: var(--font-ui);
+  font-size: var(--fs-ui);
   text-decoration: none;
   transition: border-color var(--dur) var(--ease);
 }
@@ -142,10 +156,13 @@
   color: var(--faint);
 }
 .linkCard .lc-titulo {
+  display: block;
   font-family: var(--font-ui);
+  font-size: var(--fs-ui);
   font-weight: var(--w-medium);
   color: var(--ink);
   margin: var(--sp-1) 0;
+  overflow-wrap: anywhere;
 }
 .linkCard .lc-desc {
   font-size: var(--fs-ui-sm);

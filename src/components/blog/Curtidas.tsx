@@ -40,7 +40,7 @@ export function Curtidas({ postId, inicial }: { postId: string; inicial: number 
       className={`${styles.curtir} ${curtido ? styles.curtido : ""}`}
       aria-pressed={curtido}
     >
-      {curtido ? "♥" : "♡"} {total}
+      isso me ajudou <b>{total}</b>
     </button>
   );
 }

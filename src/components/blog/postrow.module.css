@@ -3,9 +3,9 @@
 .row {
   display: grid;
   grid-template-columns: 86px 96px 1fr 30px;
-  gap: var(--sp-4);
+  gap: 20px;
   align-items: start;
-  padding: var(--sp-4) var(--sp-1);
+  padding: 20px 6px;
   border-bottom: 1px solid var(--line);
   color: var(--ink);
   transition: background var(--dur) var(--ease);
@@ -14,7 +14,7 @@
 
 .data {
   font-family: var(--font-mono);
-  font-size: var(--fs-mono);
+  font-size: 11px;
   color: var(--faint);
   white-space: nowrap;
   padding-top: 4px;
@@ -30,7 +30,7 @@
   background: repeating-linear-gradient(45deg, var(--bg-alt) 0 8px, transparent 8px 17px);
   transition: border-color var(--dur) var(--ease);
   font-family: var(--font-mono);
-  font-size: var(--fs-mono-sm);
+  font-size: 9px;
   color: var(--faint);
 }
 .row:hover .thumb { border-color: var(--soft); }
@@ -41,7 +41,7 @@
   font-size: var(--fs-h3);
   font-weight: var(--w-medium);
   line-height: var(--lh-heading);
-  letter-spacing: var(--tracking-heading);
+  letter-spacing: -0.012em;
   margin: 0;
 }
 

@@ -8,6 +8,9 @@ import styles from "./interacoes.module.css";
 
 type Comentario = components["schemas"]["ComentarioListaResponse"];
 
+const iniciais = (nome?: string | null) =>
+  (nome ?? "?").split(" ").map((w) => w[0]).join("").slice(0, 2).toUpperCase();
+
 /**
  * Conversa do post. Lista e envio saem do BROWSER: a API identifica o visitante pelo
  * IP da conexão para o rate limit de 5/min — pelo servidor do front todos seriam um só.
@@ -62,23 +65,35 @@ export function Comentarios({ postId }: { postId: string }) {
       <p className="pc-eyebrow">
         comentários · <b>{String(itens.length).padStart(2, "0")}</b>
       </p>
-      <h2 className="pc-titulo">O que você pensou?</h2>
+      <h2 className={styles.comentariosTitulo}>O que você pensou?</h2>
 
       <div className={styles.conversa}>
         {itens.map((c) => (
-          <article key={c.id} className={styles.comentario}>
-            <p className={styles.comentarioMeta}>
-              <b>{c.autor}</b> · {dataCurta(c.dataCriacao)}
-            </p>
-            <p className={styles.comentarioTexto}>{c.conteudo}</p>
-            {c.respostas?.map((r) => (
-              <div key={r.id} className={styles.resposta}>
+          <article key={c.id}>
+            <div className={styles.comentario}>
+              <span className={styles.comentarioAvatar}>{iniciais(c.autor)}</span>
+              <div className={styles.comentarioCorpo}>
                 <p className={styles.comentarioMeta}>
-                  <b>{r.autor}</b> · {dataCurta(r.dataCriacao)}
+                  <b>{c.autor}</b> <span>{dataCurta(c.dataCriacao)}</span>
                 </p>
-                <p className={styles.comentarioTexto}>{r.conteudo}</p>
+                <p className={styles.comentarioTexto}>{c.conteudo}</p>
               </div>
-            ))}
+            </div>
+            {(c.respostas?.length ?? 0) > 0 && (
+              <div className={styles.respostas}>
+                {c.respostas!.map((r) => (
+                  <div key={r.id} className={`${styles.resposta} ${styles.comentario}`}>
+                    <span className={styles.comentarioAvatar}>{iniciais(r.autor)}</span>
+                    <div className={styles.comentarioCorpo}>
+                      <p className={styles.comentarioMeta}>
+                        <b>{r.autor}</b> <span>{dataCurta(r.dataCriacao)}</span>
+                      </p>
+                      <p className={styles.comentarioTexto}>{r.conteudo}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </article>
         ))}
       </div>
@@ -112,7 +127,7 @@ export function Comentarios({ postId }: { postId: string }) {
         </label>
         <div className={styles.formRodape}>
           <button type="submit" disabled={enviando}>
-            {enviando ? "enviando…" : "comentar"}
+            {enviando ? "Enviando…" : "Comentar"}
           </button>
           <span className={styles.aviso}>{aviso}</span>
         </div>
