@@ -61,7 +61,8 @@
   transform: translateX(-8px);
   transition: transform 220ms var(--ease), opacity var(--dur), color var(--dur);
 }
-.row:hover .seta { color: var(--accent); opacity: 1; transform: translateX(4px); }
+/* ponytail: para em 0 (a referência vai a +4px, mas aqui estoura o gutter e encosta na borda) */
+.row:hover .seta { color: var(--accent); opacity: 1; transform: translateX(0); }
 
 @media (max-width: 640px) {
   .row { grid-template-columns: 1fr 30px; }

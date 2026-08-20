@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { listarPosts } from "@/lib/api";
 import { PostList } from "@/components/blog/PostRow";
+import { BuscaForm } from "./BuscaForm";
 import styles from "./arquivo.module.css";
 
 export const metadata: Metadata = { title: "Todas as meditações" };
@@ -33,16 +34,7 @@ export default async function Arquivo({
         <p className="pc-lede">Busque por título — ou navegue pelo arquivo em ordem.</p>
       </section>
 
-      <form className={styles.busca} action="/meditacoes">
-        <input
-          type="search"
-          name="busca"
-          placeholder="buscar — ex. Habacuque, luto, maná…"
-          defaultValue={busca ?? ""}
-          aria-label="Buscar meditações por título"
-        />
-        <button type="submit">buscar</button>
-      </form>
+      <BuscaForm busca={busca} />
 
       {items.length === 0 ? (
         <p className={styles.vazio}>
