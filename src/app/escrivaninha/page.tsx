@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { PostResumo } from "@/lib/api";
+import { EmptyState } from "@/components/ui/EmptyState";
 import { fetchAdmin } from "@/lib/api-admin";
 import { dataCurta } from "@/lib/datas";
 import { BotaoExcluir } from "./BotaoExcluir";
@@ -97,7 +98,20 @@ export default async function PainelAdmin({
         })}
       </div>
 
-      {items.length === 0 && <p className={styles.vazio}>Ainda não há meditações por aqui.</p>}
+      {items.length === 0 && (
+        <EmptyState
+          frase={
+            status || busca
+              ? "Nada bate com esses filtros."
+              : "Ainda não há meditações por aqui."
+          }
+          acao={
+            status || busca
+              ? { label: "limpar filtros →", href: "/escrivaninha" }
+              : { label: "escrever a primeira →", href: "/escrivaninha/editor" }
+          }
+        />
+      )}
     </>
   );
 }

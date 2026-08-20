@@ -7,7 +7,7 @@
 .header {
   position: sticky;
   top: 0;
-  z-index: 10;
+  z-index: 60;
   background: var(--header-bg);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--line);
@@ -48,26 +48,66 @@
 }
 .linkVerBlog:hover { color: var(--primary); }
 .botaoNova {
-  font-family: var(--font-mono);
-  font-size: var(--fs-mono);
-  letter-spacing: var(--tracking-mono);
+  font-family: var(--font-ui);
+  font-size: var(--fs-ui-sm);
+  font-weight: var(--w-medium);
   color: var(--on-primary);
   background: var(--primary);
-  border: 1px solid var(--primary);
-  padding: 8px 14px;
+  border: 1px solid transparent;
+  padding: 8px 16px;
   cursor: pointer;
+  transition: filter var(--dur-fast) var(--ease);
 }
-.botaoNova:hover { background: var(--primary-strong); }
+.botaoNova:hover { filter: brightness(1.12); }
 .temaBox {
   padding-left: 12px;
   border-left: 1px solid var(--line);
+}
+
+/* Quem está logado — foto (ou iniciais em accent) + nome + papel */
+.usuario {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-left: 12px;
+  border-left: 1px solid var(--line);
+}
+.usuarioFoto,
+.usuarioIniciais {
+  width: 26px;
+  height: 26px;
+  flex: none;
+  object-fit: cover;
+}
+.usuarioIniciais {
+  display: grid;
+  place-items: center;
+  background: var(--accent);
+  color: var(--on-primary);
+  font-family: var(--font-mono);
+  font-size: 10px;
+}
+.usuarioNome {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--soft);
+  line-height: 1.2;
+}
+.usuarioPapel {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  line-height: 1.2;
 }
 
 .main { padding: 44px 0 96px; }
 
 .h1 {
   font-family: var(--font-display);
-  font-weight: var(--w-light);
+  font-weight: var(--w-body);
   font-size: clamp(30px, 4.5vw, 44px);
   line-height: 1.06;
   letter-spacing: -0.022em;

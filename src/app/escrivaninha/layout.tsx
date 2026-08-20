@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { urlLoginGoogle, usuarioLogado } from "@/lib/api-admin";
+import { urlDaImagem } from "@/lib/imagens";
 import { ThemeSwitcher } from "@/components/layout/ThemeSwitcher";
 import { BotaoSair } from "./BotaoSair";
 import styles from "./escrivaninha.module.css";
@@ -42,6 +43,19 @@ export default async function AdminLayout({ children }: { children: React.ReactN
             <Link href="/escrivaninha/editor" className={styles.botaoNova}>
               Nova meditação
             </Link>
+            <span className={styles.usuario} title={usuario.email ?? undefined}>
+              {urlDaImagem(usuario.imagemUrl) ? (
+                <img src={urlDaImagem(usuario.imagemUrl)} alt="" className={styles.usuarioFoto} />
+              ) : (
+                <span className={styles.usuarioIniciais}>
+                  {(usuario.nome ?? "?").split(" ").map((w) => w[0]).join("").slice(0, 2).toUpperCase()}
+                </span>
+              )}
+              <span>
+                <span className={styles.usuarioNome}>{usuario.nome?.toLowerCase()}</span>
+                {usuario.isAdmin && <span className={styles.usuarioPapel}>admin</span>}
+              </span>
+            </span>
             <BotaoSair />
             <div className={styles.temaBox}>
               <ThemeSwitcher />

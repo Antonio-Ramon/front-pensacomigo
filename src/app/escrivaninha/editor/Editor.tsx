@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import type { Tag } from "@/lib/api";
 import { urlDaImagem } from "@/lib/imagens";
+import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
 import { buscarPreviewLink, criarTag, enviarImagem, salvarPost } from "./actions";
 import { paraConteudo, novoBloco, type BlocoEditor, type TipoEditor } from "./blocos";
 import styles from "./editor.module.css";
@@ -50,6 +51,7 @@ export function Editor({
   const [pendente, startTransition] = useTransition();
   const [arrastando, setArrastando] = useState<number | null>(null);
   const [sobre, setSobre] = useState<number | null>(null);
+  const [confirmaPublicar, setConfirmaPublicar] = useState(false);
 
   const sujou = () => setSalvo(false);
 
@@ -141,10 +143,7 @@ export function Editor({
                 type="button"
                 className={styles.btnPrimario}
                 disabled={pendente || !titulo.trim()}
-                onClick={() => {
-                  if (confirm("Publicar esta meditação? Ela entra no arquivo na hora. Dá para despublicar depois."))
-                    salvar(1);
-                }}
+                onClick={() => setConfirmaPublicar(true)}
               >
                 Publicar
               </button>
@@ -228,8 +227,10 @@ export function Editor({
                 )}
                 {b.tipo === "imagem" && (
                   <div className={styles.blocoImagem}>
-                    {urlDaImagem(b.imagemUrl ?? b.imagemPath) && (
+                    {urlDaImagem(b.imagemUrl ?? b.imagemPath) ? (
                       <img src={urlDaImagem(b.imagemUrl ?? b.imagemPath)} alt="" />
+                    ) : (
+                      <span className={styles.imagemVazia}>imagem do post</span>
                     )}
                     <input
                       type="file"
@@ -250,7 +251,14 @@ export function Editor({
                       onBlur={async () => {
                         if (!b.linkUrl || b.linkTitulo) return;
                         const r = await buscarPreviewLink(b.linkUrl);
-                        if (r.ok) patch(i, { ...r.dados, linkUrl: r.dados.url ?? b.linkUrl });
+                        if (r.ok)
+                          patch(i, {
+                            linkUrl: r.dados.url ?? b.linkUrl,
+                            linkTitulo: r.dados.titulo,
+                            linkDescricao: r.dados.descricao,
+                            linkThumbnail: r.dados.thumbnail,
+                            linkSiteName: r.dados.siteName,
+                          });
                       }}
                       placeholder="URL do link — https://…"
                     />
@@ -324,7 +332,13 @@ export function Editor({
 
         <div className={styles.card}>
           <p className={styles.cardTitulo}>CAPA DO POST</p>
-          {urlDaImagem(capa) && <img className={styles.capaPreview} src={urlDaImagem(capa)} alt="" />}
+          {urlDaImagem(capa) ? (
+            <img className={styles.capaPreview} src={urlDaImagem(capa)} alt="" />
+          ) : (
+            <span className={`${styles.imagemVazia} ${styles.capaVazia}`}>
+              capa escolhida pelo autor
+            </span>
+          )}
           <input
             type="file"
             accept="image/jpeg,image/png,image/webp"
@@ -335,6 +349,19 @@ export function Editor({
           />
         </div>
       </aside>
+
+      <ConfirmDialog
+        open={confirmaPublicar}
+        title="Publicar esta meditação?"
+        message="Ela entra no arquivo na hora. Dá para despublicar depois."
+        confirmLabel="Publicar agora"
+        cancelLabel="Ainda não"
+        onCancel={() => setConfirmaPublicar(false)}
+        onConfirm={() => {
+          setConfirmaPublicar(false);
+          salvar(1);
+        }}
+      />
     </div>
   );
 }

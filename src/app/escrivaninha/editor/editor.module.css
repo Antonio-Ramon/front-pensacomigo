@@ -36,27 +36,29 @@
   color: var(--accent);
 }
 .btnGhost {
-  font-family: var(--font-mono);
-  font-size: var(--fs-mono);
-  letter-spacing: var(--tracking-mono);
+  font-family: var(--font-ui);
+  font-size: var(--fs-ui-sm);
+  font-weight: var(--w-medium);
   background: none;
   border: 1px solid var(--line);
-  color: var(--soft);
-  padding: 8px 14px;
+  color: var(--ink);
+  padding: 8px 16px;
   cursor: pointer;
+  transition: all var(--dur-fast) var(--ease);
 }
-.btnGhost:hover { border-color: var(--soft); color: var(--ink); }
+.btnGhost:hover { border-color: var(--primary); color: var(--primary); }
 .btnPrimario {
-  font-family: var(--font-mono);
-  font-size: var(--fs-mono);
-  letter-spacing: var(--tracking-mono);
+  font-family: var(--font-ui);
+  font-size: var(--fs-ui-sm);
+  font-weight: var(--w-medium);
   color: var(--on-primary);
   background: var(--primary);
-  border: 1px solid var(--primary);
-  padding: 8px 14px;
+  border: 1px solid transparent;
+  padding: 8px 16px;
   cursor: pointer;
+  transition: filter var(--dur-fast) var(--ease);
 }
-.btnPrimario:hover { background: var(--primary-strong); }
+.btnPrimario:hover { filter: brightness(1.12); }
 .btnPrimario:disabled, .btnGhost:disabled { opacity: 0.5; cursor: default; }
 
 .erro {
@@ -230,18 +232,19 @@
   gap: 8px;
   flex-wrap: wrap;
 }
+/* Chip do design system: 12.5px, fundo transparente, hover escurece texto/borda */
 .chip {
   font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.06em;
+  font-size: 12.5px;
+  letter-spacing: 0.02em;
   cursor: pointer;
-  padding: 7px 11px;
+  padding: 9px 16px;
   border: 1px solid var(--line);
-  background: var(--surface);
+  background: transparent;
   color: var(--soft);
   transition: all var(--dur-fast) var(--ease);
 }
-.chip:hover { border-color: var(--soft); }
+.chip:hover { border-color: var(--soft); color: var(--ink); }
 .chipAtiva {
   background: var(--primary);
   color: var(--on-primary);
@@ -280,9 +283,9 @@
   background: var(--bg);
   border: 1px solid var(--line);
   color: var(--ink);
-  font-family: var(--font-mono);
-  font-size: 12px;
-  padding: 8px 10px;
+  font-family: var(--font-ui);
+  font-size: var(--fs-ui);
+  padding: 10px 12px;
 }
 .novaTag input:focus { outline: none; border-color: var(--primary); }
 .novaTag button {
@@ -304,3 +307,17 @@
   display: block;
   margin-bottom: 12px;
 }
+
+/* placeholder listrado do PostImage do design system */
+.imagemVazia {
+  display: grid;
+  place-items: center;
+  height: 140px;
+  border: 1px solid var(--line);
+  background: repeating-linear-gradient(45deg, var(--bg-alt) 0 8px, transparent 8px 17px);
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono-sm);
+  color: var(--faint);
+  margin-bottom: 10px;
+}
+.capaVazia { height: 130px; margin-bottom: 12px; }
