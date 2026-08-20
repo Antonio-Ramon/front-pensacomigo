@@ -228,6 +228,15 @@ a.botaoNova:hover { filter: brightness(1.12); color: var(--on-primary); }
 }
 .btnExcluir:hover { color: var(--danger); }
 
+.voltar {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono);
+  color: var(--soft);
+  margin-bottom: var(--sp-5);
+}
+.voltar:hover { color: var(--primary); }
+
 .comentarioLinha {
   display: flex;
   align-items: flex-start;

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { components } from "@/types/api";
 import { fetchAdmin } from "@/lib/api-admin";
 import { dataCurta } from "@/lib/datas";
@@ -26,6 +27,9 @@ export default async function ModeracaoComentarios({
 
   return (
     <>
+      <Link href="/escrivaninha" className={styles.voltar}>
+        ← meditações
+      </Link>
       <p className="pc-eyebrow">
         moderação · <b>{totalItems} comentários</b>
       </p>
