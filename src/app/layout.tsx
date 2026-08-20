@@ -5,10 +5,12 @@ import "@/styles/tokens.css";
 import "@/styles/prose.css";
 import "./globals.css";
 
+// Fonte variável com eixo óptico (opsz): em corpo pequeno o desenho fica mais
+// encorpado e suaviza o serrilhado no Windows, onde font-smoothing não atua.
 const newsreader = Newsreader({
   subsets: ["latin"],
   style: ["normal", "italic"],
-  weight: ["300", "400", "500", "600"],
+  axes: ["opsz"],
   variable: "--font-newsreader",
 });
 
