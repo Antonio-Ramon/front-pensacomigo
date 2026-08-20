@@ -58,7 +58,8 @@
   cursor: pointer;
   transition: filter var(--dur-fast) var(--ease);
 }
-.botaoNova:hover { filter: brightness(1.12); }
+/* a:hover global pinta o texto de accent (= fundo do botão no tinta) — trava on-primary */
+a.botaoNova:hover { filter: brightness(1.12); color: var(--on-primary); }
 .temaBox {
   padding-left: 12px;
   border-left: 1px solid var(--line);
