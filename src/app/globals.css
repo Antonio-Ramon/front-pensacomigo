@@ -2,7 +2,22 @@
 * { box-sizing: border-box; }
 
 /* âncoras (TocRail, #sobre, #newsletter) rolam suave; reduced-motion desliga abaixo */
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+  /* firefox: scrollbar fina nas cores do tema */
+  scrollbar-width: thin;
+  scrollbar-color: var(--faint) var(--bg-alt);
+}
+
+/* Scrollbar quadrada no padrão do tema (chrome/edge/safari) */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: var(--bg-alt); }
+::-webkit-scrollbar-thumb {
+  background: var(--line);
+  border: 2px solid var(--bg-alt); /* respiro; cantos retos, sem radius */
+}
+::-webkit-scrollbar-thumb:hover { background: var(--faint); }
+::-webkit-scrollbar-corner { background: var(--bg-alt); }
 
 body {
   margin: 0;

@@ -169,6 +169,10 @@
   line-height: 1.7;
   color: var(--ink);
   padding: 0;
+  /* cresce com o texto até 6 linhas, depois rola (nativo; navegador antigo fica no rows) */
+  field-sizing: content;
+  max-height: calc(1.7em * 6);
+  overflow-y: auto;
 }
 .ta::placeholder { color: var(--faint); }
 .ta[data-bt="subtitulo"] { font-size: 22px; font-weight: 500; }
