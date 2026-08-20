@@ -1,0 +1,66 @@
+.veu {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.42);
+  display: grid;
+  place-items: center;
+  padding: var(--sp-5);
+  z-index: 90;
+}
+
+.caixa {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.16);
+  padding: 28px;
+  max-width: 420px;
+  width: 100%;
+}
+
+.titulo {
+  font-family: var(--font-display);
+  font-weight: var(--w-medium);
+  font-size: 21px;
+  color: var(--ink);
+  margin: 0;
+}
+
+.mensagem {
+  font-size: 14.5px;
+  color: var(--soft);
+  line-height: 1.6;
+  margin: 10px 0 0;
+}
+
+.acoes {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 24px;
+}
+.acoes button {
+  font-family: var(--font-ui);
+  font-size: var(--fs-ui-sm);
+  font-weight: var(--w-medium);
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: all var(--dur-fast) var(--ease);
+}
+.cancelar {
+  background: transparent;
+  border: 1px solid var(--line);
+  color: var(--ink);
+}
+.cancelar:hover { border-color: var(--primary); color: var(--primary); }
+.confirmar {
+  background: var(--primary);
+  border: 1px solid var(--primary);
+  color: var(--on-primary);
+}
+.confirmar:hover { background: var(--primary-strong); }
+.perigo {
+  background: var(--accent);
+  border: 1px solid var(--accent);
+  color: var(--on-primary);
+}
+.perigo:hover { filter: brightness(1.08); }
