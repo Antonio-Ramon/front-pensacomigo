@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Script from "next/script";
+import NextTopLoader from "nextjs-toploader";
 import { Newsreader, Inter_Tight, JetBrains_Mono } from "next/font/google";
 import "@/styles/tokens.css";
 import "@/styles/prose.css";
@@ -37,13 +37,19 @@ export default function RootLayout({
     <html
       lang="pt-BR"
       data-theme="papel"
+      // o script de tema muda data-theme antes da hidratação; divergência esperada
+      suppressHydrationWarning
       className={`${newsreader.variable} ${interTight.variable} ${jetbrainsMono.variable}`}
     >
       <body>
-        {/* aplica o tema salvo antes da pintura, evitando flash do tema padrão */}
-        <Script id="tema" strategy="beforeInteractive">
-          {'try{var t=localStorage.getItem("tema");if(t)document.documentElement.dataset.theme=t}catch(e){}'}
-        </Script>
+        {/* script síncrono no topo do body: aplica o tema salvo antes de qualquer pintura */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              'try{var t=localStorage.getItem("pc-theme");if(t)document.documentElement.dataset.theme=t}catch(e){}',
+          }}
+        />
+        <NextTopLoader color="var(--accent)" height={2} showSpinner={false} shadow={false} />
         {children}
       </body>
     </html>

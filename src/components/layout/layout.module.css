@@ -37,19 +37,26 @@
 .nav a { color: var(--soft); }
 .nav a:hover { color: var(--primary); }
 
-.temaBtn {
-  font-family: var(--font-mono);
-  font-size: var(--fs-mono);
-  letter-spacing: var(--tracking-mono);
-  text-transform: uppercase;
-  color: var(--soft);
-  background: none;
-  border: 1px solid var(--line);
-  padding: var(--sp-1) var(--sp-3);
-  cursor: pointer;
-  transition: color var(--dur) var(--ease), border-color var(--dur) var(--ease);
+.temaGrupo {
+  display: flex;
+  gap: 4px;
+  align-items: center;
 }
-.temaBtn:hover { color: var(--primary); border-color: var(--primary); }
+.temaGrupo button {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.06em;
+  border: none;
+  cursor: pointer;
+  padding: 5px 8px;
+  background: transparent;
+  color: var(--faint);
+  transition: all var(--dur-fast) var(--ease);
+}
+.temaGrupo button[aria-pressed="true"] {
+  background: var(--bg-alt);
+  color: var(--ink);
+}
 
 .footer {
   border-top: 1px solid var(--line);
