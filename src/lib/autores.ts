@@ -1,4 +1,4 @@
-// Bio hardcoded (decisão 15 do briefing): os 2 autores têm acesso ao repo.
+// Bio hardcoded até o backend expor autores — service-pensacomigo#22.
 // A chave é o nome como vem no seed do backend.
 // ponytail: placeholders — cada autor edita a própria bio aqui.
 export const bios: Record<string, string> = {
