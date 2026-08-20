@@ -14,6 +14,12 @@
   gap: 14px;
   margin-bottom: 26px;
 }
+.voltar {
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono);
+  color: var(--soft);
+}
+.voltar:hover { color: var(--primary); }
 .barraAcoes {
   margin-left: auto;
   display: flex;
@@ -123,7 +129,12 @@
   border: 1px solid var(--line);
 }
 .bloco[data-drag="over"] { border-color: var(--accent); }
-.bloco[data-drag="dragging"] { opacity: 0.4; }
+.bloco[data-drag="dragging"] {
+  opacity: 0.9;
+  border-color: var(--primary);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+  cursor: grabbing;
+}
 .blocoCabecalho {
   display: flex;
   align-items: center;
@@ -138,6 +149,8 @@
   font-size: 14px;
   line-height: 1;
 }
+.alca:active,
+.bloco[data-drag="dragging"] .alca { cursor: grabbing; }
 .blocoTipo {
   font-family: var(--font-mono);
   font-size: 10px;

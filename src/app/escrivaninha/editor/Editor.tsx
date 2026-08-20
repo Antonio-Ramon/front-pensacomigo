@@ -153,6 +153,9 @@ export function Editor({
     <div className={styles.cols}>
       <section>
         <div className={styles.barra}>
+          <Link href="/escrivaninha" className={styles.voltar}>
+            ← meditações
+          </Link>
           <span className={`${styles.badge} ${publicado ? styles.badgePublicado : ""}`}>
             {publicado ? "publicado" : "rascunho"}
           </span>
