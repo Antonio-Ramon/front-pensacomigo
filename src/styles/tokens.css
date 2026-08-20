@@ -14,14 +14,16 @@ html[data-theme="papel"], :root {
   --faint: #9995A4;         /* meta, labels mono, placeholders */
   --primary: #463C8C;       /* índigo — botões, links */
   --on-primary: #FAF8F5;
-  --accent: #C2643F;        /* terracota — refs, marks */
+  /* decisão 2026-08-20 (diverge do design-system): papel/tinta são monocromáticos
+     no índigo — accent = primary; só o tema terra usa o terracota */
+  --accent: #463C8C;
   --line: #E6E1D9;          /* hairlines */
   --glow: rgba(70, 60, 140, .10);
-  --mark: rgba(194, 100, 63, .16);
+  --mark: rgba(70, 60, 140, .14);
 
   --primary-strong: #372F70;
   --primary-soft: #E7E3F3;
-  --accent-soft: #F5E5DC;
+  --accent-soft: #E7E3F3;
 
   --success: #5C7052; --warning: #A8803A; --danger: #A2564B;
   --success-soft: #E6ECE0; --warning-soft: #F3E9D4; --danger-soft: #F0DCD7;
@@ -39,14 +41,14 @@ html[data-theme="tinta"] {
   --faint: #6B6779;
   --primary: #A99DF2;
   --on-primary: #131218;
-  --accent: #E9A263;
+  --accent: #A99DF2; /* monocromático — ver nota no tema papel */
   --line: #26262F;
   --glow: rgba(169, 157, 242, .11);
-  --mark: rgba(233, 162, 99, .20);
+  --mark: rgba(169, 157, 242, .20);
 
   --primary-strong: #C4BBF7;
   --primary-soft: #23203A;
-  --accent-soft: #33261A;
+  --accent-soft: #23203A;
 
   --success: #8FB082; --warning: #D3AD63; --danger: #D68A7E;
   --success-soft: #1E2A1B; --warning-soft: #2E2617; --danger-soft: #2E1C19;
@@ -64,14 +66,14 @@ html[data-theme="terra"] {
   --faint: #9D8C75;
   --primary: #8A5334;
   --on-primary: #F8F3EA;
-  --accent: #3D5A73;
+  --accent: #C2643F; /* terra é todo terroso: terracota no lugar do azul do DS */
   --line: #DDCFB9;
   --glow: rgba(138, 83, 52, .11);
-  --mark: rgba(61, 90, 115, .18);
+  --mark: rgba(194, 100, 63, .18);
 
   --primary-strong: #6E3F26;
   --primary-soft: #E8D8C6;
-  --accent-soft: #DCE4EB;
+  --accent-soft: #EFDDD0;
 
   --success: #5E7048; --warning: #9A7629; --danger: #9C4F3C;
   --success-soft: #E2E4D2; --warning-soft: #EFE2C7; --danger-soft: #EEDAD1;
