@@ -120,7 +120,8 @@ html[data-theme="terra"] {
   --tracking-eyebrow: 0.14em;
 
   /* ---- Pesos ---- */
-  --w-light: 300;
+  /* decisão 2026-08-20: 300 serrilha no ClearType do Windows — "leve" agora é 400 */
+  --w-light: 400;
   --w-body: 400;
   --w-medium: 500;
   --w-semibold: 600;
