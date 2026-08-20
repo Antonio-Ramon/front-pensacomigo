@@ -4,7 +4,6 @@ import { notFound } from "next/navigation";
 import { abrirPost, listarPosts } from "@/lib/api";
 import { resumoDoPost } from "@/lib/resumo";
 import { urlDaImagem } from "@/lib/imagens";
-import { bioDoAutor } from "@/lib/autores";
 import { Prose } from "@/components/blog/Prose";
 import { ShareButton } from "@/components/blog/ShareButton";
 import { ProgressoLeitura } from "@/components/blog/ProgressoLeitura";
@@ -42,7 +41,7 @@ export default async function PaginaPost({ params }: Props) {
 
   const capa = urlDaImagem(post.imagemCapa);
   const fotoAutor = urlDaImagem(post.autor?.imagemUrl);
-  const bio = bioDoAutor(post.autor?.nome);
+  const bio = post.autor?.bio;
 
   // Posts relacionados = feed filtrado pela primeira tag (decisão do CONTEXT.md)
   const primeiraTag = post.tags?.[0]?.slug;

@@ -4,6 +4,7 @@ export type PostResumo = components["schemas"]["PostResumoResponse"];
 export type PostDetalhe = components["schemas"]["PostDetalheResponse"];
 export type Bloco = components["schemas"]["Bloco"];
 export type Tag = components["schemas"]["TagResponse"];
+export type Autor = components["schemas"]["AutorResponse"];
 
 type Pagina<T> = { items?: T[] | null; totalItems?: number };
 
@@ -27,6 +28,11 @@ export async function listarPosts(
   if (opts.filter) q.set("Filter", opts.filter);
   const pagina = await get<Pagina<PostResumo>>(`/api/v1/Posts?${q}`, 60);
   return { items: pagina?.items ?? [], totalItems: pagina?.totalItems ?? 0 };
+}
+
+export async function listarAutores() {
+  const pagina = await get<Pagina<Autor>>("/api/v1/Autores", 3600);
+  return pagina?.items ?? [];
 }
 
 // A API incrementa visualizações a cada GET por slug — revalidação longa de propósito.

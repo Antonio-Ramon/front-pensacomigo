@@ -1,13 +1,16 @@
 import Link from "next/link";
-import { listarPosts } from "@/lib/api";
-import { bios } from "@/lib/autores";
+import { listarAutores, listarPosts } from "@/lib/api";
+import { urlDaImagem } from "@/lib/imagens";
 import { PostList } from "@/components/blog/PostRow";
 import styles from "./home.module.css";
 
 const NA_HOME = 6;
 
 export default async function Home() {
-  const { items, totalItems } = await listarPosts({ pageSize: NA_HOME });
+  const [{ items, totalItems }, autores] = await Promise.all([
+    listarPosts({ pageSize: NA_HOME }),
+    listarAutores(),
+  ]);
   const minutos = items.length
     ? Math.round(items.reduce((s, p) => s + (p.tempoLeitura ?? 0), 0) / items.length)
     : 0;
@@ -46,7 +49,7 @@ export default async function Home() {
               <div className={styles.statRotulo}>leitura média</div>
             </div>
             <div>
-              <div className={styles.statNum}>{Object.keys(bios).length}</div>
+              <div className={styles.statNum}>{autores.length}</div>
               <div className={styles.statRotulo}>quem escreve</div>
             </div>
           </div>
@@ -76,21 +79,28 @@ export default async function Home() {
         <p className="pc-eyebrow">sobre</p>
         <h2 className="pc-titulo">Quem escreve</h2>
         <div className={styles.autores}>
-          {Object.entries(bios).map(([nome, bio]) => (
-            <div key={nome} className={styles.autor}>
-              <span className={styles.iniciais}>
-                {nome
-                  .split(" ")
-                  .map((w) => w[0])
-                  .join("")
-                  .slice(0, 2)}
-              </span>
-              <div>
-                <p className={styles.autorNome}>{nome}</p>
-                <p className={styles.autorBio}>{bio}</p>
+          {autores.map((a) => {
+            const foto = urlDaImagem(a.imagemUrl);
+            return (
+              <div key={a.id} className={styles.autor}>
+                {foto ? (
+                  <img src={foto} alt="" className={styles.iniciais} />
+                ) : (
+                  <span className={styles.iniciais}>
+                    {(a.nome ?? "")
+                      .split(" ")
+                      .map((w) => w[0])
+                      .join("")
+                      .slice(0, 2)}
+                  </span>
+                )}
+                <div>
+                  <p className={styles.autorNome}>{a.nome}</p>
+                  {a.bio && <p className={styles.autorBio}>{a.bio}</p>}
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </section>
     </>

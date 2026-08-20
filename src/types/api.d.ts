@@ -47,6 +47,147 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/Auth/google/iniciar": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    returnUrl?: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/Auth/google/callback": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    code?: string;
+                    state?: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/Auth/logout": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/Autores": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["AutorResponsePagina"];
+                        "application/json": components["schemas"]["AutorResponsePagina"];
+                        "text/json": components["schemas"]["AutorResponsePagina"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/posts/{postId}/comentarios": {
         parameters: {
             query?: never;
@@ -290,6 +431,45 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/Links/preview": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    url?: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["LinkPreviewResponse"];
+                        "application/json": components["schemas"]["LinkPreviewResponse"];
+                        "text/json": components["schemas"]["LinkPreviewResponse"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/Posts": {
         parameters: {
             query?: never;
@@ -300,6 +480,7 @@ export interface paths {
         get: {
             parameters: {
                 query?: {
+                    IncluirRascunhos?: boolean;
                     Page?: number;
                     PageSize?: number;
                     OrderBy?: string;
@@ -577,6 +758,12 @@ export interface components {
             id?: string;
             nome?: string | null;
             imagemUrl?: string | null;
+            bio?: string | null;
+        };
+        AutorResponsePagina: {
+            items?: components["schemas"]["AutorResponse"][] | null;
+            /** Format: int32 */
+            totalItems?: number;
         };
         Bloco: {
             id?: string | null;
@@ -631,6 +818,7 @@ export interface components {
             imagemCapa?: string | null;
             tagIds?: string[] | null;
             conteudo?: components["schemas"]["Bloco"][] | null;
+            status?: components["schemas"]["StatusPost"];
         };
         CriarTagCommand: {
             nome?: string | null;
@@ -640,10 +828,18 @@ export interface components {
             imagemCapa?: string | null;
             tagIds?: string[] | null;
             conteudo?: components["schemas"]["Bloco"][] | null;
+            status?: components["schemas"]["StatusPost"];
         };
         ImagemResponse: {
             path?: string | null;
             url?: string | null;
+        };
+        LinkPreviewResponse: {
+            url?: string | null;
+            titulo?: string | null;
+            descricao?: string | null;
+            thumbnail?: string | null;
+            siteName?: string | null;
         };
         LoginGoogleCommand: {
             idToken?: string | null;
@@ -680,6 +876,8 @@ export interface components {
             dataAtualizacao?: string;
             autor?: components["schemas"]["AutorResponse"];
             tags?: components["schemas"]["TagResponse"][] | null;
+            /** Format: date-time */
+            dataPublicacao?: string | null;
         };
         PostResponse: {
             /** Format: uuid */
@@ -703,6 +901,11 @@ export interface components {
             qtdVisualizacoes?: number;
             /** Format: date-time */
             dataCriacao?: string;
+            autor?: components["schemas"]["AutorResponse"];
+            tags?: components["schemas"]["TagResponse"][] | null;
+            status?: components["schemas"]["StatusPost"];
+            /** Format: date-time */
+            dataPublicacao?: string | null;
         };
         PostResumoResponsePagina: {
             items?: components["schemas"]["PostResumoResponse"][] | null;
@@ -717,6 +920,11 @@ export interface components {
             /** Format: date-time */
             dataCriacao?: string;
         };
+        /**
+         * Format: int32
+         * @enum {integer}
+         */
+        StatusPost: 0 | 1;
         TagResponse: {
             /** Format: uuid */
             id?: string;
