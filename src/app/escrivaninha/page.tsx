@@ -87,6 +87,9 @@ export default async function PainelAdmin({
               </span>
               <span className={styles.acoes}>
                 <Link href={`/escrivaninha/editor/${p.slug}`}>editar →</Link>
+                <Link href={{ pathname: `/escrivaninha/comentarios/${p.id}`, query: { titulo: p.titulo ?? "" } }}>
+                  comentários
+                </Link>
                 <BotaoExcluir id={p.id!} titulo={p.titulo ?? ""} />
               </span>
             </div>

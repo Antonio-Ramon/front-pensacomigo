@@ -185,6 +185,33 @@
 }
 .btnExcluir:hover { color: var(--danger, #b3382c); }
 
+.comentarioLinha {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  padding: 16px 0;
+  border-bottom: 1px solid var(--line);
+}
+.comentarioMeta {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--faint);
+  margin: 0 0 4px;
+}
+.comentarioMeta b { color: var(--soft); }
+.comentarioTexto {
+  font-size: 15px;
+  color: var(--ink);
+  margin: 0;
+  max-width: 65ch;
+}
+.respostaLinha {
+  margin-top: 12px;
+  padding-left: var(--sp-4);
+  border-left: 2px solid var(--line);
+}
+
 .vazio {
   color: var(--soft);
   font-size: var(--fs-lede);
