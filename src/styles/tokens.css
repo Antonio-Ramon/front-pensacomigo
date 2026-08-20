@@ -132,7 +132,7 @@ html[data-theme="terra"] {
 
   /* ---- Layout — uma coluna estreita, centrada ---- */
   --measure: 64ch;
-  --container: 940px;
+  --container: 1100px; /* decisão 2026-08-20: 940 da referência ficava apertado */
   --gutter: 22px;
   --section-gap: var(--sp-9);
   --rail: 190px;
