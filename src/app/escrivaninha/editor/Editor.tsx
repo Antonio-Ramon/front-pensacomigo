@@ -34,7 +34,8 @@ export function Editor({
   tags: Tag[];
 }) {
   const router = useRouter();
-  const proximaKey = useRef((blocosIniciais?.length ?? 0) + 1);
+  // o estado inicial ocupa as keys 1..n (post novo tem 1 bloco padrão) — o contador começa depois
+  const proximaKey = useRef((blocosIniciais?.length ?? 1) + 1);
   const [titulo, setTitulo] = useState(post?.titulo ?? "");
   const [capa, setCapa] = useState(post?.imagemCapa ?? "");
   const [tags, setTags] = useState(tagsIniciais);
