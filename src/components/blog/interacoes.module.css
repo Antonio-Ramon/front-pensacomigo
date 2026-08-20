@@ -95,6 +95,19 @@
   white-space: pre-wrap;
 }
 
+.responder {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  background: none;
+  border: none;
+  color: var(--faint);
+  cursor: pointer;
+  padding: 0;
+  margin-left: 4px;
+  transition: color var(--dur-fast) var(--ease);
+}
+.responder:hover { color: var(--primary); }
+
 .respostas {
   margin-top: 20px;
   margin-left: 42px;

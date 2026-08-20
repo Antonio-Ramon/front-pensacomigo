@@ -21,6 +21,8 @@ export function Comentarios({ postId }: { postId: string }) {
   const [texto, setTexto] = useState("");
   const [aviso, setAviso] = useState("");
   const [enviando, setEnviando] = useState(false);
+  // respostas aninham um nível só (padrão do design system) — responder só em comentário raiz
+  const [respondendoA, setRespondendoA] = useState<{ id: string; autor: string } | null>(null);
 
   useEffect(() => {
     fetch(`${API_PUBLICA}/api/v1/posts/${postId}/comentarios?PageSize=50&OrderBy=dataCriacao`)
@@ -39,20 +41,34 @@ export function Comentarios({ postId }: { postId: string }) {
       const res = await fetch(`${API_PUBLICA}/api/v1/posts/${postId}/comentarios`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ autor: nome.trim(), conteudo: texto.trim() }),
+        body: JSON.stringify({
+          autor: nome.trim(),
+          conteudo: texto.trim(),
+          parentId: respondendoA?.id ?? null,
+        }),
       });
       if (!res.ok) {
         setAviso(`⚠ ${await mensagemDeErro(res)}`);
         return;
       }
       const criado = await res.json();
-      setItens((c) => [
-        ...c,
-        { id: criado.id, autor: criado.autor, conteudo: criado.conteudo, dataCriacao: new Date().toISOString(), respostas: [] },
-      ]);
+      const novo = {
+        id: criado.id,
+        autor: criado.autor,
+        conteudo: criado.conteudo,
+        dataCriacao: new Date().toISOString(),
+      };
+      setItens((c) =>
+        respondendoA
+          ? c.map((i) =>
+              i.id === respondendoA.id ? { ...i, respostas: [...(i.respostas ?? []), novo] } : i,
+            )
+          : [...c, { ...novo, respostas: [] }],
+      );
+      setRespondendoA(null);
       setNome("");
       setTexto("");
-      setAviso("✓ comentário publicado.");
+      setAviso(respondendoA ? "✓ resposta publicada." : "✓ comentário publicado.");
     } catch {
       setAviso("⚠ não foi possível enviar agora.");
     } finally {
@@ -75,6 +91,16 @@ export function Comentarios({ postId }: { postId: string }) {
               <div className={styles.comentarioCorpo}>
                 <p className={styles.comentarioMeta}>
                   <b>{c.autor}</b> <span>{dataCurta(c.dataCriacao)}</span>
+                  <button
+                    type="button"
+                    className={styles.responder}
+                    onClick={() => {
+                      setRespondendoA({ id: c.id!, autor: c.autor ?? "" });
+                      setAviso("");
+                    }}
+                  >
+                    responder
+                  </button>
                 </p>
                 <p className={styles.comentarioTexto}>{c.conteudo}</p>
               </div>
@@ -99,7 +125,22 @@ export function Comentarios({ postId }: { postId: string }) {
       </div>
 
       <form className={styles.form} onSubmit={enviar}>
-        <p className={styles.formTitulo}>DEIXE UM COMENTÁRIO</p>
+        <p className={styles.formTitulo}>
+          {respondendoA ? (
+            <>
+              RESPONDENDO A {respondendoA.autor.toUpperCase()}
+              <button
+                type="button"
+                className={styles.responder}
+                onClick={() => setRespondendoA(null)}
+              >
+                cancelar
+              </button>
+            </>
+          ) : (
+            "DEIXE UM COMENTÁRIO"
+          )}
+        </p>
         <label>
           <span>nome *</span>
           <input
@@ -127,7 +168,7 @@ export function Comentarios({ postId }: { postId: string }) {
         </label>
         <div className={styles.formRodape}>
           <button type="submit" disabled={enviando}>
-            {enviando ? "Enviando…" : "Comentar"}
+            {enviando ? "Enviando…" : respondendoA ? "Responder" : "Comentar"}
           </button>
           <span className={styles.aviso}>{aviso}</span>
         </div>
