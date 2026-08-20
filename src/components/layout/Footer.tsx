@@ -8,6 +8,7 @@ export function Footer() {
         <span>© {new Date().getFullYear()} pensa comigo · a fé que te obriga a pensar</span>
         <span className={styles.footerLinks}>
           <Link href="/meditacoes">arquivo</Link>
+          <Link href="/#newsletter">newsletter</Link>
         </span>
       </div>
     </footer>
