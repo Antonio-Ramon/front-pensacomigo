@@ -3,10 +3,8 @@
 
 /* âncoras (TocRail, #sobre, #newsletter) rolam suave; reduced-motion desliga abaixo */
 html {
-  /* suavização de fonte no root: herda para todo o site, inclusive form controls */
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
+  /* peso 500 global: traço mais firme, sem o afinamento do antialiased */
+  font-weight: 500;
   scroll-behavior: smooth;
   /* firefox: scrollbar fina nas cores do tema */
   scrollbar-width: thin;
@@ -46,13 +44,6 @@ a:hover { color: var(--accent); }
 }
 
 ::selection { background: var(--mark); }
-
-/* form controls não herdam fonte por padrão — trazem a suavização junto */
-button, input, textarea, select {
-  -webkit-font-smoothing: inherit;
-  -moz-osx-font-smoothing: inherit;
-  text-rendering: inherit;
-}
 
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; scroll-behavior: auto !important; }
