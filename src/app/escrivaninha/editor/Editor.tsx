@@ -153,11 +153,13 @@ export function Editor({
         {erro && <p className={styles.erro}>{erro}</p>}
 
         <p className={styles.rotulo}>título</p>
-        <input
+        {/* textarea que quebra linha: título longo aparece inteiro (Enter vira espaço) */}
+        <textarea
           className={styles.titulo}
+          rows={1}
           value={titulo}
           onChange={(e) => {
-            setTitulo(e.target.value);
+            setTitulo(e.target.value.replace(/\n/g, " "));
             sujou();
           }}
           placeholder="Elias dormiu antes de ouvir a voz"

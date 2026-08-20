@@ -90,9 +90,13 @@
   background: transparent;
   border: none;
   outline: none;
+  resize: none;
+  overflow: hidden;
+  field-sizing: content;
   font-family: var(--font-display);
   font-weight: 400;
   font-size: clamp(28px, 4vw, 42px);
+  line-height: 1.15;
   letter-spacing: -0.022em;
   color: var(--ink);
   padding: 0;
