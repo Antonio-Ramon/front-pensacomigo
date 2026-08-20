@@ -2,6 +2,7 @@ import Link from "next/link";
 import { listarAutores, listarPosts } from "@/lib/api";
 import { urlDaImagem } from "@/lib/imagens";
 import { PostList } from "@/components/blog/PostRow";
+import { NewsletterCTA } from "@/components/layout/NewsletterCTA";
 import styles from "./home.module.css";
 
 const NA_HOME = 6;
@@ -30,14 +31,12 @@ export default async function Home() {
             pensa antes de crer, e continua pensando depois.
           </p>
           <div className={styles.heroBotoes}>
-            <Link href="/meditacoes" className={styles.botao}>
-              Começar a ler
+            <Link href="#hoje" className={styles.botao}>
+              Começar por onde você está
             </Link>
-            {items[0] && (
-              <Link href={`/${items[0].slug}`} className={styles.botaoGhost}>
-                A meditação de hoje
-              </Link>
-            )}
+            <Link href="/meditacoes" className={styles.botaoGhost}>
+              Ver todas as meditações
+            </Link>
           </div>
           <div className={styles.stats}>
             <div>
@@ -52,6 +51,28 @@ export default async function Home() {
               <div className={styles.statNum}>{autores.length}</div>
               <div className={styles.statRotulo}>quem escreve</div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ponytail: MoodChips e verso-por-estado esperam campos de mood na API — por ora, um versículo fixo */}
+      <section className={styles.secao} id="hoje">
+        <p className="pc-eyebrow">ponto de partida</p>
+        <h2 className="pc-titulo">Como você chega hoje?</h2>
+        <p className="pc-lede">Comece pelo texto — um versículo para hoje, antes de qualquer comentário.</p>
+        <div className={styles.terminal}>
+          <div className={styles.terminalChrome}>
+            <i /><i /><i />
+            <span>~/meditacoes/hoje</span>
+          </div>
+          <div className={styles.terminalCorpo}>
+            <p className={styles.terminalCmd}>
+              <span>› </span>abrir 1-reis-19.7
+            </p>
+            <blockquote className={styles.terminalVerso}>
+              “Levanta-te e come, porque o caminho te será sobremodo longo.”
+            </blockquote>
+            <cite className={styles.terminalCite}>1 Reis 19:7</cite>
           </div>
         </div>
       </section>
@@ -102,6 +123,10 @@ export default async function Home() {
             );
           })}
         </div>
+      </section>
+
+      <section className={styles.secao}>
+        <NewsletterCTA />
       </section>
     </>
   );
