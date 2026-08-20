@@ -154,15 +154,16 @@
   font-size: 11px;
   color: var(--soft);
 }
+/* tons do Badge do design system: rascunho=warning, publicado=success, sem borda */
 .badge {
   font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.08em;
-  padding: 3px 8px;
-  border: 1px solid var(--line);
-  color: var(--soft);
+  font-size: 10.5px;
+  letter-spacing: 0.06em;
+  padding: 4px 9px;
+  color: var(--warning);
+  background: var(--warning-soft);
 }
-.badgePublicado { color: var(--accent); border-color: var(--accent); }
+.badgePublicado { color: var(--success); background: var(--success-soft); }
 .acoes {
   display: flex;
   gap: 14px;
@@ -183,7 +184,7 @@
   padding: 0;
   transition: color var(--dur-fast) var(--ease);
 }
-.btnExcluir:hover { color: var(--danger, #b3382c); }
+.btnExcluir:hover { color: var(--danger); }
 
 .comentarioLinha {
   display: flex;
