@@ -157,13 +157,13 @@
   grid-template-columns: 110px 1fr 150px 110px 170px;
   gap: var(--sp-4);
   align-items: center;
-  padding: 16px 0;
+  padding: 16px 12px;
   border-bottom: 1px solid var(--line);
   transition: background var(--dur-fast) var(--ease);
 }
 .linha:hover { background: var(--bg-alt); }
 .cabecalhoTabela {
-  padding: 10px 0;
+  padding: 10px 12px;
 }
 .cabecalhoTabela:hover { background: none; }
 .cabecalhoTabela span {
@@ -193,6 +193,7 @@
   font-family: var(--font-mono);
   font-size: 11px;
   color: var(--soft);
+  text-transform: capitalize;
 }
 /* tons do Badge do design system: rascunho=warning, publicado=success, sem borda */
 .badge {
