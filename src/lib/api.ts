@@ -5,6 +5,7 @@ export type PostDetalhe = components["schemas"]["PostDetalheResponse"];
 export type Bloco = components["schemas"]["Bloco"];
 export type Tag = components["schemas"]["TagResponse"];
 export type Autor = components["schemas"]["AutorResponse"];
+export type Etapa = components["schemas"]["EtapaResponse"];
 
 type Pagina<T> = { items?: T[] | null; totalItems?: number };
 
@@ -28,6 +29,11 @@ export async function listarPosts(
   if (opts.filter) q.set("Filter", opts.filter);
   const pagina = await get<Pagina<PostResumo>>(`/api/v1/Posts?${q}`, 60);
   return { items: pagina?.items ?? [], totalItems: pagina?.totalItems ?? 0 };
+}
+
+// Catálogo fixo (nasce por seed no backend) — cache longo sem culpa.
+export async function listarEtapas() {
+  return (await get<Etapa[]>("/api/v1/Etapas", 3600)) ?? [];
 }
 
 export async function listarAutores() {

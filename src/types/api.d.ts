@@ -387,6 +387,43 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/Etapas": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["EtapaResponse"][];
+                        "application/json": components["schemas"]["EtapaResponse"][];
+                        "text/json": components["schemas"]["EtapaResponse"][];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/Imagens": {
         parameters: {
             query?: never;
@@ -579,6 +616,45 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/Posts/id/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["PostDetalheResponse"];
+                        "application/json": components["schemas"]["PostDetalheResponse"];
+                        "text/json": components["schemas"]["PostDetalheResponse"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/Posts/{id}": {
         parameters: {
             query?: never;
@@ -712,6 +788,41 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/Tags/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/Usuarios/me": {
         parameters: {
             query?: never;
@@ -819,6 +930,12 @@ export interface components {
             tagIds?: string[] | null;
             conteudo?: components["schemas"]["Bloco"][] | null;
             status?: components["schemas"]["StatusPost"];
+            dek?: string | null;
+            moods?: components["schemas"]["Mood"][] | null;
+            /** Format: uuid */
+            etapaId?: string | null;
+            /** Format: date-time */
+            dataPublicacao?: string | null;
         };
         CriarTagCommand: {
             nome?: string | null;
@@ -829,6 +946,21 @@ export interface components {
             tagIds?: string[] | null;
             conteudo?: components["schemas"]["Bloco"][] | null;
             status?: components["schemas"]["StatusPost"];
+            dek?: string | null;
+            moods?: components["schemas"]["Mood"][] | null;
+            /** Format: uuid */
+            etapaId?: string | null;
+            /** Format: date-time */
+            dataPublicacao?: string | null;
+        };
+        EtapaResponse: {
+            /** Format: uuid */
+            id?: string;
+            /** Format: int32 */
+            numero?: number;
+            titulo?: string | null;
+            descricao?: string | null;
+            refs?: string | null;
         };
         ImagemResponse: {
             path?: string | null;
@@ -849,6 +981,11 @@ export interface components {
             nome?: string | null;
             imagemUrl?: string | null;
         };
+        /**
+         * Format: int32
+         * @enum {integer}
+         */
+        Mood: 0 | 1 | 2 | 3 | 4;
         PerfilResponse: {
             /** Format: uuid */
             id?: string;
@@ -861,6 +998,7 @@ export interface components {
             /** Format: uuid */
             id?: string;
             titulo?: string | null;
+            dek?: string | null;
             slug?: string | null;
             imagemCapa?: string | null;
             conteudo?: components["schemas"]["Bloco"][] | null;
@@ -878,6 +1016,8 @@ export interface components {
             tags?: components["schemas"]["TagResponse"][] | null;
             /** Format: date-time */
             dataPublicacao?: string | null;
+            moods?: components["schemas"]["Mood"][] | null;
+            etapa?: components["schemas"]["EtapaResponse"];
         };
         PostResponse: {
             /** Format: uuid */
@@ -891,6 +1031,7 @@ export interface components {
             /** Format: uuid */
             id?: string;
             titulo?: string | null;
+            dek?: string | null;
             slug?: string | null;
             imagemCapa?: string | null;
             /** Format: int32 */
@@ -906,6 +1047,8 @@ export interface components {
             status?: components["schemas"]["StatusPost"];
             /** Format: date-time */
             dataPublicacao?: string | null;
+            moods?: components["schemas"]["Mood"][] | null;
+            etapa?: components["schemas"]["EtapaResponse"];
         };
         PostResumoResponsePagina: {
             items?: components["schemas"]["PostResumoResponse"][] | null;
@@ -924,7 +1067,7 @@ export interface components {
          * Format: int32
          * @enum {integer}
          */
-        StatusPost: 0 | 1;
+        StatusPost: 0 | 1 | 2;
         TagResponse: {
             /** Format: uuid */
             id?: string;
