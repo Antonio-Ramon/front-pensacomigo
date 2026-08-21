@@ -1,5 +1,6 @@
 .cta {
   max-width: var(--measure);
+  margin-inline: auto;
   border: 1px dashed var(--line);
   padding: var(--sp-5);
 }
