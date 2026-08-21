@@ -12,7 +12,46 @@
 .busca {
   display: flex;
   position: relative;
-  margin: 34px 0 var(--sp-6);
+  margin: 34px 0 18px;
+}
+
+/* grupos de filtro da referência: ETAPA DA TRILHA + ESTADO DE CHEGADA lado a lado */
+.filtros {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  align-items: flex-start;
+  margin-bottom: 30px;
+}
+.filtroRotulo {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  color: var(--faint);
+  margin: 0 0 8px;
+}
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.chip {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  padding: 7px 11px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--soft);
+  transition: all var(--dur-fast) var(--ease);
+}
+/* hover padrão de chip: borda soft + texto ink (vence o a:hover global) */
+.chip:hover { border-color: var(--soft); color: var(--ink); }
+.chipAtivo,
+.chipAtivo:hover {
+  background: var(--primary);
+  color: var(--on-primary);
+  border-color: var(--primary);
 }
 .buscaIcone {
   position: absolute;

@@ -1,12 +1,13 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Search } from "lucide-react";
 import styles from "./arquivo.module.css";
 
 /** Navegação client-side: evita o reload da página (que piscava o tema). */
 export function BuscaForm({ busca }: { busca?: string }) {
   const router = useRouter();
+  const params = useSearchParams();
 
   return (
     <form
@@ -14,7 +15,13 @@ export function BuscaForm({ busca }: { busca?: string }) {
       onSubmit={(e) => {
         e.preventDefault();
         const valor = new FormData(e.currentTarget).get("busca")?.toString().trim();
-        router.push(valor ? `/meditacoes?busca=${encodeURIComponent(valor)}` : "/meditacoes");
+        // preserva etapa/estado; buscar volta à página 1
+        const q = new URLSearchParams(params);
+        q.delete("pagina");
+        if (valor) q.set("busca", valor);
+        else q.delete("busca");
+        const s = q.toString();
+        router.push(s ? `/meditacoes?${s}` : "/meditacoes");
       }}
     >
       {/* sem botão, como na referência: Enter submete */}
