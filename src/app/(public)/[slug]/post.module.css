@@ -17,6 +17,16 @@
   margin: 14px 0 0;
 }
 
+.dek {
+  font-family: var(--font-display);
+  font-weight: var(--w-light);
+  font-size: 19px;
+  color: var(--soft);
+  line-height: 1.55;
+  max-width: 54ch;
+  margin: 16px 0 0;
+}
+
 .metaLinha {
   display: flex;
   align-items: center;

@@ -13,6 +13,7 @@ import { Comentarios } from "@/components/blog/Comentarios";
 import { PostList } from "@/components/blog/PostRow";
 import { NewsletterCTA } from "@/components/layout/NewsletterCTA";
 import { dataPorExtenso } from "@/lib/datas";
+import { etapaCurta } from "@/lib/moods";
 import styles from "./post.module.css";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -91,8 +92,12 @@ export default async function PaginaPost({ params }: Props) {
         <ArrowLeft size={12} /> todas as meditações
       </Link>
 
-      <p className="pc-eyebrow">meditação</p>
+      <p className="pc-eyebrow">
+        meditação
+        {post.etapa && <> · etapa <b>{etapaCurta(post.etapa.numero, post.etapa.titulo)}</b></>}
+      </p>
       <h1 className={styles.titulo}>{post.titulo}</h1>
+      {post.dek && <p className={styles.dek}>{post.dek}</p>}
 
       <div className={styles.metaLinha}>
         {fotoAutor ? (

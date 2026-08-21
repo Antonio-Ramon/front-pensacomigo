@@ -19,8 +19,11 @@ export function PostRow({ post }: { post: PostResumo }) {
       </span>
       <span className={styles.corpo}>
         <h3 className={styles.titulo}>{post.titulo}</h3>
-        {/* resumo e tags entram quando a service-pensacomigo#19 sair no DTO do feed */}
-        <p className={styles.meta}>{post.tempoLeitura} min de leitura</p>
+        {post.dek && <p className={styles.dek}>{post.dek}</p>}
+        <p className={styles.meta}>
+          {post.tempoLeitura} min de leitura
+          {(post.tags?.length ?? 0) > 0 && <> · {post.tags!.map((t) => t.nome).join(" · ")}</>}
+        </p>
       </span>
       <span className={styles.seta} aria-hidden>
         <ArrowRight size={15} />
