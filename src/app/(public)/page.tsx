@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { listarAutores, listarPosts } from "@/lib/api";
+import { listarAutores, listarEtapas, listarPosts } from "@/lib/api";
+import { MOODS } from "@/lib/moods";
 import { versoDoDia } from "@/lib/versos";
 import { urlDaImagem } from "@/lib/imagens";
 import { PostList } from "@/components/blog/PostRow";
@@ -9,9 +10,10 @@ import styles from "./home.module.css";
 const NA_HOME = 6;
 
 export default async function Home() {
-  const [{ items, totalItems }, autores, verso] = await Promise.all([
+  const [{ items, totalItems }, autores, etapas, verso] = await Promise.all([
     listarPosts({ pageSize: NA_HOME }),
     listarAutores(),
+    listarEtapas(),
     versoDoDia(),
   ]);
   const minutos = items.length
@@ -57,11 +59,20 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* ponytail: MoodChips e verso-por-estado esperam campos de mood na API — por ora, verso do dia */}
       <section className={styles.secao} id="hoje">
         <p className="pc-eyebrow">ponto de partida</p>
         <h2 className="pc-titulo">Como você chega hoje?</h2>
-        <p className="pc-lede">Comece pelo texto — um versículo para hoje, antes de qualquer comentário.</p>
+        <p className="pc-lede">
+          Escolha a resposta honesta — não a que soa mais espiritual. A leitura se ajusta a ela.
+        </p>
+        {/* ponytail: chip leva ao arquivo filtrado; verso-por-estado em página fica para depois */}
+        <div className={styles.moodChips}>
+          {MOODS.map((m) => (
+            <Link key={m.slug} href={`/meditacoes?estado=${m.slug}`} className={styles.chipLink}>
+              {m.rotulo}
+            </Link>
+          ))}
+        </div>
         <div className={styles.terminal}>
           <div className={styles.terminalChrome}>
             <i /><i /><i />
@@ -76,6 +87,28 @@ export default async function Home() {
           </div>
         </div>
       </section>
+
+      {etapas.length > 0 && (
+        <section className={styles.secao} id="trilha">
+          <p className="pc-eyebrow">percurso de leitura</p>
+          <h2 className="pc-titulo">Quatro etapas, na ordem em que a fé costuma acontecer.</h2>
+          <p className="pc-lede">
+            Não é um curso. É o caminho que a maioria dos textos percorre: da pergunta ao
+            descanso. Comece em qualquer ponto — mas comece.
+          </p>
+          <div className={styles.trilha}>
+            {etapas.map((e) => (
+              <Link key={e.id} href={`/meditacoes?etapa=${e.numero}`} className={styles.etapa}>
+                <span className={styles.etapaNumero}>{String(e.numero).padStart(2, "0")}</span>
+                <h3 className={styles.etapaTitulo}>{e.titulo}</h3>
+                <p className={styles.etapaDescricao}>{e.descricao}</p>
+                {e.refs && <span className={styles.etapaRefs}>&gt; {e.refs}</span>}
+                <span className={styles.etapaCta}>abrir etapa →</span>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
 
       <section className={styles.secao}>
         <div className={styles.secaoTopo}>
