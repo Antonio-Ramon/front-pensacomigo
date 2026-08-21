@@ -36,6 +36,7 @@
   background: var(--warning-soft);
 }
 .badgePublicado { color: var(--success); background: var(--success-soft); }
+.badgeAgendado { color: var(--soft); background: var(--bg-alt); }
 .verNoBlog {
   font-family: var(--font-mono);
   font-size: 11px;
@@ -109,6 +110,24 @@
 }
 .titulo::placeholder { color: var(--faint); }
 
+/* dek — a frase de apoio sob o título (.pe-ta.mono da referência) */
+.dek {
+  width: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  resize: none;
+  font-family: var(--font-ui);
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--soft);
+  padding: 0;
+  field-sizing: content;
+  max-height: calc(1.6em * 4);
+  overflow-y: auto;
+}
+.dek::placeholder { color: var(--faint); }
+
 .divisorConteudo {
   display: flex;
   align-items: baseline;
@@ -129,11 +148,19 @@
   border: 1px solid var(--line);
 }
 .bloco[data-drag="over"] { border-color: var(--accent); }
+/* origem vira placeholder — quem viaja nítido com o mouse é o .fantasma */
 .bloco[data-drag="dragging"] {
-  opacity: 1;
+  opacity: 0.35;
+  border-style: dashed;
+}
+/* clone do bloco que segue o mouse durante o drag (ghost nativo suprimido no Editor) */
+.fantasma {
+  position: fixed;
+  z-index: 100;
+  margin: 0;
+  pointer-events: none;
   border-color: var(--primary);
   box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
-  cursor: grabbing;
 }
 .blocoCabecalho {
   display: flex;
@@ -280,10 +307,48 @@
   transition: all var(--dur-fast) var(--ease);
 }
 .chip:hover { border-color: var(--soft); color: var(--ink); }
-.chipAtiva {
+.chipAtiva,
+.chipAtiva:hover {
   background: var(--primary);
   color: var(--on-primary);
   border-color: var(--primary);
+}
+
+/* chip de tag com o × de excluir colado (o × só aparece no hover do grupo) */
+.chipGrupo { display: inline-flex; align-items: stretch; }
+.chipX {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--line);
+  border-left: none;
+  background: transparent;
+  color: var(--faint);
+  cursor: pointer;
+  padding: 0 6px;
+  opacity: 0;
+  transition: all var(--dur-fast) var(--ease);
+}
+.chipGrupo:hover .chipX,
+.chipX:focus-visible { opacity: 1; }
+.chipX:hover { color: var(--danger); border-color: var(--danger); }
+
+.agendarInput {
+  width: 100%;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  padding: 10px 12px;
+  color-scheme: light dark; /* o picker nativo acompanha o tema */
+}
+.agendarInput:focus { outline: none; border-color: var(--primary); }
+.cardDica {
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono-sm);
+  color: var(--faint);
+  line-height: 1.5;
+  margin: 10px 0 0;
 }
 
 .aside {

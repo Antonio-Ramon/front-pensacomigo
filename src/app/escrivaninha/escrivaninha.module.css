@@ -135,8 +135,10 @@ a.botaoNova:hover { filter: brightness(1.12); color: var(--on-primary); }
   color: var(--soft);
   transition: all var(--dur-fast) var(--ease);
 }
-.chip:hover { border-color: var(--soft); }
-.chipAtivo {
+/* hover padrão de chip: borda soft + texto ink (vence o a:hover global) */
+.chip:hover { border-color: var(--soft); color: var(--ink); }
+.chipAtivo,
+.chipAtivo:hover {
   background: var(--primary);
   color: var(--on-primary);
   border-color: var(--primary);
@@ -215,6 +217,7 @@ a.botaoNova:hover { filter: brightness(1.12); color: var(--on-primary); }
   background: var(--warning-soft);
 }
 .badgePublicado { color: var(--success); background: var(--success-soft); }
+.badgeAgendado { color: var(--soft); background: var(--bg-alt); }
 .acoes {
   display: flex;
   gap: 14px;

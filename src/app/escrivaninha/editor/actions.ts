@@ -13,7 +13,11 @@ type Imagem = components["schemas"]["ImagemResponse"];
 type Resultado<T> = { ok: true; dados: T } | { ok: false; erro: string };
 
 async function comErro<T>(res: Response): Promise<Resultado<T>> {
-  if (res.ok) return { ok: true, dados: (await res.json()) as T };
+  if (res.ok) {
+    // DELETE devolve 204 sem corpo — json() estouraria
+    const texto = await res.text();
+    return { ok: true, dados: (texto ? JSON.parse(texto) : null) as T };
+  }
   const corpo = await res.json().catch(() => null);
   const msgs = corpo?.notifications?.map((n: { message: string }) => n.message).join("; ");
   return { ok: false, erro: msgs || corpo?.message || `API respondeu ${res.status}.` };
@@ -22,10 +26,14 @@ async function comErro<T>(res: Response): Promise<Resultado<T>> {
 export async function salvarPost(dados: {
   id?: string;
   titulo: string;
+  dek: string | null;
   imagemCapa: string | null;
   tagIds: string[];
   conteudo: components["schemas"]["Bloco"][];
-  status: 0 | 1;
+  status: 0 | 1 | 2;
+  moods: number[];
+  etapaId: string | null;
+  dataPublicacao: string | null; // só com status 2 (agendado)
 }): Promise<Resultado<PostSalvo>> {
   const { id, ...corpo } = dados;
   const res = await fetchAdmin(id ? `/api/v1/Posts/${id}` : "/api/v1/Posts", {
@@ -44,6 +52,11 @@ export async function salvarPost(dados: {
 
 export async function enviarImagem(fd: FormData): Promise<Resultado<Imagem>> {
   return comErro(await fetchAdmin("/api/v1/Imagens", { method: "POST", body: fd }));
+}
+
+// 422 quando vinculada a posts — a mensagem da API já diz a contagem.
+export async function excluirTag(id: string): Promise<Resultado<null>> {
+  return comErro(await fetchAdmin(`/api/v1/Tags/${id}`, { method: "DELETE" }));
 }
 
 export async function criarTag(nome: string): Promise<Resultado<TagCriada>> {

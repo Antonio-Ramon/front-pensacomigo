@@ -8,7 +8,7 @@ import { BotaoExcluir } from "./BotaoExcluir";
 import { BuscaAdmin } from "./BuscaAdmin";
 import styles from "./escrivaninha.module.css";
 
-const STATUS = { rascunho: 0, publicado: 1 } as const;
+const STATUS = { rascunho: 0, publicado: 1, agendado: 2 } as const;
 
 export default async function PainelAdmin({
   searchParams,
@@ -40,7 +40,7 @@ export default async function PainelAdmin({
 
       <div className={styles.filtros}>
         <div className={styles.chips}>
-          {(["publicado", "rascunho"] as const).map((s) => (
+          {(["publicado", "agendado", "rascunho"] as const).map((s) => (
             <Link
               key={s}
               className={`${styles.chip} ${status === s ? styles.chipAtivo : ""}`}
@@ -60,18 +60,19 @@ export default async function PainelAdmin({
         <div className={`${styles.linha} ${styles.cabecalhoTabela}`}>
           <span>DATA</span>
           <span>TÍTULO</span>
-          <span>AUTOR</span>
+          <span>AUTOR · ETAPA</span>
           <span>STATUS</span>
           <span style={{ textAlign: "right" }}>AÇÕES</span>
         </div>
         {items.map((p) => {
           const publicado = p.status === 1;
+          const agendado = p.status === 2;
           return (
             <div key={p.id} className={styles.linha}>
               <span className={styles.data}>{dataCurta(p.dataPublicacao ?? p.dataCriacao)}</span>
               <span>
                 <Link
-                  href={publicado ? `/${p.slug}` : `/escrivaninha/editor/${p.slug}`}
+                  href={publicado ? `/${p.slug}` : `/escrivaninha/editor/${p.id}`}
                   className={styles.tituloPost}
                 >
                   {p.titulo}
@@ -81,14 +82,19 @@ export default async function PainelAdmin({
                   {(p.tags ?? []).map((t) => t.nome).join(" · ")}
                 </span>
               </span>
-              <span className={styles.metaCol}>{p.autor?.nome?.toLowerCase()}</span>
+              <span className={styles.metaCol}>
+                {p.autor?.nome?.toLowerCase()}
+                {p.etapa && ` · ${String(p.etapa.numero).padStart(2, "0")}`}
+              </span>
               <span>
-                <span className={`${styles.badge} ${publicado ? styles.badgePublicado : ""}`}>
-                  {publicado ? "publicado" : "rascunho"}
+                <span
+                  className={`${styles.badge} ${publicado ? styles.badgePublicado : ""} ${agendado ? styles.badgeAgendado : ""}`}
+                >
+                  {publicado ? "publicado" : agendado ? "agendado" : "rascunho"}
                 </span>
               </span>
               <span className={styles.acoes}>
-                <Link href={`/escrivaninha/editor/${p.slug}`} title="Editar" aria-label="Editar">
+                <Link href={`/escrivaninha/editor/${p.id}`} title="Editar" aria-label="Editar">
                   <Pencil size={15} />
                 </Link>
                 <Link
