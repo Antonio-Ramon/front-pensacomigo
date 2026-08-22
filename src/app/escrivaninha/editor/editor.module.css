@@ -314,7 +314,7 @@
   border-color: var(--primary);
 }
 
-/* chip de tag com o × de excluir colado (o × só aparece no hover do grupo) */
+/* chip de tag com o × de excluir colado, sempre visível */
 .chipGrupo { display: inline-flex; align-items: stretch; }
 .chipX {
   display: inline-flex;
@@ -325,11 +325,8 @@
   color: var(--faint);
   cursor: pointer;
   padding: 0 6px;
-  opacity: 0;
   transition: all var(--dur-fast) var(--ease);
 }
-.chipGrupo:hover .chipX,
-.chipX:focus-visible { opacity: 1; }
 .chipX:hover { color: var(--danger); border-color: var(--danger); }
 
 .agendarInput {
