@@ -1,4 +1,5 @@
 import type { Bloco } from "@/lib/api";
+import { deHtml, ehMarcavel, paraHtml } from "./marcacao";
 
 // Bloco na visão do editor: os tipos de texto viram HTML da whitelist (CONTEXT.md);
 // imagem e link são os tipos 1 e 2 da API. "html" é o fallback de round-trip para
@@ -63,11 +64,8 @@ function htmlDoTexto(b: BlocoEditor): string {
     case "html":
       return b.texto;
     default:
-      // parágrafo: linha em branco separa <p>, quebra simples vira <br>
-      return t
-        .split(/\n{2,}/)
-        .map((p) => `<p>${esc(p).replace(/\n/g, "<br>")}</p>`)
-        .join("");
+      // parágrafo: marcadores viram HTML da whitelist (ver marcacao.ts)
+      return paraHtml(t);
   }
 }
 
@@ -133,11 +131,7 @@ function doHtml(html: string): BlocoEditor {
   m = h.match(/^<div class="aside"><b>[\s\S]*?<\/b>([\s\S]*)<\/div>$/);
   if (m) return { ...novoBloco("nota"), texto: brParaQuebra(m[1]) };
 
-  if (/^(<p>(?:(?!<\/?p>)[\s\S])*<\/p>)+$/.test(h))
-    return {
-      ...novoBloco("paragrafo"),
-      texto: [...h.matchAll(/<p>([\s\S]*?)<\/p>/g)].map((x) => brParaQuebra(x[1])).join("\n\n"),
-    };
+  if (ehMarcavel(h)) return { ...novoBloco("paragrafo"), texto: deHtml(h) };
 
   return { ...novoBloco("html"), texto: h };
 }

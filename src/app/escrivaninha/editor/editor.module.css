@@ -184,6 +184,29 @@
   letter-spacing: 0.1em;
   color: var(--accent);
 }
+.barraFormato {
+  display: flex;
+  align-items: center;
+  gap: 1px;
+  margin-left: 8px;
+}
+.barraFormato button {
+  display: inline-flex;
+  background: none;
+  border: none;
+  color: var(--faint);
+  cursor: pointer;
+  padding: 3px 5px;
+  border-radius: 4px;
+}
+.barraFormato button:hover { color: var(--ink); background: var(--bg); }
+.barraSep {
+  width: 1px;
+  height: 14px;
+  margin: 0 5px;
+  background: var(--line);
+}
+
 .blocoAcoes {
   margin-left: auto;
   display: flex;

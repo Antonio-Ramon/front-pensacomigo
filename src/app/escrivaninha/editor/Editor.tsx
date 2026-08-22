@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, useTransition } from "react";
+import { useCallback, useRef, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { ArrowDown, ArrowLeft, ArrowRight, ArrowUp, Check, GripVertical, Plus, X } from "lucide-react";
@@ -12,6 +12,7 @@ import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
 import { CortadorImagem } from "@/components/ui/CortadorImagem";
 import { buscarPreviewLink, criarTag, enviarImagem, excluirTag, salvarPost } from "./actions";
 import { paraConteudo, novoBloco, type BlocoEditor, type TipoEditor } from "./blocos";
+import { BarraFormato } from "./BarraFormato";
 import styles from "./editor.module.css";
 
 const TIPOS: { tipo: TipoEditor; label: string; placeholder: string; rows: number }[] = [
@@ -97,6 +98,13 @@ export function Editor({
   const [corte, setCorte] = useState<{ url: string; aplicar: (f: File) => void } | null>(null);
 
   const sujou = () => setSalvo(false);
+  // a barra de formato precisa do elemento para mexer na seleção; a chave do bloco é estável
+  const textareas = useRef<Record<number, HTMLTextAreaElement | null>>({});
+  // identidade estável: é o que deixa o `memo` da BarraFormato valer alguma coisa
+  const textoDoBloco = useCallback((i: number, texto: string) => {
+    setSalvo(false);
+    setBlocos((bs) => bs.map((b, j) => (j === i ? { ...b, texto } : b)));
+  }, []);
 
   function patch(i: number, p: Partial<BlocoEditor>) {
     sujou();
@@ -387,6 +395,14 @@ export function Editor({
                   <GripVertical size={14} />
                 </span>
                 <span className={styles.blocoTipo}>{META[b.tipo].label}</span>
+                {b.tipo === "paragrafo" && (
+                  <BarraFormato
+                    textareas={textareas}
+                    chave={b.key}
+                    indice={i}
+                    onChange={textoDoBloco}
+                  />
+                )}
                 <span className={styles.blocoAcoes}>
                   <button type="button" title="Mover para cima" onClick={() => mover(i, i - 1)}>
                     <ArrowUp size={13} />
@@ -473,6 +489,9 @@ export function Editor({
                 ) : (
                   <textarea
                     className={styles.ta}
+                    ref={(el) => {
+                      textareas.current[b.key] = el;
+                    }}
                     data-bt={b.tipo}
                     rows={META[b.tipo].rows}
                     value={b.texto}
