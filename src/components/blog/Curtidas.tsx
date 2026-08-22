@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { Heart } from "lucide-react";
 import { API_PUBLICA } from "@/lib/navegador";
 import styles from "./interacoes.module.css";
 
@@ -39,8 +40,9 @@ export function Curtidas({ postId, inicial }: { postId: string; inicial: number 
       onClick={alternar}
       className={`${styles.curtir} ${curtido ? styles.curtido : ""}`}
       aria-pressed={curtido}
+      aria-label="isso me ajudou"
     >
-      isso me ajudou <b>{total}</b>
+      <Heart size={15} fill={curtido ? "currentColor" : "none"} /> <b>{total}</b>
     </button>
   );
 }

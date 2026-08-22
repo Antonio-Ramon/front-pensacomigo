@@ -1,4 +1,4 @@
-/* Reação em forma de frase (Reactions do design system) — nunca coração/emoji */
+/* Botão de curtir com ícone de coração (pedido do usuário; substitui a frase do design system) */
 .curtir {
   font-family: var(--font-ui);
   font-size: 13px;
