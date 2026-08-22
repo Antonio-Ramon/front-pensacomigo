@@ -25,10 +25,11 @@ juntos (cada tag nova é superfície de XSS e de CSS quebrado).
 - **Resposta de resposta é proibida** (1 nível): a API devolve 422.
 - **Comentário nasce visível** (pós-moderação). Barreiras: rate limit 5/min por visitante
   (429) e filtro de palavrão. Admin oculta (`PATCH .../ocultar`) ou apaga (`DELETE`).
-- **Ocultar comentário não tem volta**: não existe endpoint para reexibir, e a listagem
-  (`GET /posts/{id}/comentarios`) só devolve aprovados — inclusive a da moderação, que usa
-  o mesmo endpoint. Ocultar tira o comentário da vista do próprio admin. Reverter exige
-  endpoint novo no backend; até lá, ocultar é tão definitivo quanto excluir.
+- **Ocultar comentário é reversível** (`PATCH .../reexibir`, desde `service-pensacomigo@f04dac9`).
+  A listagem (`GET /posts/{id}/comentarios`) devolve também os ocultos quando quem chama é
+  admin — quem decide é a claim `is_admin` no backend, não a querystring —, e cada item traz
+  `aprovado`. É por esse campo que a moderação marca o que está fora do ar. Excluir (`DELETE`)
+  continua sendo hard delete, sem volta.
 - **404 em vez de 403** ao escrever em post de outro autor — não trate 404 como "não existe"
   no admin sem considerar "não é seu".
 - **Moderação exige claim `is_admin`** → 403 sem ela.
@@ -63,6 +64,14 @@ juntos (cada tag nova é superfície de XSS e de CSS quebrado).
 8. **TanStack Query** no client; **sem react-hook-form, sem zod**.
 9. Editor: `@dnd-kit/sortable` + Tiptap (whitelist acima + nodes Versículo/aside) +
    `react-easy-crop` + WebP no browser.
+   **Divergência do que foi construído (22/08/2026):** não tem Tiptap nem dnd-kit. Os blocos
+   são `<textarea>` com marcação estilo WhatsApp (`editor/marcacao.ts`: `*negrito*`,
+   `_itálico_`, `~tachado~`, `` `código` ``, `> citação`, `- item`, `1. item`) e uma barra de
+   botões no bloco de parágrafo (`editor/BarraFormato.tsx`); reordenar é HTML5 drag and drop.
+   O textarea guarda marcadores, a API guarda o HTML da whitelist — a conversão dos dois lados
+   fica em `marcacao.ts`, com autoteste em `marcacao.check.ts`. HTML que a conversão não
+   reconhece (ex.: `<h2>` misturado com `<p>` no mesmo bloco) cai no bloco cru "HTML", que é
+   fallback de round-trip do front — o backend só conhece `TipoBloco` 0/1/2.
 
 ## Issues do backend que o front espera
 
