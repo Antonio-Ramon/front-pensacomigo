@@ -7,6 +7,7 @@ import { ArrowDown, ArrowLeft, ArrowRight, ArrowUp, Check, GripVertical, Plus, X
 import type { Etapa, Tag } from "@/lib/api";
 import { MOODS, etapaCurta } from "@/lib/moods";
 import { urlDaImagem } from "@/lib/imagens";
+import { alertaErro } from "@/lib/alerta";
 import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
 import { CortadorImagem } from "@/components/ui/CortadorImagem";
 import { buscarPreviewLink, criarTag, enviarImagem, excluirTag, salvarPost } from "./actions";
@@ -77,7 +78,6 @@ export function Editor({
   );
   const [status, setStatus] = useState<0 | 1 | 2>(post?.status ?? 0);
   const [salvo, setSalvo] = useState(!!post);
-  const [erro, setErro] = useState<string | null>(null);
   const [pendente, startTransition] = useTransition();
   const [arrastando, setArrastando] = useState<number | null>(null);
   const [sobre, setSobre] = useState<number | null>(null);
@@ -117,50 +117,53 @@ export function Editor({
   }
 
   function salvar(novoStatus: 0 | 1 | 2) {
-    setErro(null);
     if (novoStatus === 2 && !agendarPara)
-      return setErro("Escolha data e hora do agendamento no painel ao lado.");
+      return alert("Escolha data e hora do agendamento no painel ao lado.");
     startTransition(async () => {
-      // as imagens pendentes sobem agora, só na hora de salvar
-      let prontos = blocos;
-      for (let i = 0; i < prontos.length; i++) {
-        const b = prontos[i];
-        if (b.tipo !== "imagem" || !b.arquivo) continue;
-        const r = await subir(b.arquivo);
-        if (!r.ok) return setErro(r.erro);
-        prontos = prontos.map((x, j) =>
-          j === i
-            ? { ...x, imagemPath: r.dados.path, imagemUrl: r.dados.url, arquivo: undefined }
-            : x,
-        );
-      }
-      let capaFinal = capa;
-      if (capaArquivo) {
-        const r = await subir(capaArquivo);
-        if (!r.ok) return setErro(r.erro);
-        capaFinal = r.dados.url ?? r.dados.path ?? "";
-        setCapa(capaFinal);
-        setCapaArquivo(null);
-        setCapaPreview(null);
-      }
-      setBlocos(prontos);
+      try {
+        // as imagens pendentes sobem agora, só na hora de salvar
+        let prontos = blocos;
+        for (let i = 0; i < prontos.length; i++) {
+          const b = prontos[i];
+          if (b.tipo !== "imagem" || !b.arquivo) continue;
+          const r = await subir(b.arquivo);
+          if (!r.ok) return alert(r.erro);
+          prontos = prontos.map((x, j) =>
+            j === i
+              ? { ...x, imagemPath: r.dados.path, imagemUrl: r.dados.url, arquivo: undefined }
+              : x,
+          );
+        }
+        let capaFinal = capa;
+        if (capaArquivo) {
+          const r = await subir(capaArquivo);
+          if (!r.ok) return alert(r.erro);
+          capaFinal = r.dados.url ?? r.dados.path ?? "";
+          setCapa(capaFinal);
+          setCapaArquivo(null);
+          setCapaPreview(null);
+        }
+        setBlocos(prontos);
 
-      const r = await salvarPost({
-        id: post?.id,
-        titulo,
-        dek: dek.trim() || null,
-        imagemCapa: capaFinal || null,
-        tagIds,
-        conteudo: paraConteudo(prontos),
-        status: novoStatus,
-        moods,
-        etapaId,
-        dataPublicacao: novoStatus === 2 ? new Date(agendarPara).toISOString() : null,
-      });
-      if (!r.ok) return setErro(r.erro);
-      setStatus(novoStatus);
-      setSalvo(true);
-      if (!post && r.dados.id) router.replace(`/escrivaninha/editor/${r.dados.id}`);
+        const r = await salvarPost({
+          id: post?.id,
+          titulo,
+          dek: dek.trim() || null,
+          imagemCapa: capaFinal || null,
+          tagIds,
+          conteudo: paraConteudo(prontos),
+          status: novoStatus,
+          moods,
+          etapaId,
+          dataPublicacao: novoStatus === 2 ? new Date(agendarPara).toISOString() : null,
+        });
+        if (!r.ok) return alert(r.erro);
+        setStatus(novoStatus);
+        setSalvo(true);
+        if (!post && r.dados.id) router.replace(`/escrivaninha/editor/${r.dados.id}`);
+      } catch (e) {
+        alertaErro(e);
+      }
     });
   }
 
@@ -175,12 +178,16 @@ export function Editor({
     const nome = novaTag.trim();
     if (!nome) return;
     startTransition(async () => {
-      const r = await criarTag(nome);
-      if (!r.ok) return setErro(r.erro);
-      setTags((ts) => (ts.some((t) => t.id === r.dados.id) ? ts : [...ts, r.dados]));
-      setTagIds((ids) => (ids.includes(r.dados.id!) ? ids : [...ids, r.dados.id!]));
-      setNovaTag("");
-      sujou();
+      try {
+        const r = await criarTag(nome);
+        if (!r.ok) return alert(r.erro);
+        setTags((ts) => (ts.some((t) => t.id === r.dados.id) ? ts : [...ts, r.dados]));
+        setTagIds((ids) => (ids.includes(r.dados.id!) ? ids : [...ids, r.dados.id!]));
+        setNovaTag("");
+        sujou();
+      } catch (e) {
+        alertaErro(e);
+      }
     });
   }
 
@@ -245,7 +252,6 @@ export function Editor({
             )}
           </span>
         </div>
-        {erro && <p className={styles.erro}>{erro}</p>}
 
         <p className={styles.rotulo}>título</p>
         {/* textarea que quebra linha: título longo aparece inteiro (Enter vira espaço) */}
@@ -406,8 +412,9 @@ export function Editor({
                       onChange={(e) => patch(i, { linkUrl: e.target.value })}
                       onBlur={async () => {
                         if (!b.linkUrl || b.linkTitulo) return;
-                        const r = await buscarPreviewLink(b.linkUrl);
-                        if (r.ok)
+                        // preview é opcional: se a action falhar, segue sem ela
+                        const r = await buscarPreviewLink(b.linkUrl).catch(() => null);
+                        if (r?.ok)
                           patch(i, {
                             linkUrl: r.dados.url ?? b.linkUrl,
                             linkTitulo: r.dados.titulo,
@@ -617,10 +624,14 @@ export function Editor({
           const t = tagExcluir!;
           setTagExcluir(null);
           startTransition(async () => {
-            const r = await excluirTag(t.id!);
-            if (!r.ok) return setErro(r.erro);
-            setTags((ts) => ts.filter((x) => x.id !== t.id));
-            setTagIds((ids) => ids.filter((x) => x !== t.id));
+            try {
+              const r = await excluirTag(t.id!);
+              if (!r.ok) return alert(r.erro);
+              setTags((ts) => ts.filter((x) => x.id !== t.id));
+              setTagIds((ids) => ids.filter((x) => x !== t.id));
+            } catch (e) {
+              alertaErro(e);
+            }
           });
         }}
       />

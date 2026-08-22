@@ -3,6 +3,7 @@
 import { useState, useTransition } from "react";
 import { Trash2 } from "lucide-react";
 import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
+import { alertaErro } from "@/lib/alerta";
 import { excluirPost } from "./actions";
 import styles from "./escrivaninha.module.css";
 
@@ -32,7 +33,7 @@ export function BotaoExcluir({ id, titulo }: { id: string; titulo: string }) {
         onCancel={() => setAberto(false)}
         onConfirm={() => {
           setAberto(false);
-          startTransition(() => excluirPost(id));
+          startTransition(() => excluirPost(id).catch(alertaErro));
         }}
       />
     </>

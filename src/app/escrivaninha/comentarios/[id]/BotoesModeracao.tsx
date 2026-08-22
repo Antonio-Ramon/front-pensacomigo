@@ -3,6 +3,7 @@
 import { useState, useTransition } from "react";
 import { EyeOff, Trash2 } from "lucide-react";
 import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
+import { alertaErro } from "@/lib/alerta";
 import { excluirComentario, ocultarComentario } from "../../actions";
 import styles from "../../escrivaninha.module.css";
 
@@ -16,7 +17,7 @@ export function BotoesModeracao({ postId, id }: { postId: string; id: string }) 
         type="button"
         className={styles.btnExcluir}
         disabled={pendente}
-        onClick={() => startTransition(() => ocultarComentario(postId, id))}
+        onClick={() => startTransition(() => ocultarComentario(postId, id).catch(alertaErro))}
       >
         <EyeOff size={12} /> ocultar
       </button>
@@ -38,7 +39,7 @@ export function BotoesModeracao({ postId, id }: { postId: string; id: string }) 
         onCancel={() => setAberto(false)}
         onConfirm={() => {
           setAberto(false);
-          startTransition(() => excluirComentario(postId, id));
+          startTransition(() => excluirComentario(postId, id).catch(alertaErro));
         }}
       />
     </span>
