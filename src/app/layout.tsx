@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import NextTopLoader from "nextjs-toploader";
+import { Toaster } from "@/components/ui/Toaster";
 import { Newsreader, Inter_Tight, JetBrains_Mono } from "next/font/google";
 import "@/styles/tokens.css";
 import "@/styles/prose.css";
@@ -53,6 +54,7 @@ export default function RootLayout({
         />
         <NextTopLoader color="var(--accent)" height={2} showSpinner={false} shadow={false} />
         {children}
+        <Toaster />
       </body>
     </html>
   );

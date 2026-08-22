@@ -4,10 +4,10 @@ import { useRef, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { ArrowDown, ArrowLeft, ArrowRight, ArrowUp, Check, GripVertical, Plus, X } from "lucide-react";
-import type { Etapa, Tag } from "@/lib/api";
+import type { Etapa, Mood, StatusPost, Tag } from "@/lib/api";
 import { MOODS, etapaCurta } from "@/lib/moods";
 import { urlDaImagem } from "@/lib/imagens";
-import { alertaErro } from "@/lib/alerta";
+import { toast } from "@/lib/toast";
 import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
 import { CortadorImagem } from "@/components/ui/CortadorImagem";
 import { buscarPreviewLink, criarTag, enviarImagem, excluirTag, salvarPost } from "./actions";
@@ -23,6 +23,13 @@ const TIPOS: { tipo: TipoEditor; label: string; placeholder: string; rows: numbe
   { tipo: "imagem", label: "IMAGEM", placeholder: "Texto alternativo da imagem", rows: 1 },
   { tipo: "link", label: "LINK", placeholder: "", rows: 1 },
 ];
+// título fixo do toast de erro: diz o que se tentou fazer; os erros da API vão nas linhas
+const FALHA_AO_SALVAR: Record<StatusPost, string> = {
+  Rascunho: "Não foi possível salvar o rascunho",
+  Publicado: "Não foi possível publicar",
+  Agendado: "Não foi possível agendar",
+};
+
 const META = Object.fromEntries(TIPOS.map((t) => [t.tipo, t])) as Record<
   TipoEditor,
   (typeof TIPOS)[number]
@@ -48,9 +55,9 @@ export function Editor({
     titulo: string;
     dek: string | null;
     imagemCapa: string | null;
-    status: 0 | 1 | 2;
+    status: StatusPost;
     tagIds: string[];
-    moods: number[];
+    moods: Mood[];
     etapaId: string | null;
     dataPublicacao: string | null;
   };
@@ -63,10 +70,10 @@ export function Editor({
   const proximaKey = useRef((blocosIniciais?.length ?? 1) + 1);
   const [titulo, setTitulo] = useState(post?.titulo ?? "");
   const [dek, setDek] = useState(post?.dek ?? "");
-  const [moods, setMoods] = useState<number[]>(post?.moods ?? []);
+  const [moods, setMoods] = useState<Mood[]>(post?.moods ?? []);
   const [etapaId, setEtapaId] = useState<string | null>(post?.etapaId ?? null);
   const [agendarPara, setAgendarPara] = useState(() =>
-    post?.status === 2 && post.dataPublicacao ? paraDatetimeLocal(post.dataPublicacao) : "",
+    post?.status === "Agendado" && post.dataPublicacao ? paraDatetimeLocal(post.dataPublicacao) : "",
   );
   const [capa, setCapa] = useState(post?.imagemCapa ?? "");
   const [tags, setTags] = useState(tagsIniciais);
@@ -76,7 +83,7 @@ export function Editor({
   const [blocos, setBlocos] = useState<BlocoEditor[]>(
     () => blocosIniciais?.map((b, i) => ({ ...b, key: i + 1 })) ?? [{ ...novoBloco("paragrafo"), key: 1 }],
   );
-  const [status, setStatus] = useState<0 | 1 | 2>(post?.status ?? 0);
+  const [status, setStatus] = useState<StatusPost>(post?.status ?? "Rascunho");
   const [salvo, setSalvo] = useState(!!post);
   const [pendente, startTransition] = useTransition();
   const [arrastando, setArrastando] = useState<number | null>(null);
@@ -116,9 +123,11 @@ export function Editor({
     return enviarImagem(fd);
   }
 
-  function salvar(novoStatus: 0 | 1 | 2) {
-    if (novoStatus === 2 && !agendarPara)
-      return alert("Escolha data e hora do agendamento no painel ao lado.");
+  function salvar(novoStatus: StatusPost) {
+    const falhou = (erro: unknown) =>
+      toast.falhou(FALHA_AO_SALVAR[novoStatus], erro, () => salvar(novoStatus));
+    if (novoStatus === "Agendado" && !agendarPara)
+      return toast.aviso("Escolha data e hora do agendamento no painel ao lado.");
     startTransition(async () => {
       try {
         // as imagens pendentes sobem agora, só na hora de salvar
@@ -127,7 +136,10 @@ export function Editor({
           const b = prontos[i];
           if (b.tipo !== "imagem" || !b.arquivo) continue;
           const r = await subir(b.arquivo);
-          if (!r.ok) return alert(r.erro);
+          if (!r.ok)
+            return toast.falhou("Não foi possível enviar a imagem", r.erro, () =>
+              salvar(novoStatus),
+            );
           prontos = prontos.map((x, j) =>
             j === i
               ? { ...x, imagemPath: r.dados.path, imagemUrl: r.dados.url, arquivo: undefined }
@@ -137,7 +149,8 @@ export function Editor({
         let capaFinal = capa;
         if (capaArquivo) {
           const r = await subir(capaArquivo);
-          if (!r.ok) return alert(r.erro);
+          if (!r.ok)
+            return toast.falhou("Não foi possível enviar a capa", r.erro, () => salvar(novoStatus));
           capaFinal = r.dados.url ?? r.dados.path ?? "";
           setCapa(capaFinal);
           setCapaArquivo(null);
@@ -155,14 +168,22 @@ export function Editor({
           status: novoStatus,
           moods,
           etapaId,
-          dataPublicacao: novoStatus === 2 ? new Date(agendarPara).toISOString() : null,
+          dataPublicacao: novoStatus === "Agendado" ? new Date(agendarPara).toISOString() : null,
         });
-        if (!r.ok) return alert(r.erro);
+        if (!r.ok) return falhou(r.erro);
         setStatus(novoStatus);
         setSalvo(true);
+        toast.sucesso(
+          novoStatus === "Publicado"
+            ? "Meditação publicada"
+            : novoStatus === "Agendado"
+              ? "Agendada"
+              : "Rascunho salvo",
+          { rotulo: novoStatus === "Rascunho" ? "rascunho" : "publicado", desc: titulo },
+        );
         if (!post && r.dados.id) router.replace(`/escrivaninha/editor/${r.dados.id}`);
       } catch (e) {
-        alertaErro(e);
+        falhou(e);
       }
     });
   }
@@ -180,19 +201,36 @@ export function Editor({
     startTransition(async () => {
       try {
         const r = await criarTag(nome);
-        if (!r.ok) return alert(r.erro);
+        if (!r.ok) return toast.falhou("Não foi possível criar a tag", r.erro, adicionarTag);
         setTags((ts) => (ts.some((t) => t.id === r.dados.id) ? ts : [...ts, r.dados]));
         setTagIds((ids) => (ids.includes(r.dados.id!) ? ids : [...ids, r.dados.id!]));
         setNovaTag("");
         sujou();
+        toast.sucesso("Tag criada", { rotulo: "tags", desc: r.dados.nome ?? undefined });
       } catch (e) {
-        alertaErro(e);
+        toast.falhou("Não foi possível criar a tag", e, adicionarTag);
       }
     });
   }
 
-  const publicado = status === 1;
-  const agendado = status === 2;
+  /** exclusão confirmada da tag — isolada para o "tentar de novo" do toast repetir */
+  function removerTag(t: Tag) {
+    startTransition(async () => {
+      try {
+        const r = await excluirTag(t.id!);
+        if (!r.ok)
+          return toast.falhou("Não foi possível excluir a tag", r.erro, () => removerTag(t));
+        setTags((ts) => ts.filter((x) => x.id !== t.id));
+        setTagIds((ids) => ids.filter((x) => x !== t.id));
+        toast.sucesso("Tag excluída", { rotulo: "tags", desc: t.nome ?? undefined });
+      } catch (e) {
+        toast.falhou("Não foi possível excluir a tag", e, () => removerTag(t));
+      }
+    });
+  }
+
+  const publicado = status === "Publicado";
+  const agendado = status === "Agendado";
 
   return (
     <div className={styles.cols}>
@@ -213,7 +251,7 @@ export function Editor({
           )}
           <span className={styles.barraAcoes}>
             {(publicado || agendado) && (
-              <button type="button" className={styles.btnGhost} disabled={pendente} onClick={() => salvar(0)}>
+              <button type="button" className={styles.btnGhost} disabled={pendente} onClick={() => salvar("Rascunho")}>
                 voltar a rascunho
               </button>
             )}
@@ -235,7 +273,7 @@ export function Editor({
                 type="button"
                 className={styles.btnGhost}
                 disabled={pendente || !titulo.trim()}
-                onClick={() => salvar(2)}
+                onClick={() => salvar("Agendado")}
               >
                 Agendar
               </button>
@@ -623,16 +661,7 @@ export function Editor({
         onConfirm={() => {
           const t = tagExcluir!;
           setTagExcluir(null);
-          startTransition(async () => {
-            try {
-              const r = await excluirTag(t.id!);
-              if (!r.ok) return alert(r.erro);
-              setTags((ts) => ts.filter((x) => x.id !== t.id));
-              setTagIds((ids) => ids.filter((x) => x !== t.id));
-            } catch (e) {
-              alertaErro(e);
-            }
-          });
+          removerTag(t);
         }}
       />
 
@@ -645,7 +674,7 @@ export function Editor({
         onCancel={() => setConfirmaPublicar(false)}
         onConfirm={() => {
           setConfirmaPublicar(false);
-          salvar(1);
+          salvar("Publicado");
         }}
       />
     </div>

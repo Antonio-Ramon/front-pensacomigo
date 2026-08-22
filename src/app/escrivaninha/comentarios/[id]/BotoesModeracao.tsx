@@ -3,13 +3,26 @@
 import { useState, useTransition } from "react";
 import { EyeOff, Trash2 } from "lucide-react";
 import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
-import { alertaErro } from "@/lib/alerta";
+import { toast } from "@/lib/toast";
 import { excluirComentario, ocultarComentario } from "../../actions";
 import styles from "../../escrivaninha.module.css";
 
-export function BotoesModeracao({ postId, id }: { postId: string; id: string }) {
+export function BotoesModeracao({ postId, id, autor }: { postId: string; id: string; autor?: string }) {
   const [aberto, setAberto] = useState(false);
   const [pendente, startTransition] = useTransition();
+
+  const ocultar = () =>
+    startTransition(() =>
+      ocultarComentario(postId, id)
+        .then(() => toast.sucesso("Comentário ocultado", { rotulo: "moderação", desc: autor }))
+        .catch((e) => toast.falhou("Não foi possível ocultar o comentário", e, ocultar)),
+    );
+  const excluir = () =>
+    startTransition(() =>
+      excluirComentario(postId, id)
+        .then(() => toast.sucesso("Comentário excluído", { rotulo: "moderação", desc: autor }))
+        .catch((e) => toast.falhou("Não foi possível excluir o comentário", e, excluir)),
+    );
 
   return (
     <span className={styles.acoes}>
@@ -17,7 +30,7 @@ export function BotoesModeracao({ postId, id }: { postId: string; id: string }) 
         type="button"
         className={styles.btnExcluir}
         disabled={pendente}
-        onClick={() => startTransition(() => ocultarComentario(postId, id).catch(alertaErro))}
+        onClick={ocultar}
       >
         <EyeOff size={12} /> ocultar
       </button>
@@ -39,7 +52,7 @@ export function BotoesModeracao({ postId, id }: { postId: string; id: string }) 
         onCancel={() => setAberto(false)}
         onConfirm={() => {
           setAberto(false);
-          startTransition(() => excluirComentario(postId, id).catch(alertaErro));
+          excluir();
         }}
       />
     </span>

@@ -3,13 +3,20 @@
 import { useState, useTransition } from "react";
 import { Trash2 } from "lucide-react";
 import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
-import { alertaErro } from "@/lib/alerta";
+import { toast } from "@/lib/toast";
 import { excluirPost } from "./actions";
 import styles from "./escrivaninha.module.css";
 
 export function BotaoExcluir({ id, titulo }: { id: string; titulo: string }) {
   const [aberto, setAberto] = useState(false);
   const [pendente, startTransition] = useTransition();
+
+  const excluir = () =>
+    startTransition(() =>
+      excluirPost(id)
+        .then(() => toast.sucesso("Meditação excluída", { desc: titulo }))
+        .catch((e) => toast.falhou("Não foi possível excluir a meditação", e, excluir)),
+    );
 
   return (
     <>
@@ -33,7 +40,7 @@ export function BotaoExcluir({ id, titulo }: { id: string; titulo: string }) {
         onCancel={() => setAberto(false)}
         onConfirm={() => {
           setAberto(false);
-          startTransition(() => excluirPost(id).catch(alertaErro));
+          excluir();
         }}
       />
     </>

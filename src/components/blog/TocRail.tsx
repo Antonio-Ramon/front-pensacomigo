@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { ArrowUpToLine, Check, Link2 } from "lucide-react";
+import { ArrowUpToLine, Link2 } from "lucide-react";
+import { toast } from "@/lib/toast";
 import styles from "./tocrail.module.css";
 
 export type SecaoToc = { id: string; label: string };
@@ -14,7 +15,6 @@ export type SecaoToc = { id: string; label: string };
 export function TocRail({ secoes }: { secoes: SecaoToc[] }) {
   const [ativa, setAtiva] = useState(secoes[0]?.id);
   const [fonte, setFonte] = useState(18.5);
-  const [copiado, setCopiado] = useState(false);
 
   useEffect(() => {
     if (!secoes.length) return;
@@ -77,20 +77,13 @@ export function TocRail({ secoes }: { secoes: SecaoToc[] }) {
           onClick={async () => {
             try {
               await navigator.clipboard.writeText(location.href);
-              setCopiado(true);
-              setTimeout(() => setCopiado(false), 2000);
-            } catch {}
+              toast.sucesso("Link copiado", { rotulo: "copiado" });
+            } catch (e) {
+              toast.falhou("Não foi possível copiar o link", e);
+            }
           }}
         >
-          {copiado ? (
-            <>
-              <Check size={11} /> copiado
-            </>
-          ) : (
-            <>
-              <Link2 size={11} /> copiar link
-            </>
-          )}
+          <Link2 size={11} /> copiar link
         </button>
       </div>
     </aside>

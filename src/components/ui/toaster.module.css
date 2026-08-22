@@ -1,0 +1,138 @@
+/* Toast do design system: retângulo exato, hairline 1px, cor só no marcador e na linha. */
+
+.pilha {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 80;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: min(392px, calc(100vw - 32px));
+  pointer-events: none;
+}
+
+.item {
+  display: flex;
+  gap: 12px;
+  padding: 14px 13px 13px;
+  position: relative;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.16);
+  pointer-events: auto;
+  animation: entra 260ms var(--ease) both;
+}
+.item.saindo {
+  animation: sai 220ms var(--ease) both;
+}
+.item[data-tipo="sucesso"] { --cor: var(--success); }
+.item[data-tipo="erro"] { --cor: var(--danger); }
+.item[data-tipo="aviso"] { --cor: var(--warning); }
+.item[data-tipo="info"] { --cor: var(--primary); }
+
+.marcador {
+  color: var(--cor);
+  flex: none;
+  margin-top: 2px;
+}
+
+.corpo {
+  flex: 1;
+  min-width: 0;
+}
+
+.rotulo {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--faint);
+  margin: 0 0 4px;
+}
+.titulo {
+  margin: 0;
+  font-size: 14.5px;
+  font-weight: var(--w-medium);
+  color: var(--ink);
+  line-height: 1.35;
+}
+.desc {
+  margin: 5px 0 0;
+  font-size: 13.5px;
+  color: var(--soft);
+  line-height: 1.5;
+}
+/* lista de erros: uma linha por item, mais junta que o parágrafo solto */
+.desc + .desc {
+  margin-top: 2px;
+}
+
+.acao,
+.fechar {
+  background: none;
+  border: 0;
+  cursor: pointer;
+  font-family: var(--font-mono);
+  transition: color var(--dur-fast) var(--ease);
+}
+.acao {
+  margin: 11px 0 0;
+  padding: 0;
+  font-size: 11.5px;
+  color: var(--accent);
+}
+.fechar {
+  align-self: flex-start;
+  display: flex;
+  padding: 2px;
+  color: var(--faint);
+}
+.acao:hover,
+.fechar:hover {
+  color: var(--ink);
+}
+
+.barra,
+.pulso {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: var(--cor);
+  transform-origin: left;
+}
+.barra {
+  opacity: 0.45;
+  animation: esvazia linear both;
+}
+/* a linha congela junto com o relógio enquanto o toast está sob o mouse/foco */
+.item:hover .barra,
+.item:focus-within .barra {
+  animation-play-state: paused;
+}
+.pulso {
+  opacity: 0.3;
+  animation: pulsa 2.2s var(--ease) infinite;
+}
+
+@keyframes entra {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes sai {
+  from { opacity: 1; transform: none; }
+  to { opacity: 0; transform: translateY(4px); }
+}
+@keyframes esvazia {
+  from { transform: scaleX(1); }
+  to { transform: scaleX(0); }
+}
+@keyframes pulsa {
+  0%, 100% { opacity: 0.25; }
+  50% { opacity: 0.7; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .item, .item.saindo, .pulso { animation: none; }
+}

@@ -50,11 +50,11 @@ export default async function ModeracaoComentarios({
                     <b>{r.autor}</b> · {dataCurta(r.dataCriacao)}
                   </p>
                   <p className={styles.comentarioTexto}>{r.conteudo}</p>
-                  <BotoesModeracao postId={postId} id={r.id!} />
+                  <BotoesModeracao postId={postId} id={r.id!} autor={r.autor ?? undefined} />
                 </div>
               ))}
             </div>
-            <BotoesModeracao postId={postId} id={c.id!} />
+            <BotoesModeracao postId={postId} id={c.id!} autor={c.autor ?? undefined} />
           </div>
         ))}
       </div>
