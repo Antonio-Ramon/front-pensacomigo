@@ -981,11 +981,8 @@ export interface components {
             nome?: string | null;
             imagemUrl?: string | null;
         };
-        /**
-         * Format: int32
-         * @enum {integer}
-         */
-        Mood: 0 | 1 | 2 | 3 | 4;
+        /** @enum {string} */
+        Mood: "Cansado" | "EmDuvida" | "ComMedo" | "Grato" | "EmLuto";
         PerfilResponse: {
             /** Format: uuid */
             id?: string;
@@ -1063,11 +1060,8 @@ export interface components {
             /** Format: date-time */
             dataCriacao?: string;
         };
-        /**
-         * Format: int32
-         * @enum {integer}
-         */
-        StatusPost: 0 | 1 | 2;
+        /** @enum {string} */
+        StatusPost: "Rascunho" | "Publicado" | "Agendado";
         TagResponse: {
             /** Format: uuid */
             id?: string;

@@ -6,6 +6,8 @@ export type Bloco = components["schemas"]["Bloco"];
 export type Tag = components["schemas"]["TagResponse"];
 export type Autor = components["schemas"]["AutorResponse"];
 export type Etapa = components["schemas"]["EtapaResponse"];
+export type StatusPost = components["schemas"]["StatusPost"];
+export type Mood = components["schemas"]["Mood"];
 
 type Pagina<T> = { items?: T[] | null; totalItems?: number };
 

@@ -8,7 +8,7 @@ import { BotaoExcluir } from "./BotaoExcluir";
 import { BuscaAdmin } from "./BuscaAdmin";
 import styles from "./escrivaninha.module.css";
 
-const STATUS = { rascunho: 0, publicado: 1, agendado: 2 } as const;
+const STATUS = { rascunho: "Rascunho", publicado: "Publicado", agendado: "Agendado" } as const;
 
 export default async function PainelAdmin({
   searchParams,
@@ -65,8 +65,8 @@ export default async function PainelAdmin({
           <span style={{ textAlign: "right" }}>AÇÕES</span>
         </div>
         {items.map((p) => {
-          const publicado = p.status === 1;
-          const agendado = p.status === 2;
+          const publicado = p.status === "Publicado";
+          const agendado = p.status === "Agendado";
           return (
             <div key={p.id} className={styles.linha}>
               <span className={styles.data}>{dataCurta(p.dataPublicacao ?? p.dataCriacao)}</span>

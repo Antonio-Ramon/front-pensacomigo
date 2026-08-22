@@ -20,7 +20,11 @@ export default async function EditarMeditacao({ params }: { params: Promise<{ id
   const { items: tags = [] } = (await resTags.json()) as { items?: Tag[] };
 
   // o detalhe não expõe status: sem data = rascunho, data futura = agendado, passada = publicado
-  const status = !post.dataPublicacao ? 0 : new Date(post.dataPublicacao) > new Date() ? 2 : 1;
+  const status = !post.dataPublicacao
+    ? "Rascunho"
+    : new Date(post.dataPublicacao) > new Date()
+      ? "Agendado"
+      : "Publicado";
 
   return (
     <Editor
@@ -35,7 +39,7 @@ export default async function EditarMeditacao({ params }: { params: Promise<{ id
         imagemCapa: post.imagemCapa ?? null,
         status,
         tagIds: (post.tags ?? []).map((t) => t.id!),
-        moods: (post.moods ?? []) as number[],
+        moods: post.moods ?? [],
         etapaId: post.etapa?.id ?? null,
         dataPublicacao: post.dataPublicacao ?? null,
       }}
