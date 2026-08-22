@@ -25,6 +25,10 @@ juntos (cada tag nova é superfície de XSS e de CSS quebrado).
 - **Resposta de resposta é proibida** (1 nível): a API devolve 422.
 - **Comentário nasce visível** (pós-moderação). Barreiras: rate limit 5/min por visitante
   (429) e filtro de palavrão. Admin oculta (`PATCH .../ocultar`) ou apaga (`DELETE`).
+- **Ocultar comentário não tem volta**: não existe endpoint para reexibir, e a listagem
+  (`GET /posts/{id}/comentarios`) só devolve aprovados — inclusive a da moderação, que usa
+  o mesmo endpoint. Ocultar tira o comentário da vista do próprio admin. Reverter exige
+  endpoint novo no backend; até lá, ocultar é tão definitivo quanto excluir.
 - **404 em vez de 403** ao escrever em post de outro autor — não trate 404 como "não existe"
   no admin sem considerar "não é seu".
 - **Moderação exige claim `is_admin`** → 403 sem ela.
