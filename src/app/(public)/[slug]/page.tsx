@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowLeft, ArrowRight, Eye } from "lucide-react";
 import { abrirPost, listarPosts, type Bloco } from "@/lib/api";
 import { resumoDoPost } from "@/lib/resumo";
 import { urlDaImagem } from "@/lib/imagens";
@@ -132,6 +132,9 @@ export default async function PaginaPost({ params }: Props) {
 
           <div className={styles.reacoes}>
             <Curtidas postId={post.id!} inicial={post.qtdCurtidas ?? 0} />
+            <span className={styles.visualizacoes} title="visualizações">
+              <Eye size={15} /> {post.qtdVisualizacoes ?? 0}
+            </span>
           </div>
 
           {post.autor?.bio && (

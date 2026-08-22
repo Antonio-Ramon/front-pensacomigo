@@ -88,6 +88,17 @@
 
 .reacoes {
   margin-top: 40px;
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+}
+.visualizacoes {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--faint);
 }
 
 .authorBox {
