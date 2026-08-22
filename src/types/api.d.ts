@@ -297,6 +297,42 @@ export interface paths {
         };
         trace?: never;
     };
+    "/api/v1/posts/{postId}/comentarios/{id}/reexibir": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: string;
+                    postId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        trace?: never;
+    };
     "/api/v1/posts/{postId}/comentarios/{id}": {
         parameters: {
             query?: never;
@@ -900,6 +936,7 @@ export interface components {
             conteudo?: string | null;
             /** Format: date-time */
             dataCriacao?: string;
+            aprovado?: boolean;
             respostas?: components["schemas"]["RespostaResponse"][] | null;
         };
         ComentarioListaResponsePagina: {
@@ -1059,6 +1096,7 @@ export interface components {
             conteudo?: string | null;
             /** Format: date-time */
             dataCriacao?: string;
+            aprovado?: boolean;
         };
         /** @enum {string} */
         StatusPost: "Rascunho" | "Publicado" | "Agendado";

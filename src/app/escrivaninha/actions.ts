@@ -10,9 +10,10 @@ export async function excluirPost(id: string) {
 }
 
 // Moderação sai por server action de propósito: o CORS do backend não libera PATCH do browser.
-export async function ocultarComentario(postId: string, id: string) {
-  const res = await fetchAdmin(`/api/v1/posts/${postId}/comentarios/${id}/ocultar`, { method: "PATCH" });
-  if (!res.ok) throw new Error(`Falha ao ocultar (${res.status}).`);
+export async function moderarComentario(postId: string, id: string, aprovado: boolean) {
+  const acao = aprovado ? "reexibir" : "ocultar";
+  const res = await fetchAdmin(`/api/v1/posts/${postId}/comentarios/${id}/${acao}`, { method: "PATCH" });
+  if (!res.ok) throw new Error(`Falha ao ${acao} (${res.status}).`);
   revalidatePath(`/escrivaninha/comentarios/${postId}`);
 }
 

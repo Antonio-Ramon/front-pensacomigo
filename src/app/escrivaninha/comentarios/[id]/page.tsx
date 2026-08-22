@@ -38,23 +38,41 @@ export default async function ModeracaoComentarios({
 
       <div className={styles.tabela}>
         {items.map((c) => (
-          <div key={c.id} className={styles.comentarioLinha}>
+          <div
+            key={c.id}
+            className={`${styles.comentarioLinha} ${c.aprovado === false ? styles.oculto : ""}`}
+          >
             <div>
               <p className={styles.comentarioMeta}>
                 <b>{c.autor}</b> · {dataCurta(c.dataCriacao)}
+                {c.aprovado === false && <span className={styles.marcaOculto}>oculto</span>}
               </p>
               <p className={styles.comentarioTexto}>{c.conteudo}</p>
               {c.respostas?.map((r) => (
-                <div key={r.id} className={styles.respostaLinha}>
+                <div
+                  key={r.id}
+                  className={`${styles.respostaLinha} ${r.aprovado === false ? styles.oculto : ""}`}
+                >
                   <p className={styles.comentarioMeta}>
                     <b>{r.autor}</b> · {dataCurta(r.dataCriacao)}
+                    {r.aprovado === false && <span className={styles.marcaOculto}>oculto</span>}
                   </p>
                   <p className={styles.comentarioTexto}>{r.conteudo}</p>
-                  <BotoesModeracao postId={postId} id={r.id!} autor={r.autor ?? undefined} />
+                  <BotoesModeracao
+                    postId={postId}
+                    id={r.id!}
+                    autor={r.autor ?? undefined}
+                    aprovado={r.aprovado !== false}
+                  />
                 </div>
               ))}
             </div>
-            <BotoesModeracao postId={postId} id={c.id!} autor={c.autor ?? undefined} />
+            <BotoesModeracao
+              postId={postId}
+              id={c.id!}
+              autor={c.autor ?? undefined}
+              aprovado={c.aprovado !== false}
+            />
           </div>
         ))}
       </div>

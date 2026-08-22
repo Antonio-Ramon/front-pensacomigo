@@ -1,21 +1,47 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { EyeOff, Trash2 } from "lucide-react";
+import { Eye, EyeOff, Trash2 } from "lucide-react";
 import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
 import { toast } from "@/lib/toast";
-import { excluirComentario, ocultarComentario } from "../../actions";
+import { excluirComentario, moderarComentario } from "../../actions";
 import styles from "../../escrivaninha.module.css";
 
-export function BotoesModeracao({ postId, id, autor }: { postId: string; id: string; autor?: string }) {
+export function BotoesModeracao({
+  postId,
+  id,
+  autor,
+  aprovado,
+}: {
+  postId: string;
+  id: string;
+  autor?: string;
+  aprovado: boolean;
+}) {
   const [aberto, setAberto] = useState(false);
   const [pendente, startTransition] = useTransition();
 
-  const ocultar = () =>
+  // ocultar é reversível (PATCH .../reexibir), então o toast leva "desfazer" — regra 03 do design
+  const moderar = (paraAprovado: boolean) => () =>
     startTransition(() =>
-      ocultarComentario(postId, id)
-        .then(() => toast.sucesso("Comentário ocultado", { rotulo: "moderação", desc: autor }))
-        .catch((e) => toast.falhou("Não foi possível ocultar o comentário", e, ocultar)),
+      moderarComentario(postId, id, paraAprovado)
+        .then(() =>
+          paraAprovado
+            ? toast.sucesso("Comentário reexibido", { rotulo: "moderação", desc: autor })
+            : toast.sucesso("Comentário ocultado", {
+                rotulo: "moderação",
+                desc: autor,
+                acao: "desfazer →",
+                aoAgir: moderar(true),
+              }),
+        )
+        .catch((e) =>
+          toast.falhou(
+            `Não foi possível ${paraAprovado ? "reexibir" : "ocultar"} o comentário`,
+            e,
+            moderar(paraAprovado),
+          ),
+        ),
     );
   const excluir = () =>
     startTransition(() =>
@@ -30,9 +56,17 @@ export function BotoesModeracao({ postId, id, autor }: { postId: string; id: str
         type="button"
         className={styles.btnExcluir}
         disabled={pendente}
-        onClick={ocultar}
+        onClick={moderar(!aprovado)}
       >
-        <EyeOff size={12} /> ocultar
+        {aprovado ? (
+          <>
+            <EyeOff size={12} /> ocultar
+          </>
+        ) : (
+          <>
+            <Eye size={12} /> reexibir
+          </>
+        )}
       </button>
       <button
         type="button"
