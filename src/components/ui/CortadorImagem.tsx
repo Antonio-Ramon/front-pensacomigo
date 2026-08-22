@@ -1,12 +1,22 @@
 "use client";
 
-import { useState } from "react";
-import Cropper, { type Area } from "react-easy-crop";
+import { useRef, useState } from "react";
+import ReactCrop, {
+  centerCrop,
+  convertToPixelCrop,
+  makeAspectCrop,
+  type Crop,
+  type PixelCrop,
+} from "react-image-crop";
+import "react-image-crop/dist/ReactCrop.css";
 import styles from "./cortadorimagem.module.css";
 
+const ROTULOS: Record<string, string> = { [16 / 9]: "16:9", [4 / 3]: "4:3", [1]: "1:1" };
+
 /**
- * Corte/zoom antes do upload (CONTEXT.md: react-easy-crop + WebP no browser).
- * Devolve um File webp já recortado — quem chama decide quando subir.
+ * Corte livre antes do upload (CONTEXT.md: WebP no browser).
+ * Seleção livre com alças; um guia tracejado marca o formato ideal (16:9 por padrão),
+ * que pode ser travado. Devolve um File webp já recortado — quem chama decide quando subir.
  */
 export function CortadorImagem({
   url,
@@ -19,23 +29,76 @@ export function CortadorImagem({
   onConfirmar: (arquivo: File) => void;
   onCancelar: () => void;
 }) {
-  const [crop, setCrop] = useState({ x: 0, y: 0 });
-  const [zoom, setZoom] = useState(1);
-  const [area, setArea] = useState<Area | null>(null);
+  const imgRef = useRef<HTMLImageElement>(null);
+  const [crop, setCrop] = useState<Crop>();
+  const [area, setArea] = useState<PixelCrop | null>(null);
+  const [travado, setTravado] = useState(false);
   const [processando, setProcessando] = useState(false);
 
+  const rotuloAspecto = ROTULOS[aspecto] ?? aspecto.toFixed(2);
+
+  function selecaoIdeal(largura: number, altura: number, larguraPct = 90) {
+    return centerCrop(
+      makeAspectCrop({ unit: "%", width: larguraPct }, aspecto, largura, altura),
+      largura,
+      altura,
+    );
+  }
+
+  function aoCarregar(e: React.SyntheticEvent<HTMLImageElement>) {
+    const { width, height } = e.currentTarget;
+    const inicial = selecaoIdeal(width, height);
+    setCrop(inicial);
+    setArea(convertToPixelCrop(inicial, width, height));
+  }
+
+  function travar(ligado: boolean) {
+    setTravado(ligado);
+    if (ligado && imgRef.current) {
+      const { width, height } = imgRef.current;
+      const ajustado = selecaoIdeal(width, height, crop?.width);
+      setCrop(ajustado);
+      setArea(convertToPixelCrop(ajustado, width, height));
+    }
+  }
+
+  // Guia tracejado: o maior retângulo no aspecto ideal que cabe na seleção atual.
+  function guia() {
+    if (travado || !area?.width || !area?.height) return null;
+    const razao = area.width / area.height;
+    const estilo =
+      razao > aspecto
+        ? { width: `${(aspecto / razao) * 100}%`, height: "100%" }
+        : { width: "100%", height: `${(razao / aspecto) * 100}%` };
+    return (
+      <div className={styles.guia} style={estilo}>
+        <span>{rotuloAspecto}</span>
+      </div>
+    );
+  }
+
   async function confirmar() {
-    if (!area) return;
+    const img = imgRef.current;
+    if (!img || !area?.width || !area?.height) return;
     setProcessando(true);
-    const img = new Image();
-    img.src = url;
-    await img.decode();
+    const sx = img.naturalWidth / img.width;
+    const sy = img.naturalHeight / img.height;
     const canvas = document.createElement("canvas");
-    canvas.width = Math.round(area.width);
-    canvas.height = Math.round(area.height);
+    canvas.width = Math.round(area.width * sx);
+    canvas.height = Math.round(area.height * sy);
     canvas
       .getContext("2d")!
-      .drawImage(img, area.x, area.y, area.width, area.height, 0, 0, canvas.width, canvas.height);
+      .drawImage(
+        img,
+        area.x * sx,
+        area.y * sy,
+        area.width * sx,
+        area.height * sy,
+        0,
+        0,
+        canvas.width,
+        canvas.height,
+      );
     canvas.toBlob(
       (blob) => {
         setProcessando(false);
@@ -51,26 +114,22 @@ export function CortadorImagem({
       <div className={styles.caixa} onClick={(e) => e.stopPropagation()}>
         <p className={styles.titulo}>AJUSTAR IMAGEM</p>
         <div className={styles.palco}>
-          <Cropper
-            image={url}
+          <ReactCrop
             crop={crop}
-            zoom={zoom}
-            aspect={aspecto}
-            onCropChange={setCrop}
-            onZoomChange={setZoom}
-            onCropComplete={(_, px) => setArea(px)}
-          />
+            aspect={travado ? aspecto : undefined}
+            onChange={(px, pct) => {
+              setCrop(pct);
+              setArea(px);
+            }}
+            renderSelectionAddon={guia}
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img ref={imgRef} src={url} alt="" className={styles.imagem} onLoad={aoCarregar} />
+          </ReactCrop>
         </div>
-        <label className={styles.zoom}>
-          <span>zoom</span>
-          <input
-            type="range"
-            min={1}
-            max={3}
-            step={0.05}
-            value={zoom}
-            onChange={(e) => setZoom(Number(e.target.value))}
-          />
+        <label className={styles.travar}>
+          <input type="checkbox" checked={travado} onChange={(e) => travar(e.target.checked)} />
+          <span>travar no formato ideal ({rotuloAspecto})</span>
         </label>
         <div className={styles.acoes}>
           <button type="button" className={styles.cancelar} onClick={onCancelar}>
