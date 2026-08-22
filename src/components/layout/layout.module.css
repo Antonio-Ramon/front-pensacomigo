@@ -17,6 +17,18 @@
   gap: var(--sp-4);
 }
 
+/* em telas estreitas o header quebra linha em vez de estourar a página */
+@media (max-width: 620px) {
+  .headerInner {
+    flex-wrap: wrap;
+    height: auto;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    row-gap: 4px;
+  }
+  .nav { gap: var(--sp-4); }
+}
+
 .wordmark {
   font-family: var(--font-mono);
   font-size: 14px;

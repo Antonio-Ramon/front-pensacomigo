@@ -131,9 +131,12 @@ html[data-theme="terra"] {
   --sp-6: 30px; --sp-7: 48px; --sp-8: 74px; --sp-9: 96px;
 
   /* ---- Layout — uma coluna estreita, centrada ---- */
-  --measure: 64ch;
-  --container: 1100px; /* decisão 2026-08-20: 940 da referência ficava apertado */
-  --gutter: 22px;
+  --measure: 100%;
+  /* fluido: 1100px só em monitor largo (≥1375px); em notebook fica ~80vw (ex.: 1024 em tela de 1280),
+     nunca abaixo dos 940 da referência */
+  --container: clamp(940px, 80vw, 1100px);
+  /* gutter fluido: ~16px no celular, ~32-40px em notebook (o conteúdo respira sem media query) */
+  --gutter: clamp(16px, 3.5vw, 40px);
   --section-gap: var(--sp-9);
   --rail: 190px;
 
