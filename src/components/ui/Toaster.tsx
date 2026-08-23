@@ -42,7 +42,7 @@ function useOffline() {
   }, []);
 }
 
-/** Pilha de toasts, montada uma vez no layout raiz. Ver ui-reference/Toasts.dc.html. */
+/** Pilha de toasts, montada uma vez no layout raiz. */
 export function Toaster() {
   // ponytail: no servidor a fila é sempre vazia — snapshot estável evita loop de hidratação
   const itens = useSyncExternalStore(assinar, lista, () => VAZIA);

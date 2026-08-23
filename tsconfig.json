@@ -37,8 +37,6 @@
     ".next/dev/types/**/*.ts"
   ],
   "exclude": [
-    "node_modules",
-    "design-system",
-    "ui-reference"
+    "node_modules"
   ]
 }

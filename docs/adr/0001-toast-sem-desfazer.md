@@ -1,6 +1,6 @@
 # Toast de remoção não oferece "desfazer"
 
-A regra 03 do sistema de toasts (`ui-reference/Toasts.dc.html`) manda toda remoção sair com
+A regra 03 do sistema de toasts manda toda remoção sair com
 "desfazer". Cumprimos só onde a API deixa: excluir post e excluir comentário são hard delete
 (`DELETE /posts/{id}`, `DELETE /posts/{postId}/comentarios/{id}`), e um "desfazer" ali seria um
 botão que mente. Essas duas são protegidas por `ConfirmDialog` **antes** e confirmadas por toast

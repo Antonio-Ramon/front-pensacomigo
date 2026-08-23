@@ -2,7 +2,7 @@
    Tokens — Pensa Comigo. Três temas, um contrato.
    Aplicar com <html data-theme="papel|tinta|terra">. Papel é o padrão.
    Componentes usam SEMPRE estes tokens — nunca hex direto.
-   Valores transcritos da identidade (design-system/ é a referência visual).
+   Valores transcritos da identidade.
    ============================================================ */
 
 html[data-theme="papel"], :root {
@@ -14,7 +14,7 @@ html[data-theme="papel"], :root {
   --faint: #9995A4;         /* meta, labels mono, placeholders */
   --primary: #463C8C;       /* índigo — botões, links */
   --on-primary: #FAF8F5;
-  /* decisão 2026-08-20 (diverge do design-system): papel/tinta são monocromáticos
+  /* decisão 2026-08-20 (diverge da identidade original): papel/tinta são monocromáticos
      no índigo — accent = primary; só o tema terra usa o terracota */
   --accent: #463C8C;
   --line: #E6E1D9;          /* hairlines */

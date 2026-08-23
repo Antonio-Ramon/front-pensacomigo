@@ -6,7 +6,7 @@ import styles from "./layout.module.css";
 const TEMAS = ["papel", "tinta", "terra"] as const;
 type Tema = (typeof TEMAS)[number];
 
-/** papel / tinta / terra, conforme o ThemeSwitcher do design-system. */
+/** papel / tinta / terra. */
 export function ThemeSwitcher() {
   // começa null no servidor e no cliente; após montar lê o tema já aplicado pelo script inline
   const [tema, setTema] = useState<Tema | null>(null);

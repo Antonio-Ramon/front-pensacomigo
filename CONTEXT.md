@@ -58,8 +58,7 @@ juntos (cada tag nova é superfície de XSS e de CSS quebrado).
 5. **Auth conduzida pelo backend** ([#17](https://github.com/Antonio-Ramon/service-pensacomigo/issues/17)):
    cookie httpOnly da API; browser chama a API **direto** (`credentials: 'include'`), sem
    BFF. Requisito: front e API no mesmo domínio raiz. **Admin bloqueado até a #17.**
-6. **UI = componentes próprios criados no app** (`src/components/ui/`); `design-system/` e
-   `ui-reference/` são **apenas referência visual, nunca importados**. Sem Tailwind, sem shadcn.
+6. **UI = componentes próprios criados no app** (`src/components/ui/`). Sem Tailwind, sem shadcn.
 7. **Tipos gerados do Swagger** (`npm run api:types`), commitados.
 8. **TanStack Query** no client; **sem react-hook-form, sem zod**.
 9. Editor: `@dnd-kit/sortable` + Tiptap (whitelist acima + nodes Versículo/aside) +

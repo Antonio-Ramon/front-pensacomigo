@@ -1,4 +1,4 @@
-// Fila de toasts do design system (ui-reference/Toasts.dc.html).
+// Fila de toasts do design system.
 // Store fora do React: qualquer client component chama `toast.*` sem provider.
 // Regras já decididas no design: 5s de vida, 3 na tela, estado fixo fica até mudar.
 

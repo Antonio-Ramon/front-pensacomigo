@@ -84,8 +84,6 @@ src/
   lib/               # api.ts, api-admin.ts, toast.ts, imagens.ts, datas.ts, resumo.ts
   styles/            # tokens.css (design tokens) e prose.css (HTML do post)
   types/api.d.ts     # gerado do Swagger
-design-system/       # referência visual — nunca importado pelo app
-ui-reference/        # protótipos HTML — idem
 ```
 
 ## Rotas
@@ -123,7 +121,6 @@ Detalhes que valem lembrar (o resto está em [`CONTEXT.md`](CONTEXT.md)):
 - **Whitelist de HTML do bloco de texto** é contrato de três pontas (editor, sanitizador do
   backend, CSS do `Prose`). Tag nova = mudar as três juntas — a lista canônica está em
   [`CONTEXT.md`](CONTEXT.md).
-- `design-system/` e `ui-reference/` são referência visual: **nunca importe deles**.
 - Comentários `// ponytail:` marcam simplificação deliberada e o que a substitui quando doer.
 
 ## Documentação
