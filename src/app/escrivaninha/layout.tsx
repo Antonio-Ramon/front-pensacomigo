@@ -3,7 +3,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { urlLoginGoogle, usuarioLogado } from "@/lib/api-admin";
 import { urlDaImagem } from "@/lib/imagens";
-import { ThemeSwitcher } from "@/components/layout/ThemeSwitcher";
+import { Header } from "@/components/layout/Header";
 import { BotaoSair } from "./BotaoSair";
 import styles from "./escrivaninha.module.css";
 
@@ -29,41 +29,31 @@ export default async function AdminLayout({ children }: { children: React.ReactN
 
   return (
     <>
-      <header className={styles.header}>
-        <div className={`${styles.wrap} ${styles.headerInner}`}>
-          <div className={styles.marca}>
-            <Link href="/" className={styles.wordmark}>
-              pensa<span>·</span>comigo
-            </Link>
-            <span className={styles.breadcrumb}>/ escrivaninha / meditações</span>
-          </div>
-          <div className={styles.acoesHeader}>
-            <Link href="/" className={styles.linkVerBlog}>
-              ver blog <ArrowRight size={11} />
-            </Link>
-            <Link href="/escrivaninha/editor" className={styles.botaoNova}>
-              Nova meditação
-            </Link>
-            <span className={styles.usuario} title={usuario.email ?? undefined}>
-              {urlDaImagem(usuario.imagemUrl) ? (
-                <img src={urlDaImagem(usuario.imagemUrl)} alt="" className={styles.usuarioFoto} />
-              ) : (
-                <span className={styles.usuarioIniciais}>
-                  {(usuario.nome ?? "?").split(" ").map((w) => w[0]).join("").slice(0, 2).toUpperCase()}
-                </span>
-              )}
-              <span>
-                <span className={styles.usuarioNome}>{usuario.nome?.toLowerCase()}</span>
-                {usuario.isAdmin && <span className={styles.usuarioPapel}>admin</span>}
+      <Header>
+        <span className={styles.breadcrumb}>/ escrivaninha / meditações</span>
+        <div className={styles.acoesHeader}>
+          <Link href="/" className={styles.linkVerBlog}>
+            ver blog <ArrowRight size={11} />
+          </Link>
+          <Link href="/escrivaninha/editor" className={styles.botaoNova}>
+            Nova meditação
+          </Link>
+          <span className={styles.usuario} title={usuario.email ?? undefined}>
+            {urlDaImagem(usuario.imagemUrl) ? (
+              <img src={urlDaImagem(usuario.imagemUrl)} alt="" className={styles.usuarioFoto} />
+            ) : (
+              <span className={styles.usuarioIniciais}>
+                {(usuario.nome ?? "?").split(" ").map((w) => w[0]).join("").slice(0, 2).toUpperCase()}
               </span>
+            )}
+            <span>
+              <span className={styles.usuarioNome}>{usuario.nome?.toLowerCase()}</span>
+              {usuario.isAdmin && <span className={styles.usuarioPapel}>admin</span>}
             </span>
-            <BotaoSair />
-            <div className={styles.temaBox}>
-              <ThemeSwitcher />
-            </div>
-          </div>
+          </span>
+          <BotaoSair />
         </div>
-      </header>
+      </Header>
       <main className={`${styles.wrap} ${styles.main}`}>{children}</main>
     </>
   );
