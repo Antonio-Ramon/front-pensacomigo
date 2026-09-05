@@ -14,19 +14,20 @@ type Imagem = components["schemas"]["ImagemResponse"];
 type Resultado<T> = { ok: true; dados: T } | { ok: false; erro: string };
 
 async function comErro<T>(res: Response): Promise<Resultado<T>> {
-  if (res.ok) {
-    // DELETE devolve 204 sem corpo — json() estouraria
-    const texto = await res.text();
-    return { ok: true, dados: (texto ? JSON.parse(texto) : null) as T };
-  }
-  // sessão vencida no meio da escrita: a mensagem crua ("API respondeu 401") não
-  // diz ao autor o que fazer, e é justo quando o texto não salvo importa
   if (res.status === 401)
     return { ok: false, erro: "Sua sessão expirou. Entre de novo em outra aba e tente publicar." };
-  if (res.status === 403) return { ok: false, erro: "Sua conta não tem permissão para isso." };
-  const corpo = await res.json().catch(() => null);
-  const msgs = corpo?.notifications?.map((n: { message: string }) => n.message).join("; ");
-  return { ok: false, erro: msgs || corpo?.message || `API respondeu ${res.status}.` };
+
+  if (res.status === 403)
+    return { ok: false, erro: "Sua conta não tem permissão para isso." };
+
+  if (!res.ok) {
+    const corpo = await res.json().catch(() => null);
+    const msgs = corpo?.notifications?.map((n: { message: string }) => n.message).join("; ");
+    return { ok: false, erro: msgs || corpo?.message || `API respondeu ${res.status}.` };
+  }
+
+  const texto = await res.text();
+  return { ok: true, dados: (texto ? JSON.parse(texto) : null) as T };
 }
 
 export async function salvarPost(dados: {
@@ -60,7 +61,6 @@ export async function enviarImagem(fd: FormData): Promise<Resultado<Imagem>> {
   return comErro(await fetchAdmin("/api/v1/Imagens", { method: "POST", body: fd }));
 }
 
-// 422 quando vinculada a posts — a mensagem da API já diz a contagem.
 export async function excluirTag(id: string): Promise<Resultado<null>> {
   return comErro(await fetchAdmin(`/api/v1/Tags/${id}`, { method: "DELETE" }));
 }
