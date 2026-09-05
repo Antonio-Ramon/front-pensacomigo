@@ -13,6 +13,12 @@ PostgreSQL/Supabase, Clean Architecture + CQRS. Ao mexer em contrato de API — 
 filtro/ordenação/paginação, formato de erro — leia `../service-pensacomigo/README.md` e
 `../service-pensacomigo/docs/` em vez de inferir pelo front.
 
+## Commits e PRs
+
+Nunca inclua a linha `Claude-Session:` (nem o link da sessão em qualquer outro formato) em
+mensagem de commit ou descrição de PR. `Co-Authored-By` continua valendo quando o código
+foi escrito pelo agente.
+
 ## Agent skills
 
 ### Issue tracker
