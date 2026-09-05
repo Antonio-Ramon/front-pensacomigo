@@ -4,25 +4,59 @@ import { useEffect, useState } from "react";
 import type { components } from "@/types/api";
 import { API_PUBLICA, mensagemDeErro } from "@/lib/navegador";
 import { dataCurta } from "@/lib/datas";
+import { urlDaImagem } from "@/lib/imagens";
 import styles from "./interacoes.module.css";
 
 type Comentario = components["schemas"]["ComentarioListaResponse"];
+type Resposta = components["schemas"]["RespostaResponse"];
+
+/** O que /api/sessao devolve — só o dono da sessão se vê aqui. */
+type Sessao = { admin?: boolean; id?: string; nome?: string; imagemUrl?: string | null };
 
 const iniciais = (nome?: string | null) =>
   (nome ?? "?").split(" ").map((w) => w[0]).join("").slice(0, 2).toUpperCase();
 
+/** Avatar da conversa: foto de quem tem conta, iniciais para o visitante anônimo. */
+function Avatar({ nome, foto }: { nome?: string | null; foto?: string | null }) {
+  const url = urlDaImagem(foto);
+  return url ? (
+    <img src={url} alt="" className={styles.comentarioFoto} />
+  ) : (
+    <span className={styles.comentarioAvatar}>{iniciais(nome)}</span>
+  );
+}
+
+/** Cabeçalho de um comentário: nome, marca de autor do post e data. */
+function Assinatura({ item }: { item: Comentario | Resposta }) {
+  return (
+    <>
+      <b>{item.autor}</b>
+      {item.ehAutorDoPost && <span className={styles.selo}>autor</span>}
+      <span>{dataCurta(item.dataCriacao)}</span>
+    </>
+  );
+}
+
 /**
  * Conversa do post. Lista e envio saem do BROWSER: a API identifica o visitante pelo
  * IP da conexão para o rate limit de 5/min — pelo servidor do front todos seriam um só.
+ * Quem está logado comenta pela própria conta (cookie de sessão junto no POST), e a
+ * API assina com o nome cadastrado — o formulário nem oferece o campo de nome.
  */
-export function Comentarios({ postId }: { postId: string }) {
+export function Comentarios({ postId, autorId }: { postId: string; autorId?: string }) {
   const [itens, setItens] = useState<Comentario[]>([]);
+  const [sessao, setSessao] = useState<Sessao | null>(null);
   const [nome, setNome] = useState("");
   const [texto, setTexto] = useState("");
   const [aviso, setAviso] = useState("");
   const [enviando, setEnviando] = useState(false);
   // respostas aninham um nível só (padrão do design system) — responder só em comentário raiz
   const [respondendoA, setRespondendoA] = useState<{ id: string; autor: string } | null>(null);
+
+  const logado = sessao?.admin ? sessao : null;
+  // O selo só vale para quem escreveu ESTE post: admin visitando post do outro autor comenta
+  // como qualquer leitor com conta.
+  const ehAutorDoPost = !!logado && !!autorId && logado.id === autorId;
 
   useEffect(() => {
     fetch(`${API_PUBLICA}/api/v1/posts/${postId}/comentarios?PageSize=50&OrderBy=dataCriacao`)
@@ -31,9 +65,16 @@ export function Comentarios({ postId }: { postId: string }) {
       .catch(() => setAviso("Não foi possível carregar os comentários."));
   }, [postId]);
 
+  useEffect(() => {
+    fetch("/api/sessao")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((s) => setSessao(s))
+      .catch(() => {});
+  }, []);
+
   async function enviar(e: React.FormEvent) {
     e.preventDefault();
-    if (!nome.trim()) return setAviso("⚠ o nome é obrigatório.");
+    if (!logado && !nome.trim()) return setAviso("⚠ o nome é obrigatório.");
     if (!texto.trim()) return setAviso("⚠ escreva o comentário.");
 
     setEnviando(true);
@@ -41,8 +82,12 @@ export function Comentarios({ postId }: { postId: string }) {
       const res = await fetch(`${API_PUBLICA}/api/v1/posts/${postId}/comentarios`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        // Cookie de sessão (httpOnly) na chamada: é o que faz a API reconhecer o autor.
+        // Sem ele — leitor comum — o comentário segue anônimo, como sempre foi.
+        credentials: "include",
         body: JSON.stringify({
-          autor: nome.trim(),
+          // Logado não manda nome: a API assina com o da conta e ignoraria este campo.
+          autor: logado ? null : nome.trim(),
           conteudo: texto.trim(),
           parentId: respondendoA?.id ?? null,
         }),
@@ -57,6 +102,8 @@ export function Comentarios({ postId }: { postId: string }) {
         autor: criado.autor,
         conteudo: criado.conteudo,
         dataCriacao: new Date().toISOString(),
+        autorImagemUrl: logado?.imagemUrl ?? null,
+        ehAutorDoPost,
       };
       setItens((c) =>
         respondendoA
@@ -82,37 +129,36 @@ export function Comentarios({ postId }: { postId: string }) {
 
       <form className={styles.form} onSubmit={enviar}>
         <p className={styles.formTitulo}>
-          {respondendoA ? (
-            <>
-              RESPONDENDO A {respondendoA.autor.toUpperCase()}
-              <button
-                type="button"
-                className={styles.responder}
-                onClick={() => setRespondendoA(null)}
-              >
-                cancelar
-              </button>
-            </>
-          ) : (
-            "DEIXE UM COMENTÁRIO"
-          )}
+          {respondendoA ? `RESPONDENDO A ${respondendoA.autor.toUpperCase()}` : "DEIXE UM COMENTÁRIO"}
         </p>
-        <label>
-          <span>nome *</span>
-          <input
-            value={nome}
-            onChange={(e) => {
-              setNome(e.target.value);
-              setAviso("");
-            }}
-            placeholder="Seu nome (obrigatório)"
-            maxLength={80}
-          />
-        </label>
+
+        {logado ? (
+          // Identidade da conta no lugar do campo de nome: quem assina é a sessão,
+          // e um input aqui prometeria uma escolha que a API não aceita.
+          <div className={styles.identidade}>
+            <Avatar nome={logado.nome} foto={logado.imagemUrl} />
+            <span className={styles.identidadeNome}>{logado.nome}</span>
+            {ehAutorDoPost && <span className={styles.selo}>autor</span>}
+          </div>
+        ) : (
+          <label>
+            <span>nome *</span>
+            <input
+              value={nome}
+              onChange={(e) => {
+                setNome(e.target.value);
+                setAviso("");
+              }}
+              placeholder="Seu nome (obrigatório)"
+              maxLength={80}
+            />
+          </label>
+        )}
+
         <label>
           <span>comentário</span>
           <textarea
-            rows={3}
+            rows={4}
             value={texto}
             onChange={(e) => {
               setTexto(e.target.value);
@@ -126,6 +172,18 @@ export function Comentarios({ postId }: { postId: string }) {
           <button type="submit" disabled={enviando}>
             {enviando ? "Enviando…" : respondendoA ? "Responder" : "Comentar"}
           </button>
+          {respondendoA && (
+            <button
+              type="button"
+              className={styles.btnOutline}
+              onClick={() => {
+                setRespondendoA(null);
+                setAviso("");
+              }}
+            >
+              Cancelar
+            </button>
+          )}
           <span className={styles.aviso}>{aviso}</span>
         </div>
       </form>
@@ -138,10 +196,10 @@ export function Comentarios({ postId }: { postId: string }) {
         {itens.map((c) => (
           <article key={c.id}>
             <div className={styles.comentario}>
-              <span className={styles.comentarioAvatar}>{iniciais(c.autor)}</span>
+              <Avatar nome={c.autor} foto={c.autorImagemUrl} />
               <div className={styles.comentarioCorpo}>
                 <p className={styles.comentarioMeta}>
-                  <b>{c.autor}</b> <span>{dataCurta(c.dataCriacao)}</span>
+                  <Assinatura item={c} />
                   <button
                     type="button"
                     className={styles.responder}
@@ -160,10 +218,10 @@ export function Comentarios({ postId }: { postId: string }) {
               <div className={styles.respostas}>
                 {c.respostas!.map((r) => (
                   <div key={r.id} className={`${styles.resposta} ${styles.comentario}`}>
-                    <span className={styles.comentarioAvatar}>{iniciais(r.autor)}</span>
+                    <Avatar nome={r.autor} foto={r.autorImagemUrl} />
                     <div className={styles.comentarioCorpo}>
                       <p className={styles.comentarioMeta}>
-                        <b>{r.autor}</b> <span>{dataCurta(r.dataCriacao)}</span>
+                        <Assinatura item={r} />
                       </p>
                       <p className={styles.comentarioTexto}>{r.conteudo}</p>
                     </div>

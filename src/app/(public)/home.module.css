@@ -1,6 +1,6 @@
 .hero {
   position: relative;
-  padding: var(--sp-8) 0 20px;
+  padding: var(--sp-2) 0 20px;
 }
 .hero::before {
   content: "";

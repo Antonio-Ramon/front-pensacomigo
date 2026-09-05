@@ -94,6 +94,7 @@ export interface paths {
                 query?: {
                     code?: string;
                     state?: string;
+                    error?: string;
                 };
                 header?: never;
                 path?: never;
@@ -937,6 +938,8 @@ export interface components {
             /** Format: date-time */
             dataCriacao?: string;
             aprovado?: boolean;
+            autorImagemUrl?: string | null;
+            ehAutorDoPost?: boolean;
             respostas?: components["schemas"]["RespostaResponse"][] | null;
         };
         ComentarioListaResponsePagina: {
@@ -1097,6 +1100,8 @@ export interface components {
             /** Format: date-time */
             dataCriacao?: string;
             aprovado?: boolean;
+            autorImagemUrl?: string | null;
+            ehAutorDoPost?: boolean;
         };
         /** @enum {string} */
         StatusPost: "Rascunho" | "Publicado" | "Agendado";

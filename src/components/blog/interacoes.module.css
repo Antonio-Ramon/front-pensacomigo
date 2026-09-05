@@ -66,6 +66,13 @@
   font-family: var(--font-mono);
   font-size: 11px;
 }
+/* Mesma caixa do avatar de iniciais, com a foto de quem tem conta. */
+.comentarioFoto {
+  width: 30px;
+  height: 30px;
+  flex: none;
+  object-fit: cover;
+}
 .comentarioCorpo { flex: 1; min-width: 0; }
 .comentarioMeta {
   display: flex;
@@ -83,6 +90,16 @@
   font-family: var(--font-mono);
   font-size: 11px;
   color: var(--faint);
+}
+
+/* Badge do design system, no tom de destaque: marca o autor do post na conversa. */
+.selo {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  padding: 2px 7px;
+  color: var(--primary);
+  background: var(--primary-soft);
 }
 
 .comentarioTexto {
@@ -142,6 +159,19 @@
   color: var(--faint);
   margin-bottom: var(--sp-2);
 }
+/* Quem está logado não digita o nome: a linha mostra a conta que vai assinar. */
+.identidade {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: var(--sp-4);
+}
+.identidadeNome {
+  font-size: 13.5px;
+  font-weight: var(--w-medium);
+  color: var(--ink);
+}
+
 .form input,
 .form textarea {
   width: 100%;
@@ -154,6 +184,8 @@
   padding: var(--sp-3);
   resize: vertical;
 }
+/* Altura mínima que já mostra o comentário inteiro sem arrastar a alça. */
+.form textarea { min-height: 120px; }
 .form input:focus,
 .form textarea:focus { outline: none; border-color: var(--primary); }
 .form input::placeholder,
@@ -179,7 +211,22 @@
 .formRodape button:hover:not(:disabled) { filter: brightness(1.12); }
 .formRodape button:disabled { opacity: 0.6; cursor: default; }
 
+/* Variante outline: cancelar fica ao lado do enviar, sem competir com ele.
+   Seletor com o pai porque `.formRodape button` acima é mais específico que a classe sozinha. */
+.formRodape .btnOutline {
+  background: none;
+  color: var(--soft);
+  border-color: var(--line);
+  transition: color var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease);
+}
+.formRodape .btnOutline:hover:not(:disabled) {
+  filter: none;
+  color: var(--ink);
+  border-color: var(--soft);
+}
+
 .aviso {
+  margin-left: var(--sp-2);
   font-family: var(--font-mono);
   font-size: var(--fs-mono);
   color: var(--accent);
