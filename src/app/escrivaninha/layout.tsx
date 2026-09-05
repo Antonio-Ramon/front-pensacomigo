@@ -5,6 +5,7 @@ import { urlLoginGoogle, usuarioLogado } from "@/lib/api-admin";
 import { urlDaImagem } from "@/lib/imagens";
 import { ThemeSwitcher } from "@/components/layout/ThemeSwitcher";
 import { BotaoSair } from "./BotaoSair";
+import { AvisoErroLogin } from "./AvisoErroLogin";
 import styles from "./escrivaninha.module.css";
 
 export const metadata: Metadata = { title: "Escrivaninha" };
@@ -18,6 +19,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
         <div>
           <p className="pc-eyebrow">área do autor</p>
           <h1 className={styles.h1}>Entrar no painel</h1>
+          <AvisoErroLogin />
           {/* <a> comum de propósito: é um redirect para a API, fora do roteador do Next */}
           <a href={urlLoginGoogle("/escrivaninha")} className={styles.loginBotao}>
             entrar com google →

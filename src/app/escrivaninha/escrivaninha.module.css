@@ -325,6 +325,15 @@ a.botaoNova:hover { filter: brightness(1.12); color: var(--on-primary); }
   padding: 12px 22px;
 }
 .loginBotao:hover { background: var(--primary-strong); color: var(--on-primary); }
+/* falha do OAuth: o backend devolve o motivo em ?erro= e a mensagem fica aqui,
+   acima do botão, para o autor ler antes de tentar de novo */
+.loginErro {
+  margin-top: var(--sp-4);
+  color: var(--danger);
+  background: var(--danger-soft);
+  padding: 10px 14px;
+  font-size: var(--fs-ui);
+}
 
 @media (max-width: 760px) {
   .linha { grid-template-columns: 1fr 110px 120px; }
