@@ -186,7 +186,7 @@ export default async function PaginaPost({ params }: Props) {
             </nav>
           )}
 
-          <Comentarios postId={post.id!} />
+          <Comentarios postId={post.id!} autorId={post.autor?.id} />
         </div>
 
         <div className={styles.railBox}>
