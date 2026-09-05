@@ -111,15 +111,13 @@ export default async function PaginaPost({ params }: Props) {
           <span className={styles.metaMono}>
             {dataPorExtenso(post.dataCriacao)} · <b>{post.tempoLeitura} min de leitura</b>
             {(post.tags?.length ?? 0) > 0 && (
-              <>
-                {" · "}
-                {post.tags!.map((t, i) => (
-                  <span key={t.id}>
-                    {i > 0 && " · "}
-                    <Link href={`/tags/${t.slug}`}>{t.nome}</Link>
-                  </span>
+              <span className={styles.tags}>
+                {post.tags!.map((t) => (
+                  <Link key={t.id} href={`/tags/${t.slug}`} className={styles.tag}>
+                    {t.nome}
+                  </Link>
                 ))}
-              </>
+              </span>
             )}
           </span>
         </span>

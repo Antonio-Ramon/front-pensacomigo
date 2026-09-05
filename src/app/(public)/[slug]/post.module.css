@@ -62,8 +62,29 @@
   color: var(--faint);
 }
 .metaMono b { color: var(--soft); font-weight: var(--w-body); }
-.metaMono a { color: var(--faint); }
-.metaMono a:hover { color: var(--primary); }
+
+/* Tags seguem inline na linha da data, mas como badge — mesmo desenho dos botões do
+   rail de leitura (mono 11px sobre .surface, borda fina, hover escurecendo os dois). */
+.tags {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-left: 10px;
+  vertical-align: middle;
+}
+.tag {
+  display: inline-flex;
+  align-items: center;
+  height: 22px;
+  padding: 0 10px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  color: var(--soft);
+  transition: color var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease);
+}
+.tag:hover { border-color: var(--soft); color: var(--ink); }
 
 .capa {
   width: 100%;
