@@ -153,14 +153,19 @@
   opacity: 0.35;
   border-style: dashed;
 }
-/* clone do bloco que segue o mouse durante o drag (ghost nativo suprimido no Editor) */
+
 .fantasma {
   position: fixed;
   z-index: 100;
   margin: 0;
   pointer-events: none;
   border-color: var(--primary);
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+}
+
+:global(body.arrastandoBloco),
+:global(body.arrastandoBloco) * {
+  cursor: grabbing !important;
+  user-select: none;
 }
 .blocoCabecalho {
   display: flex;
@@ -178,6 +183,7 @@
 }
 .alca:active,
 .bloco[data-drag="dragging"] .alca { cursor: grabbing; }
+.alca { touch-action: none; }
 .blocoTipo {
   font-family: var(--font-mono);
   font-size: 10px;

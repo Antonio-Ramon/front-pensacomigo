@@ -89,7 +89,9 @@ export function Editor({
   const [pendente, startTransition] = useTransition();
   const [arrastando, setArrastando] = useState<number | null>(null);
   const [sobre, setSobre] = useState<number | null>(null);
-  // desfaz o clone que segue o mouse durante o drag
+  // a lista dá acesso aos retângulos dos blocos para descobrir sobre qual o ponteiro está
+  const listaRef = useRef<HTMLDivElement>(null);
+  // desfaz o arrasto em curso: some com o clone e solta os listeners do documento
   const fantasma = useRef<(() => void) | null>(null);
   const [confirmaPublicar, setConfirmaPublicar] = useState(false);
   // upload adiado: a capa escolhida fica local (File + preview) e só sobe no salvar
@@ -237,6 +239,66 @@ export function Editor({
     });
   }
 
+  /**
+   * Arrasto próprio, por pointer events, em vez do drag-and-drop nativo: só a alça
+   * inicia, o cursor fica sob nosso controle (o nativo troca para `move` sozinho, pelo
+   * dropEffect) e não existe drag image do navegador — logo, nenhuma sombra em volta.
+   */
+  function iniciarArrasto(e: React.PointerEvent, i: number) {
+    if (e.button !== 0) return;
+    e.preventDefault();
+    const el = (e.currentTarget as HTMLElement).closest<HTMLElement>(`.${styles.bloco}`);
+    if (!el) return;
+    const r = el.getBoundingClientRect();
+    const dx = e.clientX - r.left;
+    const dy = e.clientY - r.top;
+
+    const clone = el.cloneNode(true) as HTMLElement;
+    // cloneNode não leva o value atual dos campos controlados (file fica de fora: value é read-only)
+    const campos = el.querySelectorAll<HTMLInputElement>("textarea, input:not([type=file])");
+    clone
+      .querySelectorAll<HTMLInputElement>("textarea, input:not([type=file])")
+      .forEach((c, k) => (c.value = campos[k].value));
+    clone.classList.add(styles.fantasma);
+    clone.style.width = `${r.width}px`;
+    clone.style.left = `${r.left}px`;
+    clone.style.top = `${r.top}px`;
+    document.body.appendChild(clone);
+    // o cursor de arrasto vale para a página inteira enquanto o bloco viaja
+    document.body.classList.add("arrastandoBloco");
+
+    let alvo = i;
+    const mover_ = (ev: PointerEvent) => {
+      clone.style.left = `${ev.clientX - dx}px`;
+      clone.style.top = `${ev.clientY - dy}px`;
+      const irmaos = Array.from(listaRef.current?.children ?? []) as HTMLElement[];
+      const sob = irmaos.findIndex((n) => {
+        const b = n.getBoundingClientRect();
+        return ev.clientY >= b.top && ev.clientY <= b.bottom;
+      });
+      alvo = sob === -1 ? i : sob;
+      setSobre(alvo === i ? null : alvo);
+    };
+    const soltar = () => {
+      fantasma.current?.();
+      if (alvo !== i) mover(i, alvo);
+      setArrastando(null);
+      setSobre(null);
+    };
+    document.addEventListener("pointermove", mover_);
+    document.addEventListener("pointerup", soltar);
+    document.addEventListener("pointercancel", soltar);
+    fantasma.current = () => {
+      document.removeEventListener("pointermove", mover_);
+      document.removeEventListener("pointerup", soltar);
+      document.removeEventListener("pointercancel", soltar);
+      document.body.classList.remove("arrastandoBloco");
+      clone.remove();
+      fantasma.current = null;
+    };
+    setArrastando(i);
+  }
+
   const publicado = status === "Publicado";
   const agendado = status === "Agendado";
 
@@ -334,64 +396,19 @@ export function Editor({
           <span className={styles.contagem}>{String(blocos.length).padStart(2, "0")} blocos</span>
         </div>
 
-        <div className={styles.blocos}>
+        <div className={styles.blocos} ref={listaRef}>
           {blocos.map((b, i) => (
             <div
               key={b.key}
               className={styles.bloco}
               data-drag={arrastando === i ? "dragging" : sobre === i && arrastando !== null ? "over" : undefined}
-              draggable
-              onDragStart={(e) => {
-                e.dataTransfer.effectAllowed = "move";
-                // some com o ghost lavado do navegador — um clone nítido do bloco segue o mouse
-                const px = document.createElement("canvas");
-                px.width = px.height = 1;
-                e.dataTransfer.setDragImage(px, 0, 0);
-                const el = e.currentTarget;
-                const r = el.getBoundingClientRect();
-                const dx = e.clientX - r.left;
-                const dy = e.clientY - r.top;
-                const clone = el.cloneNode(true) as HTMLElement;
-                // cloneNode não leva o value atual dos campos controlados (file fica de fora: value é read-only)
-                const campos = el.querySelectorAll<HTMLInputElement>("textarea, input:not([type=file])");
-                clone
-                  .querySelectorAll<HTMLInputElement>("textarea, input:not([type=file])")
-                  .forEach((c, k) => (c.value = campos[k].value));
-                clone.classList.add(styles.fantasma);
-                clone.style.width = `${r.width}px`;
-                clone.style.left = `${r.left}px`;
-                clone.style.top = `${r.top}px`;
-                document.body.appendChild(clone);
-                const seguir = (ev: DragEvent) => {
-                  clone.style.left = `${ev.clientX - dx}px`;
-                  clone.style.top = `${ev.clientY - dy}px`;
-                };
-                document.addEventListener("dragover", seguir);
-                fantasma.current = () => {
-                  document.removeEventListener("dragover", seguir);
-                  clone.remove();
-                  fantasma.current = null;
-                };
-                setArrastando(i);
-              }}
-              onDragOver={(e) => {
-                e.preventDefault();
-                setSobre(i);
-              }}
-              onDrop={(e) => {
-                e.preventDefault();
-                if (arrastando !== null && arrastando !== i) mover(arrastando, i);
-                setArrastando(null);
-                setSobre(null);
-              }}
-              onDragEnd={() => {
-                fantasma.current?.();
-                setArrastando(null);
-                setSobre(null);
-              }}
             >
               <div className={styles.blocoCabecalho}>
-                <span className={styles.alca} title="Arrastar para reordenar">
+                <span
+                  className={styles.alca}
+                  title="Arrastar para reordenar"
+                  onPointerDown={(e) => iniciarArrasto(e, i)}
+                >
                   <GripVertical size={14} />
                 </span>
                 <span className={styles.blocoTipo}>{META[b.tipo].label}</span>
