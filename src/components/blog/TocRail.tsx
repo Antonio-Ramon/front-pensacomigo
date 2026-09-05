@@ -42,6 +42,14 @@ export function TocRail({ secoes }: { secoes: SecaoToc[] }) {
   }
   const ajustarFonte = (delta: number) => aplicarFonte(Math.min(23, Math.max(16, fonte + delta)));
 
+  function voltarAoTopo() {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    // Tira o #secao que o clique no índice deixou na barra: no topo não há seção
+    // selecionada, e o link copiado em seguida é o do post, não o de um trecho.
+    // replaceState não empilha histórico nem mexe na rolagem (o que um href="#" faria).
+    history.replaceState(null, "", location.pathname + location.search);
+  }
+
   return (
     <aside className={styles.rail}>
       {secoes.length > 0 && (
@@ -69,7 +77,7 @@ export function TocRail({ secoes }: { secoes: SecaoToc[] }) {
           A
         </button>
         <button type="button" onClick={() => ajustarFonte(1.5)}>A+</button>
-        <button type="button" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
+        <button type="button" onClick={voltarAoTopo}>
           topo <ArrowUpToLine size={11} />
         </button>
         <button
