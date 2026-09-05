@@ -59,7 +59,7 @@ svg.lucide { vertical-align: -0.125em; flex: none; }
   letter-spacing: var(--tracking-eyebrow);
   text-transform: lowercase;
   color: var(--faint);
-  margin: 0;
+  margin: 28px 0 0 0;
 }
 .pc-eyebrow b { color: var(--accent); font-weight: var(--w-medium); }
 

@@ -78,51 +78,7 @@ export function Comentarios({ postId }: { postId: string }) {
 
   return (
     <section className={styles.comentarios}>
-      <p className="pc-eyebrow">
-        comentários · <b>{String(itens.length).padStart(2, "0")}</b>
-      </p>
       <h2 className={styles.comentariosTitulo}>O que você pensou?</h2>
-
-      <div className={styles.conversa}>
-        {itens.map((c) => (
-          <article key={c.id}>
-            <div className={styles.comentario}>
-              <span className={styles.comentarioAvatar}>{iniciais(c.autor)}</span>
-              <div className={styles.comentarioCorpo}>
-                <p className={styles.comentarioMeta}>
-                  <b>{c.autor}</b> <span>{dataCurta(c.dataCriacao)}</span>
-                  <button
-                    type="button"
-                    className={styles.responder}
-                    onClick={() => {
-                      setRespondendoA({ id: c.id!, autor: c.autor ?? "" });
-                      setAviso("");
-                    }}
-                  >
-                    responder
-                  </button>
-                </p>
-                <p className={styles.comentarioTexto}>{c.conteudo}</p>
-              </div>
-            </div>
-            {(c.respostas?.length ?? 0) > 0 && (
-              <div className={styles.respostas}>
-                {c.respostas!.map((r) => (
-                  <div key={r.id} className={`${styles.resposta} ${styles.comentario}`}>
-                    <span className={styles.comentarioAvatar}>{iniciais(r.autor)}</span>
-                    <div className={styles.comentarioCorpo}>
-                      <p className={styles.comentarioMeta}>
-                        <b>{r.autor}</b> <span>{dataCurta(r.dataCriacao)}</span>
-                      </p>
-                      <p className={styles.comentarioTexto}>{r.conteudo}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-          </article>
-        ))}
-      </div>
 
       <form className={styles.form} onSubmit={enviar}>
         <p className={styles.formTitulo}>
@@ -173,6 +129,51 @@ export function Comentarios({ postId }: { postId: string }) {
           <span className={styles.aviso}>{aviso}</span>
         </div>
       </form>
+
+      <p className="pc-eyebrow">
+        comentários · <b>{String(itens.length).padStart(2, "0")}</b>
+      </p>
+
+      <div className={styles.conversa}>
+        {itens.map((c) => (
+          <article key={c.id}>
+            <div className={styles.comentario}>
+              <span className={styles.comentarioAvatar}>{iniciais(c.autor)}</span>
+              <div className={styles.comentarioCorpo}>
+                <p className={styles.comentarioMeta}>
+                  <b>{c.autor}</b> <span>{dataCurta(c.dataCriacao)}</span>
+                  <button
+                    type="button"
+                    className={styles.responder}
+                    onClick={() => {
+                      setRespondendoA({ id: c.id!, autor: c.autor ?? "" });
+                      setAviso("");
+                    }}
+                  >
+                    responder
+                  </button>
+                </p>
+                <p className={styles.comentarioTexto}>{c.conteudo}</p>
+              </div>
+            </div>
+            {(c.respostas?.length ?? 0) > 0 && (
+              <div className={styles.respostas}>
+                {c.respostas!.map((r) => (
+                  <div key={r.id} className={`${styles.resposta} ${styles.comentario}`}>
+                    <span className={styles.comentarioAvatar}>{iniciais(r.autor)}</span>
+                    <div className={styles.comentarioCorpo}>
+                      <p className={styles.comentarioMeta}>
+                        <b>{r.autor}</b> <span>{dataCurta(r.dataCriacao)}</span>
+                      </p>
+                      <p className={styles.comentarioTexto}>{r.conteudo}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </article>
+        ))}
+      </div>
     </section>
   );
 }
