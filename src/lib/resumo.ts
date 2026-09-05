@@ -1,7 +1,7 @@
 import type { Bloco } from "@/lib/api";
 
-// Não existe campo de resumo no backend (decisão 13 do briefing):
-// deriva ~160 caracteres do primeiro bloco de texto, sem HTML.
+// Fallback de descrição para quem não preencheu o dek: deriva ~160 caracteres
+// do primeiro bloco de texto, sem HTML.
 export function resumoDoPost(conteudo?: Bloco[] | null): string {
   const html = conteudo?.find((b) => b.tipo === 0 && b.html)?.html ?? "";
   const texto = html.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();

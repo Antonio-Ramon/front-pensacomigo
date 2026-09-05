@@ -25,13 +25,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const post = await abrirPost(slug);
   if (!post) return {};
   const capa = urlDaImagem(post.imagemCapa);
+  const descricao = post.dek?.trim() || resumoDoPost(post.conteudo) || undefined;
   return {
     title: post.titulo ?? undefined,
-    description: resumoDoPost(post.conteudo) || undefined,
+    description: descricao,
     openGraph: {
       type: "article",
       title: post.titulo ?? undefined,
-      description: resumoDoPost(post.conteudo) || undefined,
+      description: descricao,
       images: capa ? [capa] : undefined,
     },
   };
