@@ -1,10 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { TEMAS, type Tema, aplicarTema, temaAtual } from "@/lib/tema";
 import styles from "./layout.module.css";
-
-const TEMAS = ["papel", "tinta", "terra"] as const;
-type Tema = (typeof TEMAS)[number];
 
 /** papel / tinta / terra. */
 export function ThemeSwitcher() {
@@ -12,15 +10,12 @@ export function ThemeSwitcher() {
   const [tema, setTema] = useState<Tema | null>(null);
 
   useEffect(() => {
-    setTema((document.documentElement.dataset.theme as Tema) ?? "papel");
+    setTema(temaAtual());
   }, []);
 
   function trocar(t: Tema) {
     setTema(t);
-    document.documentElement.dataset.theme = t;
-    try {
-      localStorage.setItem("pc-theme", t);
-    } catch {}
+    aplicarTema(t);
   }
 
   return (
