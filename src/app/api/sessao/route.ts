@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { usuarioLogado } from "@/lib/api-admin";
+import { COOKIE_SESSAO, usuarioLogado } from "@/lib/api-admin";
 
 // O header público é estático — a checagem de sessão sai daqui para não
 // derrubar o cache das páginas. Devolve o mínimo para o dono da sessão se
@@ -14,4 +14,11 @@ export async function GET() {
     nome: usuario.nome,
     imagemUrl: usuario.imagemUrl,
   });
+}
+
+// O logout na API expira o cookie do domínio dela; o gravado aqui precisa sair junto.
+export async function DELETE() {
+  const res = new NextResponse(null, { status: 204 });
+  res.cookies.delete(COOKIE_SESSAO);
+  return res;
 }

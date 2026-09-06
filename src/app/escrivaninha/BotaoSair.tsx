@@ -16,6 +16,8 @@ export function BotaoSair() {
         credentials: "include",
       });
       if (!res.ok) throw new Error(`API respondeu ${res.status}.`);
+      // Com front e API em domínios diferentes a sessão também vive num cookie daqui.
+      await fetch("/api/sessao", { method: "DELETE" });
       window.location.href = "/";
     } catch (e) {
       toast.falhou("Não foi possível sair", e, sair);
