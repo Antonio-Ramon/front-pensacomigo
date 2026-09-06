@@ -5,6 +5,8 @@ export type Perfil = components["schemas"]["PerfilResponse"];
 
 const BASE = process.env.API_URL ?? "http://localhost:5001";
 
+export const COOKIE_SESSAO = "pc_sessao";
+
 /**
  * Fetch autenticado do lado do servidor: repassa o cookie de sessão (pc_sessao,
  * httpOnly) para a API e nunca cacheia. Em dev front e API compartilham o host
@@ -12,7 +14,7 @@ const BASE = process.env.API_URL ?? "http://localhost:5001";
  * servir sob o mesmo domínio.
  */
 export async function fetchAdmin(path: string, init: RequestInit = {}) {
-  const sessao = (await cookies()).get("pc_sessao")?.value;
+  const sessao = (await cookies()).get(COOKIE_SESSAO)?.value;
   return fetch(`${BASE}${path}`, {
     ...init,
     cache: "no-store",
