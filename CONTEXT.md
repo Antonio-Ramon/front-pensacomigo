@@ -59,7 +59,9 @@ juntos (cada tag nova é superfície de XSS e de CSS quebrado).
    cookie httpOnly da API; browser chama a API **direto** (`credentials: 'include'`), sem
    BFF. Requisito: front e API no mesmo domínio raiz. **Admin bloqueado até a #17.**
 6. **UI = componentes próprios criados no app** (`src/components/ui/`). Sem Tailwind, sem shadcn.
-7. **Tipos gerados do Swagger** (`npm run api:types`), commitados.
+7. **Tipos gerados do Swagger** (`npm run api:types`), commitados. O gerador roda **fora da
+   árvore do projeto** (npx com TS 5.9 próprio): o projeto está em TypeScript 7, que não expõe
+   a API de AST que o `openapi-typescript` usa — ver ADR 0002.
 8. **TanStack Query** no client; **sem react-hook-form, sem zod**.
 9. Editor: `@dnd-kit/sortable` + Tiptap (whitelist acima + nodes Versículo/aside) +
    `react-easy-crop` + WebP no browser.

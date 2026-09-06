@@ -3,9 +3,9 @@
 <p align="center"><em>“A fé que te obriga a pensar.”</em></p>
 
 <p align="center">
-  <img alt="Next.js" src="https://img.shields.io/badge/Next.js-16-000000?logo=nextdotjs&logoColor=white">
+  <img alt="Next.js" src="https://img.shields.io/badge/Next.js-16.3-000000?logo=nextdotjs&logoColor=white">
   <img alt="React" src="https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black">
-  <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript&logoColor=white">
+  <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-7.0-3178C6?logo=typescript&logoColor=white">
   <img alt="CSS Modules" src="https://img.shields.io/badge/CSS%20Modules-sem%20Tailwind-1572B6?logo=css3&logoColor=white">
   <img alt="Backend" src="https://img.shields.io/badge/API-.NET%2010%20%2B%20PostgreSQL-512BD4?logo=dotnet&logoColor=white">
   <img alt="Status" src="https://img.shields.io/badge/status-em%20desenvolvimento-yellow">
@@ -41,7 +41,7 @@ volta no envelope de erro (`notifications`), que os formulários pintam por camp
 
 ## Como rodar
 
-Requer **Node 20+** e o backend rodando em `../service-pensacomigo` (ou uma `API_URL` que aponte para ele).
+Requer **Node 24 LTS** (`.nvmrc` na raiz — `nvm use`) e o backend rodando em `../service-pensacomigo` (ou uma `API_URL` que aponte para ele).
 
 ```bash
 git clone https://github.com/Antonio-Ramon/front-pensacomigo.git
@@ -68,6 +68,12 @@ npm run build       # build de produção
 npm start           # serve o build
 npm run api:types   # regenera src/types/api.d.ts do Swagger (backend precisa estar de pé)
 ```
+
+> **`api:types` não usa o TypeScript do projeto.** Estamos no TS 7, que não expõe mais a API de
+> AST usada pelo `openapi-typescript` — por isso o script roda o gerador isolado via `npx -p`,
+> com um TS 5.9 próprio, e o `openapi-typescript` **não** está em `devDependencies` (se voltar,
+> `npm ci` quebra com `ERESOLVE`). Precisa de rede na primeira execução de cada máquina.
+> Detalhes e caminho de volta: [`docs/adr/0002-typescript-7-e-codegen-isolado.md`](docs/adr/0002-typescript-7-e-codegen-isolado.md).
 
 ## Estrutura
 
