@@ -59,7 +59,7 @@ export function Comentarios({ postId, autorId }: { postId: string; autorId?: str
   const ehAutorDoPost = !!logado && !!autorId && logado.id === autorId;
 
   useEffect(() => {
-    fetch(`${API_PUBLICA}/api/v1/posts/${postId}/comentarios?PageSize=50&OrderBy=dataCriacao`)
+    fetch(`${API_PUBLICA}/api/v1/posts/${postId}/comentarios?PageSize=50&OrderBy=dataCriacao%20desc`)
       .then((r) => (r.ok ? r.json() : { items: [] }))
       .then((p) => setItens(p.items ?? []))
       .catch(() => setAviso("Não foi possível carregar os comentários."));
@@ -110,7 +110,7 @@ export function Comentarios({ postId, autorId }: { postId: string; autorId?: str
           ? c.map((i) =>
               i.id === respondendoA.id ? { ...i, respostas: [...(i.respostas ?? []), novo] } : i,
             )
-          : [...c, { ...novo, respostas: [] }],
+          : [{ ...novo, respostas: [] }, ...c],
       );
       setRespondendoA(null);
       setNome("");
