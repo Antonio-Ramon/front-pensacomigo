@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { listarPosts } from "@/lib/api";
 import { PostList } from "@/components/blog/PostRow";
+import { FeedAoVivo } from "@/components/blog/FeedAoVivo";
 
 type Props = { params: Promise<{ tag: string }> };
 
@@ -16,6 +17,7 @@ export default async function PaginaTag({ params }: Props) {
 
   return (
     <>
+      <FeedAoVivo />
       <p className="pc-eyebrow">tag</p>
       <h1 className="pc-titulo" style={{ marginBottom: "var(--sp-6)" }}>
         {slug}
