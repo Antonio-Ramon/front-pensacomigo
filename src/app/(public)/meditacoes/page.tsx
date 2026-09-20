@@ -4,6 +4,7 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import { listarEtapas, listarPosts } from "@/lib/api";
 import { MOODS, etapaCurta } from "@/lib/moods";
 import { PostList } from "@/components/blog/PostRow";
+import { FeedAoVivo } from "@/components/blog/FeedAoVivo";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { NewsletterCTA } from "@/components/layout/NewsletterCTA";
 import { BuscaForm } from "./BuscaForm";
@@ -52,6 +53,7 @@ export default async function Arquivo({
 
   return (
     <>
+      <FeedAoVivo />
       <section className={styles.cabecalho}>
         <p className="pc-eyebrow">
           arquivo completo · <b>{totalItems} meditações</b>

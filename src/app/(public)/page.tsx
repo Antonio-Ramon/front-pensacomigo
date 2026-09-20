@@ -4,6 +4,7 @@ import { MOODS } from "@/lib/moods";
 import { versoDoDia } from "@/lib/versos";
 import { urlDaImagem } from "@/lib/imagens";
 import { PostList } from "@/components/blog/PostRow";
+import { FeedAoVivo } from "@/components/blog/FeedAoVivo";
 import { NewsletterCTA } from "@/components/layout/NewsletterCTA";
 import styles from "./home.module.css";
 
@@ -22,6 +23,7 @@ export default async function Home() {
 
   return (
     <>
+      <FeedAoVivo />
       <section className={styles.hero}>
         <div className={styles.heroConteudo}>
           <p className="pc-eyebrow">

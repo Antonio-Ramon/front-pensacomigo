@@ -1,9 +1,9 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { HubConnectionBuilder } from "@microsoft/signalr";
 import type { components } from "@/types/api";
 import { API_PUBLICA, mensagemDeErro } from "@/lib/navegador";
+import { ouvirPost } from "@/lib/tempoReal";
 import { dataCurta } from "@/lib/datas";
 import { urlDaImagem } from "@/lib/imagens";
 import styles from "./interacoes.module.css";
@@ -74,30 +74,7 @@ export function Comentarios({ postId, autorId }: { postId: string; autorId?: str
 
   // Realtime: o evento é só o AVISO de que algo mudou — o corpo empurrado não traz data,
   // foto, selo nem respostas, então quem diz a verdade continua sendo o GET.
-  useEffect(() => {
-    const conexao = new HubConnectionBuilder()
-      .withUrl(`${API_PUBLICA}/hubs/comentarios`)
-      .withAutomaticReconnect()
-      .build();
-
-    // O grupo guarda ConnectionId, e o reconnect gera outro: para o Hub somos uma conexão nova.
-    const entrar = () => conexao.invoke("Entrar", postId);
-
-    conexao.on("ComentarioCriado", carregar);
-    conexao.onreconnected(() => {
-      entrar();
-      carregar();
-    });
-    // Sem realtime a página segue como sempre foi: GET + formulário. É melhoria, não requisito.
-    const iniciado = conexao.start().then(entrar).catch(() => {});
-
-    return () => {
-      // só para depois que o start assentar: parar no meio da negociação aborta o
-      // handshake e o SignalR loga "connection was stopped during negotiation" —
-      // acontece a cada remontagem do efeito (StrictMode) e ao sair do post cedo
-      iniciado.finally(() => conexao.stop().catch(() => {}));
-    };
-  }, [postId, carregar]);
+  useEffect(() => ouvirPost(postId, { ComentarioCriado: carregar }, carregar), [postId, carregar]);
 
   useEffect(() => {
     fetch("/api/sessao")
