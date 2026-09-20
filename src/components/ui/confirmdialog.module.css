@@ -12,7 +12,7 @@
   background: var(--surface);
   border: 1px solid var(--line);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.16);
-  padding: 28px;
+  padding: var(--px-28);
   max-width: 420px;
   width: 100%;
 }
@@ -20,29 +20,35 @@
 .titulo {
   font-family: var(--font-display);
   font-weight: var(--w-medium);
-  font-size: 21px;
+  font-size: var(--fs-21);
   color: var(--ink);
   margin: 0;
 }
 
 .mensagem {
-  font-size: 14.5px;
+  font-size: var(--fs-14-5);
   color: var(--soft);
   line-height: 1.6;
-  margin: 10px 0 0;
+  margin: var(--px-10) 0 0;
 }
 
 .acoes {
   display: flex;
-  gap: 10px;
+  gap: var(--px-10);
   justify-content: flex-end;
-  margin-top: 24px;
+  margin-top: var(--px-24);
+}
+/* no celular os dois botões dividem a linha, no alvo de toque */
+@media (max-width: 520px) {
+  .caixa { padding: var(--sp-5); }
+  .acoes { margin-top: var(--sp-5); }
+  .acoes button { flex: 1; padding: var(--sp-3) var(--sp-4); }
 }
 .acoes button {
   font-family: var(--font-ui);
   font-size: var(--fs-ui-sm);
   font-weight: var(--w-medium);
-  padding: 8px 16px;
+  padding: var(--sp-2) var(--sp-4);
   cursor: pointer;
   transition: all var(--dur-fast) var(--ease);
 }

@@ -3,9 +3,9 @@
 .row {
   display: grid;
   grid-template-columns: 86px 96px 1fr 30px;
-  gap: 20px;
+  gap: var(--px-20);
   align-items: center;
-  padding: 20px 6px;
+  padding: var(--px-20) var(--px-6);
   border-bottom: 1px solid var(--line);
   color: var(--ink);
   transition: background var(--dur) var(--ease);
@@ -14,10 +14,10 @@
 
 .data {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: var(--fs-11);
   color: var(--faint);
   white-space: nowrap;
-  padding-top: 4px;
+  padding-top: var(--sp-1);
 }
 
 .thumb {
@@ -30,7 +30,7 @@
   background: repeating-linear-gradient(45deg, var(--bg-alt) 0 8px, transparent 8px 17px);
   transition: border-color var(--dur) var(--ease);
   font-family: var(--font-mono);
-  font-size: 9px;
+  font-size: var(--fs-9);
   color: var(--faint);
 }
 .row:hover .thumb { border-color: var(--soft); }
@@ -46,11 +46,11 @@
 }
 
 .dek {
-  font-size: 14px;
+  font-size: var(--fs-body-sm);
   color: var(--soft);
   line-height: 1.55;
   max-width: 58ch;
-  margin: 5px 0 0;
+  margin: var(--px-5) 0 0;
 }
 
 .meta {
@@ -63,16 +63,30 @@
 .seta {
   font-family: var(--font-mono);
   justify-self: end;
-  padding-top: 4px;
+  padding-top: var(--sp-1);
   color: var(--faint);
   opacity: 0.55;
   transform: translateX(-6px);
-  transition: transform 220ms var(--ease), opacity var(--dur), color var(--dur);
+  transition: transform var(--dur-sai) var(--ease), opacity var(--dur), color var(--dur);
 }
 /* ponytail: para em 0 (a referência vai a +4px, mas aqui estoura o gutter e encosta na borda) */
 .row:hover .seta { color: var(--accent); opacity: 1; transform: translateX(0); }
 
 @media (max-width: 640px) {
-  .row { grid-template-columns: 1fr 30px; }
-  .data, .thumb { display: none; }
+  /* a miniatura sai, a data desce para a linha de meta e a seta some: em 360px o que
+     importa é o título ter largura inteira, e a linha toda já é o alvo de toque */
+  .row {
+    grid-template-columns: 1fr;
+    gap: 0;
+    padding: var(--px-18) 0;
+  }
+  .thumb, .seta { display: none; }
+  .data {
+    order: 2;
+    padding-top: 0;
+    margin-top: var(--sp-2);
+  }
+  .titulo { font-size: var(--fs-prose); }
+  .dek { font-size: var(--fs-13-5); }
+  .meta { margin-top: var(--sp-1); }
 }
