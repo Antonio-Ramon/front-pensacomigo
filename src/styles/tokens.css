@@ -113,6 +113,13 @@ html[data-theme="terra"] {
   --fs-ui-xs: 12px;
   --lh-ui: 1.4;
 
+  /* Escala fina de corpo — os tamanhos que o desenho usa e que não têm papel
+     nomeado acima. Mesma ideia do --px-N: o número mora só aqui. */
+  --fs-9: 9px;       --fs-10: 10px;     --fs-11: 11px;     --fs-12-5: 12.5px;
+  --fs-13-5: 13.5px; --fs-14-5: 14.5px; --fs-15: 15px;     --fs-16-5: 16.5px;
+  --fs-17: 17px;     --fs-18: 18px;     --fs-19: 19px;     --fs-21: 21px;
+  --fs-22: 22px;     --fs-24: 24px;     --fs-26: 26px;     --fs-28: 28px;
+
   /* ---- Labels mono ---- */
   --fs-mono: 11.5px;
   --fs-mono-sm: 10.5px;
@@ -126,23 +133,56 @@ html[data-theme="terra"] {
   --w-medium: 500;
   --w-semibold: 600;
 
-  /* ---- Espaçamento (base 4px) ---- */
+  /* ---- Espaçamento ----
+     --sp-1..9 é o ritmo da página: o passo que separa blocos e seções.
+     --px-N é a escala fina, para o ajuste que não é passo de ritmo (recuo de
+     ícone dentro do input, respiro interno de um chip). O nome é o valor em px
+     porque aqui não há ritmo a batizar — mas o número mora só aqui. */
   --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px; --sp-5: 22px;
   --sp-6: 30px; --sp-7: 48px; --sp-8: 74px; --sp-9: 96px;
+
+  --px-2: 2px; --px-3: 3px; --px-5: 5px; --px-6: 6px; --px-7: 7px;
+  --px-9: 9px; --px-10: 10px; --px-11: 11px; --px-13: 13px; --px-14: 14px;
+  --px-15: 15px; --px-18: 18px; --px-20: 20px; --px-24: 24px; --px-26: 26px;
+  --px-28: 28px; --px-34: 34px; --px-36: 36px; --px-38: 38px; --px-40: 40px;
+  --px-42: 42px; --px-44: 44px; --px-52: 52px; --px-56: 56px; --px-64: 64px;
+  --px-30: 30px; --px-32: 32px; --px-60: 60px; --px-80: 80px;
 
   /* ---- Layout — uma coluna estreita, centrada ---- */
   --measure: 100%;
   /* fluido: 1100px só em monitor largo (≥1375px); em notebook fica ~80vw (ex.: 1024 em tela de 1280),
      nunca abaixo dos 940 da referência */
   --container: clamp(940px, 80vw, 1100px);
-  /* gutter fluido: ~16px no celular, ~32-40px em notebook (o conteúdo respira sem media query) */
-  --gutter: clamp(16px, 3.5vw, 40px);
+  /* gutter fluido: ~8px no celular, ~32-40px em notebook (o conteúdo respira sem media query) */
+  --gutter: clamp(8px, 10px, 12px);
   --section-gap: var(--sp-9);
   --rail: 190px;
+  /* altura do header fixo — quem gruda embaixo dele (barra de progresso, rail) lê daqui */
+  --header-h: 58px;
+  /* Avatares — a mesma foto aparece em quatro escalas pelo site */
+  --avatar-xs: 26px;  /* linha do autor na escrivaninha */
+  --avatar-sm: 28px;  /* atalho do autor no header */
+  --avatar-md: 30px;  /* assinatura do post e dos comentários */
+  --avatar-lg: 44px;  /* caixa de autor */
+  /* alvo de toque confortável no polegar (o celular redefine para 44px) */
+  --touch: 44px;
 
   /* ---- Movimento (cantos retos e borda 1px são regra: sem radius, sem sombra) ---- */
   --ease: cubic-bezier(.22, .9, .3, 1);
   --dur-fast: 150ms;
   --dur: 200ms;
+  --dur-entra: 260ms;   /* toast entrando — passo a mais que --dur para o olho pegar */
+  --dur-sai: 220ms;     /* toast saindo e a seta do PostRow */
   --dur-slow: 350ms;
+}
+
+/* ============================================================
+   Mobile — o mesmo contrato, com a régua do celular.
+   760px é o corte do header (nav vira gaveta) e das tabelas.
+   ============================================================ */
+@media (max-width: 760px) {
+  :root {
+    --header-h: 54px;
+    --section-gap: var(--sp-8);
+  }
 }

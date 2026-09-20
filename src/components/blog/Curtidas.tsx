@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { Heart } from "lucide-react";
 import { API_PUBLICA } from "@/lib/navegador";
+import { ouvirPost } from "@/lib/tempoReal";
 import styles from "./interacoes.module.css";
 
 /**
@@ -17,6 +18,10 @@ export function Curtidas({ postId, inicial }: { postId: string; inicial: number 
   useEffect(() => {
     setCurtido(localStorage.getItem(chave) === "1");
   }, [chave]);
+
+  // Aqui o evento carrega o VALOR, não um aviso: refazer o GET do post custaria +1 visualização.
+  // Vale para a própria curtida também — o otimismo abaixo é só para o clique não esperar a rede.
+  useEffect(() => ouvirPost(postId, { CurtidasAtualizadas: setTotal }), [postId]);
 
   async function alternar() {
     const proximo = !curtido;

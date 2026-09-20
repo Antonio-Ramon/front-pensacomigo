@@ -1,11 +1,23 @@
 /* Defaults de elemento — os temas cuidam da cor, aqui é ritmo. */
 * { box-sizing: border-box; }
 
+/* a âncora para embaixo do header fixo em vez de sumir atrás dele */
+:target { scroll-margin-top: calc(var(--header-h) + var(--sp-4)); }
+h2[id], h3[id], section[id] { scroll-margin-top: calc(var(--header-h) + var(--sp-4)); }
+
+/* no toque o destaque cinza do Android atrapalha mais do que ajuda */
+a, button { -webkit-tap-highlight-color: transparent; }
+
+/* palavra longa (slug, url colada) não empurra a página para o lado */
+h1, h2, h3, p, li, a { overflow-wrap: break-word; }
+
 /* âncoras (TocRail, #sobre, #newsletter) rolam suave; reduced-motion desliga abaixo */
 html {
   /* peso 500 global: traço mais firme, sem o afinamento do antialiased */
-  font-weight: 500;
+  font-weight: var(--w-medium);
   scroll-behavior: smooth;
+  /* o iOS aumenta a fonte sozinho ao girar a tela; a escala já é fluida */
+  -webkit-text-size-adjust: 100%;
   /* firefox: scrollbar fina nas cores do tema */
   scrollbar-width: thin;
   scrollbar-color: var(--faint) var(--bg-alt);
@@ -23,6 +35,8 @@ html {
 
 body {
   margin: 0;
+  /* nenhuma página rola para o lado no celular — quem tem conteúdo largo rola por dentro */
+  overflow-x: hidden;
   background: var(--bg);
   color: var(--ink);
   font-family: var(--font-ui);
@@ -55,11 +69,11 @@ svg.lucide { vertical-align: -0.125em; flex: none; }
 /* Cabeçalho de seção — mesmo trio (eyebrow, título, lede) em toda página. */
 .pc-eyebrow {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: var(--fs-11);
   letter-spacing: var(--tracking-eyebrow);
   text-transform: lowercase;
   color: var(--faint);
-  margin: 28px 0 0 0;
+  margin: var(--px-28) 0 0 0;
 }
 .pc-eyebrow b { color: var(--accent); font-weight: var(--w-medium); }
 
@@ -73,8 +87,13 @@ svg.lucide { vertical-align: -0.125em; flex: none; }
 }
 
 .pc-lede {
-  font-size: 14.5px;
+  font-size: var(--fs-14-5);
   color: var(--soft);
   max-width: 52ch;
   margin: var(--sp-2) 0 0;
+}
+
+@media (max-width: 760px) {
+  .pc-eyebrow { margin-top: var(--sp-5); }
+  .pc-lede { font-size: var(--fs-body-sm); }
 }

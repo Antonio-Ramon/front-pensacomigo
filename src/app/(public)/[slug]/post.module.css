@@ -14,22 +14,23 @@
   line-height: 1.06;
   letter-spacing: var(--tracking-display);
   max-width: 100%;
-  margin: 14px 0 0;
+  margin: var(--px-14) 0 0;
 }
 
 .dek {
   font-family: var(--font-display);
   font-weight: var(--w-light);
-  font-size: 19px;
+  font-size: var(--fs-19);
   color: var(--soft);
   line-height: 1.55;
   max-width: 54ch;
-  margin: 16px 0 0;
+  margin: var(--sp-4) 0 0;
 }
 
 .metaLinha {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: var(--sp-3);
   margin-top: var(--sp-6);
   padding-bottom: var(--sp-6);
@@ -37,8 +38,8 @@
 }
 .avatar,
 .avatarIniciais {
-  width: 30px;
-  height: 30px;
+  width: var(--avatar-md);
+  height: var(--avatar-md);
   flex: none;
   object-fit: cover;
 }
@@ -48,17 +49,17 @@
   background: var(--accent);
   color: var(--on-primary);
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: var(--fs-11);
 }
 .autorNome {
   display: block;
-  font-size: 13.5px;
+  font-size: var(--fs-13-5);
   font-weight: var(--w-medium);
   color: var(--ink);
 }
 .metaMono {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: var(--fs-11);
   color: var(--faint);
 }
 .metaMono b { color: var(--soft); font-weight: var(--w-body); }
@@ -68,17 +69,25 @@
 .tags {
   display: inline-flex;
   flex-wrap: wrap;
-  gap: 6px;
-  margin-left: 10px;
+  gap: var(--px-6);
+  margin-left: var(--px-10);
   vertical-align: middle;
+}
+/* no celular as tags descem para a linha de baixo em vez de espremer a data */
+@media (max-width: 520px) {
+  .tags { display: flex; margin-left: 0; margin-top: var(--sp-2); }
+  .tag { height: 28px; }
+  /* com as tags numa linha própria o bloco cresce: a foto alinha pelo nome, não pelo meio */
+  .metaLinha { align-items: flex-start; }
+  .avatar, .avatarIniciais { margin-top: var(--px-2); }
 }
 .tag {
   display: inline-flex;
   align-items: center;
   height: 22px;
-  padding: 0 10px;
+  padding: 0 var(--px-10);
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: var(--fs-11);
   background: var(--surface);
   border: 1px solid var(--line);
   color: var(--soft);
@@ -97,10 +106,10 @@
 .corpo {
   display: grid;
   grid-template-columns: 1fr var(--rail);
-  gap: 56px;
+  gap: var(--px-56);
   align-items: start;
 }
-.coluna { min-width: 0; padding-top: 36px; }
+.coluna { min-width: 0; padding-top: var(--px-36); }
 .railBox { align-self: stretch; }
 @media (max-width: 900px) {
   .corpo { grid-template-columns: 1fr; }
@@ -108,7 +117,7 @@
 }
 
 .reacoes {
-  margin-top: 40px;
+  margin-top: var(--px-40);
   display: flex;
   align-items: center;
   gap: var(--sp-4);
@@ -118,12 +127,13 @@
   align-items: center;
   gap: var(--sp-2);
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: var(--fs-11);
   color: var(--faint);
 }
 
 .authorBox {
   display: flex;
+  flex-wrap: wrap;
   gap: var(--sp-4);
   align-items: flex-start;
   padding: var(--sp-5);
@@ -131,12 +141,12 @@
   border: 1px solid var(--line);
   max-width: var(--measure);
   margin-top: var(--sp-7);
-  padding: 24px;
+  padding: var(--px-24);
 }
 .avatarGrande,
 .avatarGrandeIniciais {
-  width: 44px;
-  height: 44px;
+  width: var(--avatar-lg);
+  height: var(--avatar-lg);
   flex: none;
   object-fit: cover;
 }
@@ -146,11 +156,11 @@
   background: var(--accent);
   color: var(--on-primary);
   font-family: var(--font-mono);
-  font-size: 15px;
+  font-size: var(--fs-15);
 }
 .authorNomeBox {
   font-family: var(--font-display);
-  font-size: 18px;
+  font-size: var(--fs-18);
   font-weight: var(--w-medium);
   color: var(--ink);
   margin: 0;
@@ -159,18 +169,18 @@
   font-size: var(--fs-body-sm);
   color: var(--soft);
   line-height: 1.55;
-  margin: 5px 0 0;
+  margin: var(--px-5) 0 0;
 }
 
-.newsletter { margin-top: 44px; }
+.newsletter { margin-top: var(--px-44); }
 
-.relacionados { margin-top: 56px; }
+.relacionados { margin-top: var(--px-56); }
 .tituloSecao {
   font-family: var(--font-display);
   font-weight: var(--w-body);
-  font-size: 26px;
+  font-size: var(--fs-26);
   letter-spacing: -0.02em;
-  margin: 0 0 10px;
+  margin: 0 0 var(--px-10);
 }
 
 .pager {
@@ -178,22 +188,36 @@
   justify-content: space-between;
   gap: var(--sp-4);
   flex-wrap: wrap;
-  margin-top: 56px;
-  padding-top: 26px;
+  margin-top: var(--px-56);
+  padding-top: var(--px-26);
   border-top: 1px solid var(--line);
 }
 .pagerLado { max-width: 46%; }
+@media (max-width: 620px) {
+  .pager { flex-direction: column; gap: var(--sp-5); }
+  .pagerLado { max-width: 100%; }
+  .pagerDireita { text-align: left; }
+}
 .pagerDireita { text-align: right; }
 .pagerKicker {
   display: block;
   font-family: var(--font-mono);
   font-size: var(--fs-mono-sm);
   color: var(--faint);
-  margin-bottom: 5px;
+  margin-bottom: var(--px-5);
 }
 .pagerTitulo {
   font-family: var(--font-display);
-  font-size: 16.5px;
+  font-size: var(--fs-16-5);
   color: var(--ink);
 }
 .pagerLado:hover .pagerTitulo { color: var(--primary); }
+
+@media (max-width: 760px) {
+  .voltar { margin-bottom: var(--sp-5); }
+  .corpo { gap: 0; }
+  .coluna { padding-top: var(--sp-5); }
+  .reacoes { margin-top: var(--sp-6); flex-wrap: wrap; }
+  .authorBox { padding: var(--sp-5); }
+  .relacionados, .newsletter { margin-top: var(--sp-7); }
+}

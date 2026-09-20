@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, ArrowRight, Eye } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import { abrirPost, listarPosts, type Bloco } from "@/lib/api";
 import { resumoDoPost } from "@/lib/resumo";
 import { urlDaImagem } from "@/lib/imagens";
@@ -9,6 +9,7 @@ import { Prose } from "@/components/blog/Prose";
 import { ProgressoLeitura } from "@/components/blog/ProgressoLeitura";
 import { TocRail, type SecaoToc } from "@/components/blog/TocRail";
 import { Curtidas } from "@/components/blog/Curtidas";
+import { Visualizacoes } from "@/components/blog/Visualizacoes";
 import { Comentarios } from "@/components/blog/Comentarios";
 import { PostList } from "@/components/blog/PostRow";
 import { NewsletterCTA } from "@/components/layout/NewsletterCTA";
@@ -132,7 +133,7 @@ export default async function PaginaPost({ params }: Props) {
           <div className={styles.reacoes}>
             <Curtidas postId={post.id!} inicial={post.qtdCurtidas ?? 0} />
             <span className={styles.visualizacoes} title="visualizações">
-              <Eye size={15} /> {post.qtdVisualizacoes ?? 0}
+              <Visualizacoes postId={post.id!} inicial={post.qtdVisualizacoes ?? 0} />
             </span>
           </div>
 
