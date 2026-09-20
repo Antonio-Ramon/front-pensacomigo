@@ -1,13 +1,13 @@
 .rail {
   position: sticky;
-  top: 86px;
-  padding-top: 38px;
+  top: calc(var(--header-h) + 28px);
+  padding-top: var(--px-38);
   width: var(--rail);
 }
 
 .rotulo {
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--fs-10);
   letter-spacing: 0.12em;
   color: var(--faint);
   margin: 0 0 var(--sp-3);
@@ -19,14 +19,14 @@
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: var(--px-2);
   border-left: 1px solid var(--line);
 }
 .indice a {
   display: block;
-  font-size: 12.5px;
+  font-size: var(--fs-12-5);
   line-height: 1.35;
-  padding: 5px 0 5px 14px;
+  padding: var(--px-5) 0 var(--px-5) var(--px-14);
   margin-left: -1px;
   border-left: 1.5px solid transparent;
   color: var(--faint);
@@ -46,11 +46,11 @@
 }
 .ferramentas button {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: var(--fs-11);
   background: var(--surface);
   border: 1px solid var(--line);
   color: var(--soft);
-  padding: 0 10px;
+  padding: 0 var(--px-10);
   height: 24px;
   cursor: pointer;
   transition: color var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease);

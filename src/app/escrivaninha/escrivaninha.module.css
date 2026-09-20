@@ -4,31 +4,20 @@
   padding: 0 var(--gutter);
 }
 
-/* em telas estreitas o header quebra linha em vez de estourar a página */
-@media (max-width: 760px) {
-  .headerInner {
-    flex-wrap: wrap;
-    height: auto;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    row-gap: 6px;
-  }
-  .acoesHeader { flex-wrap: wrap; row-gap: 6px; }
-}
 .breadcrumb {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: var(--fs-11);
   color: var(--faint);
 }
 .acoesHeader {
   margin-left: auto;
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: var(--px-14);
 }
 .linkVerBlog {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: var(--fs-11);
   color: var(--soft);
 }
 .linkVerBlog:hover { color: var(--primary); }
@@ -39,7 +28,7 @@
   color: var(--on-primary);
   background: var(--primary);
   border: 1px solid transparent;
-  padding: 8px 16px;
+  padding: var(--sp-2) var(--sp-4);
   cursor: pointer;
   transition: filter var(--dur-fast) var(--ease);
 }
@@ -47,17 +36,18 @@
 a.botaoNova:hover { filter: brightness(1.12); color: var(--on-primary); }
 
 /* Quem está logado — foto (ou iniciais em accent) + nome + papel */
+.usuarioTexto { display: block; }
 .usuario {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding-left: 12px;
+  gap: var(--sp-2);
+  padding-left: var(--sp-3);
   border-left: 1px solid var(--line);
 }
 .usuarioFoto,
 .usuarioIniciais {
-  width: 26px;
-  height: 26px;
+  width: var(--avatar-xs);
+  height: var(--avatar-xs);
   flex: none;
   object-fit: cover;
 }
@@ -67,25 +57,46 @@ a.botaoNova:hover { filter: brightness(1.12); color: var(--on-primary); }
   background: var(--accent);
   color: var(--on-primary);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--fs-10);
 }
 .usuarioNome {
   display: block;
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: var(--fs-11);
   color: var(--soft);
   line-height: 1.2;
 }
 .usuarioPapel {
   display: block;
   font-family: var(--font-mono);
-  font-size: 9px;
+  font-size: var(--fs-9);
   letter-spacing: 0.08em;
   color: var(--accent);
   line-height: 1.2;
 }
 
-.main { padding: 44px 0 96px; }
+/* Entre 760 e 900 o breadcrumb é o primeiro a sair: sem ele as ações cabem na barra
+   sem quebrar o botão em duas linhas. */
+@media (max-width: 900px) {
+  .breadcrumb { display: none; }
+  .botaoNova { white-space: nowrap; }
+  .acoesHeader { gap: var(--px-10); }
+}
+
+/* No celular a faixa do meio inteira migra para a gaveta; sobra a foto do autor,
+   que já diz de quem é a sessão. */
+@media (max-width: 760px) {
+  .acoesHeader { display: none; }
+  .usuarioTexto { display: none; }
+  .usuario { padding-left: 0; border-left: none; }
+}
+
+/* padding-block, não o shorthand: o elemento também leva .wrap, e `padding: x 0 y`
+   zerava o gutter lateral que vem de lá (era o que colava tudo na borda no celular) */
+.main { padding-block: var(--px-44) var(--sp-9); }
+@media (max-width: 760px) {
+  .main { padding-block: var(--px-26) var(--px-64); }
+}
 
 .h1 {
   font-family: var(--font-display);
@@ -93,7 +104,7 @@ a.botaoNova:hover { filter: brightness(1.12); color: var(--on-primary); }
   font-size: clamp(30px, 4.5vw, 44px);
   line-height: 1.06;
   letter-spacing: -0.022em;
-  margin: 12px 0 0;
+  margin: var(--sp-3) 0 0;
 }
 
 .filtros {
@@ -102,15 +113,15 @@ a.botaoNova:hover { filter: brightness(1.12); color: var(--on-primary); }
   gap: var(--sp-4);
   align-items: center;
   justify-content: space-between;
-  margin-top: 28px;
+  margin-top: var(--px-28);
 }
-.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chips { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
 .chip {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: var(--fs-11);
   letter-spacing: 0.06em;
   cursor: pointer;
-  padding: 7px 11px;
+  padding: var(--px-7) var(--px-11);
   border: 1px solid var(--line);
   background: var(--surface);
   color: var(--soft);
@@ -139,61 +150,67 @@ a.botaoNova:hover { filter: brightness(1.12); color: var(--on-primary); }
   border: 1px solid var(--line);
   color: var(--ink);
   font-family: var(--font-mono);
-  font-size: 12px;
-  padding: 9px 12px 9px 34px;
+  font-size: var(--fs-ui-xs);
+  padding: var(--px-9) var(--sp-3) var(--px-9) var(--px-34);
 }
 .buscaInput:focus { outline: none; border-color: var(--primary); }
+@media (max-width: 760px) {
+  .filtros { gap: var(--sp-3); }
+  .buscaBox { width: 100%; }
+  .buscaInput { width: 100%; padding-top: var(--sp-3); padding-bottom: var(--sp-3); }
+  .chip { padding: var(--px-10) var(--sp-3); }
+}
 
-.tabela { margin-top: 22px; border-top: 1px solid var(--line); }
+.tabela { margin-top: var(--sp-5); border-top: 1px solid var(--line); }
 .linha {
   display: grid;
   grid-template-columns: 110px 1fr 150px 110px 110px;
   gap: var(--sp-4);
   align-items: center;
-  padding: 16px 12px;
+  padding: var(--sp-4) var(--sp-3);
   border-bottom: 1px solid var(--line);
   transition: background var(--dur-fast) var(--ease);
 }
 .linha:hover { background: var(--bg-alt); }
 .cabecalhoTabela {
-  padding: 10px 12px;
+  padding: var(--px-10) var(--sp-3);
 }
 .cabecalhoTabela:hover { background: none; }
 .cabecalhoTabela span {
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--fs-10);
   letter-spacing: 0.12em;
   color: var(--faint);
 }
 .data {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: var(--fs-11);
   color: var(--faint);
 }
 .tituloPost {
   font-family: var(--font-display);
-  font-size: 18px;
+  font-size: var(--fs-18);
   letter-spacing: -0.01em;
   color: var(--ink);
 }
 .tituloPost:hover { color: var(--primary); }
 .tagLine {
   font-family: var(--font-mono);
-  font-size: 10.5px;
+  font-size: var(--fs-mono-sm);
   color: var(--faint);
 }
 .metaCol {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: var(--fs-11);
   color: var(--soft);
   text-transform: capitalize;
 }
 /* tons do Badge do design system: rascunho=warning, publicado=success, sem borda */
 .badge {
   font-family: var(--font-mono);
-  font-size: 10.5px;
+  font-size: var(--fs-mono-sm);
   letter-spacing: 0.06em;
-  padding: 4px 9px;
+  padding: var(--sp-1) var(--px-9);
   color: var(--warning);
   background: var(--warning-soft);
 }
@@ -201,11 +218,11 @@ a.botaoNova:hover { filter: brightness(1.12); color: var(--on-primary); }
 .badgeAgendado { color: var(--soft); background: var(--bg-alt); }
 .acoes {
   display: flex;
-  gap: 14px;
+  gap: var(--px-14);
   justify-content: flex-end;
   align-items: center;
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: var(--fs-11);
 }
 .acoes a {
   display: inline-flex;
@@ -215,7 +232,7 @@ a.botaoNova:hover { filter: brightness(1.12); color: var(--on-primary); }
 .acoes a:hover { color: var(--primary); }
 .btnExcluir {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: var(--fs-11);
   background: none;
   border: none;
   color: var(--faint);
@@ -239,18 +256,18 @@ a.botaoNova:hover { filter: brightness(1.12); color: var(--on-primary); }
   align-items: flex-start;
   justify-content: space-between;
   gap: var(--sp-4);
-  padding: 16px 0;
+  padding: var(--sp-4) 0;
   border-bottom: 1px solid var(--line);
 }
 .comentarioMeta {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: var(--fs-11);
   color: var(--faint);
-  margin: 0 0 4px;
+  margin: 0 0 var(--sp-1);
 }
 .comentarioMeta b { color: var(--soft); }
 .comentarioTexto {
-  font-size: 15px;
+  font-size: var(--fs-15);
   color: var(--ink);
   margin: 0;
   max-width: 65ch;
@@ -258,15 +275,15 @@ a.botaoNova:hover { filter: brightness(1.12); color: var(--on-primary); }
 /* comentário oculto: some para o leitor, mas o admin precisa achá-lo para reexibir */
 .oculto .comentarioTexto { color: var(--faint); text-decoration: line-through; }
 .marcaOculto {
-  margin-left: 8px;
-  padding: 0 5px;
+  margin-left: var(--sp-2);
+  padding: 0 var(--px-5);
   border: 1px solid var(--line);
   color: var(--danger);
   text-transform: uppercase;
 }
 
 .respostaLinha {
-  margin-top: 12px;
+  margin-top: var(--sp-3);
   padding-left: var(--sp-4);
   border-left: 2px solid var(--line);
 }
@@ -292,11 +309,42 @@ a.botaoNova:hover { filter: brightness(1.12); color: var(--on-primary); }
   letter-spacing: var(--tracking-mono);
   color: var(--on-primary);
   background: var(--primary);
-  padding: 12px 22px;
+  padding: var(--sp-3) var(--sp-5);
 }
 .loginBotao:hover { background: var(--primary-strong); color: var(--on-primary); }
 
+/* No celular a tabela vira cartão: cinco colunas não cabem em 360px sem picotar o
+   título. Cada linha empilha título, meta e ações, com as ações num alvo de toque. */
 @media (max-width: 760px) {
-  .linha { grid-template-columns: 1fr 110px 120px; }
-  .data, .metaCol { display: none; }
+  .tabela { border-top: none; }
+  .cabecalhoTabela { display: none; }
+  .linha {
+    grid-template-columns: 1fr auto;
+    gap: var(--sp-2) var(--sp-3);
+    align-items: start;
+    padding: var(--sp-4) 0;
+  }
+  /* título na primeira linha inteira; depois data | status e meta | ações */
+  .colTitulo {
+    order: 1;
+    grid-column: 1 / -1;
+  }
+  .tituloPost { font-size: var(--fs-19); line-height: 1.3; }
+  .data { order: 2; }
+  .colStatus { order: 3; justify-self: end; }
+  .metaCol { order: 4; }
+  .data, .metaCol { font-size: var(--fs-mono-sm); }
+  .acoes {
+    order: 5;
+    justify-self: end;
+    gap: var(--sp-5);
+  }
+  .acoes a,
+  .acoes .btnExcluir {
+    min-width: 32px;
+    min-height: 32px;
+    align-items: center;
+    justify-content: center;
+  }
+  .comentarioLinha { flex-direction: column; }
 }

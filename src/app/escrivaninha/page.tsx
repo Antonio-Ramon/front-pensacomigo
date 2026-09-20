@@ -70,7 +70,7 @@ export default async function PainelAdmin({
           return (
             <div key={p.id} className={styles.linha}>
               <span className={styles.data}>{dataCurta(p.dataPublicacao ?? p.dataCriacao)}</span>
-              <span>
+              <span className={styles.colTitulo}>
                 <Link
                   href={publicado ? `/${p.slug}` : `/escrivaninha/editor/${p.id}`}
                   className={styles.tituloPost}
@@ -86,7 +86,7 @@ export default async function PainelAdmin({
                 {p.autor?.nome?.toLowerCase()}
                 {p.etapa && ` · ${String(p.etapa.numero).padStart(2, "0")}`}
               </span>
-              <span>
+              <span className={styles.colStatus}>
                 <span
                   className={`${styles.badge} ${publicado ? styles.badgePublicado : ""} ${agendado ? styles.badgeAgendado : ""}`}
                 >

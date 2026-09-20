@@ -1,4 +1,6 @@
-import { Header, NavPublica } from "@/components/layout/Header";
+import { Header, LinksPublicos, NavPublica } from "@/components/layout/Header";
+import { AdminLink } from "@/components/layout/AdminLink";
+import { MenuMobile } from "@/components/layout/MenuMobile";
 import { Footer } from "@/components/layout/Footer";
 
 export default function PublicLayout({
@@ -6,7 +8,7 @@ export default function PublicLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <>
-      <Header>
+      <Header acoes={<AdminLink />} menu={<MenuMobile><LinksPublicos /></MenuMobile>}>
         <NavPublica />
       </Header>
       <main
