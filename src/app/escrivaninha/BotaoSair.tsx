@@ -6,7 +6,7 @@ import { toast } from "@/lib/toast";
 import styles from "./escrivaninha.module.css";
 
 /** Logout direto no browser: o Set-Cookie de expiração precisa chegar a ele. */
-export function BotaoSair() {
+export function BotaoSair({ className }: { className?: string } = {}) {
   async function sair() {
     // sem o Set-Cookie de expiração a sessão continua viva: falhou, fica —
     // redirecionar aqui seria logout de mentira
@@ -25,7 +25,7 @@ export function BotaoSair() {
   }
 
   return (
-    <button type="button" className={styles.btnExcluir} onClick={sair} title="Sair">
+    <button type="button" className={className ?? styles.btnExcluir} onClick={sair} title="Sair">
       <LogOut size={12} /> sair
     </button>
   );

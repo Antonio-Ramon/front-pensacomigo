@@ -1,4 +1,5 @@
-.cabecalho { padding: 64px 0 0; }
+.cabecalho { padding: var(--px-64) 0 0; }
+@media (max-width: 760px) { .cabecalho { padding-top: var(--sp-6); } }
 
 .h1 {
   font-family: var(--font-display);
@@ -12,34 +13,34 @@
 .busca {
   display: flex;
   position: relative;
-  margin: 34px 0 18px;
+  margin: var(--px-34) 0 var(--px-18);
 }
 
 /* grupos de filtro da referência: ETAPA DA TRILHA + ESTADO DE CHEGADA lado a lado */
 .filtros {
   display: flex;
   flex-wrap: wrap;
-  gap: 24px;
+  gap: var(--px-24);
   align-items: flex-start;
-  margin-bottom: 30px;
+  margin-bottom: var(--sp-6);
 }
 .filtroRotulo {
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--fs-10);
   letter-spacing: 0.12em;
   color: var(--faint);
-  margin: 0 0 8px;
+  margin: 0 0 var(--sp-2);
 }
 .chips {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: var(--sp-2);
 }
 .chip {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: var(--fs-11);
   letter-spacing: 0.06em;
-  padding: 7px 11px;
+  padding: var(--px-7) var(--px-11);
   border: 1px solid var(--line);
   background: var(--surface);
   color: var(--soft);
@@ -70,7 +71,7 @@
   color: var(--ink);
   background: var(--surface);
   border: 1px solid var(--line);
-  padding: 13px 16px 13px 38px;
+  padding: var(--px-13) var(--sp-4) var(--px-13) var(--px-38);
 }
 .busca input::placeholder { color: var(--faint); }
 .busca input:focus { outline: none; border-color: var(--primary); }
@@ -93,6 +94,18 @@
   font-family: var(--font-mono);
   font-size: var(--fs-mono);
   color: var(--faint);
-  margin: 0 0 10px;
+  margin: 0 0 var(--px-10);
   min-height: 18px;
+}
+
+@media (max-width: 620px) {
+  .busca { margin: var(--sp-5) 0 var(--sp-4); }
+  .busca input {
+    font-size: var(--fs-body); /* sem zoom automático no iOS */
+    padding: var(--px-14) var(--sp-4) var(--px-14) var(--px-38);
+  }
+  .filtros { gap: var(--sp-5); }
+  .chip { padding: var(--px-10) var(--sp-3); }
+  .paginacao { margin-top: var(--sp-6); }
+  .paginacao a { padding: var(--px-10) 0; }
 }

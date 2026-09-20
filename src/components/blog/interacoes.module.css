@@ -1,11 +1,11 @@
 /* Botão de curtir com ícone de coração (pedido do usuário; substitui a frase do design system) */
 .curtir {
   font-family: var(--font-ui);
-  font-size: 13px;
+  font-size: var(--fs-ui-sm);
   color: var(--soft);
   background: var(--surface);
   border: 1px solid var(--line);
-  padding: 8px 15px;
+  padding: var(--sp-2) var(--px-15);
   display: inline-flex;
   align-items: center;
   gap: var(--sp-2);
@@ -14,7 +14,7 @@
 }
 .curtir b {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: var(--fs-11);
   font-weight: var(--w-body);
   color: var(--faint);
 }
@@ -28,13 +28,13 @@
 .curtido b { color: var(--primary); }
 
 .comentarios {
-  margin-top: 64px;
+  margin-top: var(--px-64);
   max-width: var(--measure);
 }
 .comentariosTitulo {
   font-family: var(--font-display);
   font-weight: var(--w-body);
-  font-size: 26px;
+  font-size: var(--fs-26);
   letter-spacing: -0.02em;
   margin: var(--sp-3) 0 0;
 }
@@ -42,9 +42,9 @@
 .conversa {
   display: flex;
   flex-direction: column;
-  gap: 26px;
-  margin-top: 28px;
-  padding-top: 26px;
+  gap: var(--px-26);
+  margin-top: var(--px-28);
+  padding-top: var(--px-26);
   border-top: 1px solid var(--line);
 }
 .conversa:empty { display: none; }
@@ -52,52 +52,52 @@
 /* Comment do design system: avatar de iniciais + nome ui/data mono + corpo serif */
 .comentario {
   display: flex;
-  gap: 12px;
+  gap: var(--sp-3);
   align-items: flex-start;
 }
 .comentarioAvatar {
-  width: 30px;
-  height: 30px;
+  width: var(--avatar-md);
+  height: var(--avatar-md);
   flex: none;
   display: grid;
   place-items: center;
   background: var(--accent);
   color: var(--on-primary);
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: var(--fs-11);
 }
 /* Mesma caixa do avatar de iniciais, com a foto de quem tem conta. */
 .comentarioFoto {
-  width: 30px;
-  height: 30px;
+  width: var(--avatar-md);
+  height: var(--avatar-md);
   flex: none;
   object-fit: cover;
 }
 .comentarioCorpo { flex: 1; min-width: 0; }
 .comentarioMeta {
   display: flex;
-  gap: 10px;
+  gap: var(--px-10);
   align-items: baseline;
   flex-wrap: wrap;
   margin: 0;
 }
 .comentarioMeta b {
-  font-size: 13.5px;
+  font-size: var(--fs-13-5);
   font-weight: var(--w-medium);
   color: var(--ink);
 }
 .comentarioMeta span {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: var(--fs-11);
   color: var(--faint);
 }
 
 /* Badge do design system, no tom de destaque: marca o autor do post na conversa. */
 .selo {
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--fs-10);
   letter-spacing: 0.06em;
-  padding: 2px 7px;
+  padding: var(--px-2) var(--px-7);
   color: var(--primary);
   background: var(--primary-soft);
 }
@@ -105,35 +105,35 @@
 .comentarioTexto {
   font-family: var(--font-display);
   font-weight: var(--w-light);
-  font-size: 16px;
+  font-size: var(--fs-body);
   line-height: 1.6;
   color: var(--ink);
-  margin: 6px 0 0;
+  margin: var(--px-6) 0 0;
   white-space: pre-wrap;
 }
 
 .responder {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: var(--fs-11);
   background: none;
   border: none;
   color: var(--faint);
   cursor: pointer;
   padding: 0;
-  margin-left: 4px;
+  margin-left: var(--sp-1);
   transition: color var(--dur-fast) var(--ease);
 }
 .responder:hover { color: var(--primary); }
 
 .respostas {
-  margin-top: 20px;
-  margin-left: 42px;
+  margin-top: var(--px-20);
+  margin-left: var(--px-42);
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: var(--px-20);
 }
 .resposta {
-  padding-left: 20px;
+  padding-left: var(--px-20);
   border-left: 1px solid var(--line);
 }
 
@@ -163,11 +163,11 @@
 .identidade {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: var(--px-10);
   margin-bottom: var(--sp-4);
 }
 .identidadeNome {
-  font-size: 13.5px;
+  font-size: var(--fs-13-5);
   font-weight: var(--w-medium);
   color: var(--ink);
 }
@@ -204,7 +204,7 @@
   color: var(--on-primary);
   background: var(--primary);
   border: 1px solid transparent;
-  padding: 8px 16px;
+  padding: var(--sp-2) var(--sp-4);
   cursor: pointer;
   transition: filter var(--dur-fast) var(--ease);
 }
@@ -231,4 +231,19 @@
   font-size: var(--fs-mono);
   color: var(--accent);
   min-height: 16px;
+}
+
+@media (max-width: 620px) {
+  .comentarios { margin-top: var(--sp-7); }
+  .curtir { padding: var(--px-11) var(--sp-4); }
+  /* a resposta fica menos recuada: 42+20px de recuo comiam metade da linha em 360px */
+  .respostas { margin-left: var(--sp-4); }
+  .resposta { padding-left: var(--sp-3); }
+  /* "responder" precisa de área de toque, não só de texto */
+  .responder { padding: var(--sp-2) 0; margin-left: 0; }
+  .form { padding: var(--sp-4); }
+  /* 16px no input evita o zoom automático do iOS ao focar o campo */
+  .form input, .form textarea { font-size: var(--fs-body); }
+  .formRodape button { flex: 1; padding: var(--sp-3) var(--sp-4); }
+  .aviso { margin-left: 0; flex-basis: 100%; }
 }

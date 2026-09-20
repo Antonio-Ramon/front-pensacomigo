@@ -1,18 +1,25 @@
 .cols {
   display: grid;
-  grid-template-columns: 1fr 300px;
-  gap: 48px;
+  /* minmax(0,…): sem isso a coluna cresce até o min-content da barra de blocos e
+     empurra a página inteira para fora da tela no celular */
+  grid-template-columns: minmax(0, 1fr) 300px;
+  gap: var(--sp-7);
   align-items: start;
 }
+.cols > * { min-width: 0; }
 @media (max-width: 900px) {
-  .cols { grid-template-columns: 1fr; }
+  .cols {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--sp-6);
+  }
 }
 
 .barra {
   display: flex;
   align-items: center;
-  gap: 14px;
-  margin-bottom: 26px;
+  flex-wrap: wrap;
+  gap: var(--px-10) var(--px-14);
+  margin-bottom: var(--px-26);
 }
 .voltar {
   font-family: var(--font-mono);
@@ -24,14 +31,24 @@
   margin-left: auto;
   display: flex;
   align-items: center;
-  gap: 10px;
+  flex-wrap: wrap;
+  gap: var(--px-10);
+}
+/* no celular as ações ficam numa linha própria, de ponta a ponta e no alvo de toque */
+@media (max-width: 760px) {
+  .barraAcoes {
+    width: 100%;
+    margin-left: 0;
+  }
+  .barraAcoes > * { flex: 1; justify-content: center; }
+  .btnGhost, .btnPrimario { padding: var(--sp-3) var(--px-14); }
 }
 /* tons do Badge do design system: rascunho=warning, publicado=success, sem borda */
 .badge {
   font-family: var(--font-mono);
-  font-size: 10.5px;
+  font-size: var(--fs-mono-sm);
   letter-spacing: 0.06em;
-  padding: 4px 9px;
+  padding: var(--sp-1) var(--px-9);
   color: var(--warning);
   background: var(--warning-soft);
 }
@@ -39,7 +56,7 @@
 .badgeAgendado { color: var(--soft); background: var(--bg-alt); }
 .verNoBlog {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: var(--fs-11);
   color: var(--accent);
 }
 .btnGhost {
@@ -49,7 +66,7 @@
   background: none;
   border: 1px solid var(--line);
   color: var(--ink);
-  padding: 8px 16px;
+  padding: var(--sp-2) var(--sp-4);
   cursor: pointer;
   transition: all var(--dur-fast) var(--ease);
 }
@@ -61,7 +78,7 @@
   color: var(--on-primary);
   background: var(--primary);
   border: 1px solid transparent;
-  padding: 8px 16px;
+  padding: var(--sp-2) var(--sp-4);
   cursor: pointer;
   transition: filter var(--dur-fast) var(--ease);
 }
@@ -70,25 +87,25 @@
 
 .erro {
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: var(--fs-ui-xs);
   color: var(--danger);
   border: 1px solid currentColor;
-  padding: 10px 12px;
-  margin: 0 0 18px;
+  padding: var(--px-10) var(--sp-3);
+  margin: 0 0 var(--px-18);
 }
 
 .rotulo {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: var(--fs-11);
   letter-spacing: 0.14em;
   text-transform: lowercase;
   color: var(--faint);
-  margin: 0 0 14px;
+  margin: 0 0 var(--px-14);
 }
 .acento { color: var(--accent); }
 .contagem {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: var(--fs-11);
   color: var(--faint);
 }
 
@@ -101,7 +118,7 @@
   overflow: hidden;
   field-sizing: content;
   font-family: var(--font-display);
-  font-weight: 400;
+  font-weight: var(--w-body);
   font-size: clamp(28px, 4vw, 42px);
   line-height: 1.15;
   letter-spacing: -0.022em;
@@ -118,7 +135,7 @@
   outline: none;
   resize: none;
   font-family: var(--font-ui);
-  font-size: 14px;
+  font-size: var(--fs-ui);
   line-height: 1.6;
   color: var(--soft);
   padding: 0;
@@ -132,16 +149,16 @@
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  gap: 16px;
-  margin: 36px 0 12px;
-  padding-top: 24px;
+  gap: var(--sp-4);
+  margin: var(--px-36) 0 var(--sp-3);
+  padding-top: var(--px-24);
   border-top: 1px solid var(--line);
 }
 
 .blocos {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: var(--px-10);
 }
 .bloco {
   background: var(--surface);
@@ -170,15 +187,16 @@
 .blocoCabecalho {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 8px 12px;
+  gap: var(--px-10);
+  min-width: 0;
+  padding: var(--sp-2) var(--sp-3);
   border-bottom: 1px solid var(--line);
   background: var(--bg-alt);
 }
 .alca {
   cursor: grab;
   color: var(--faint);
-  font-size: 14px;
+  font-size: var(--fs-body-sm);
   line-height: 1;
 }
 .alca:active,
@@ -186,49 +204,57 @@
 .alca { touch-action: none; }
 .blocoTipo {
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--fs-10);
   letter-spacing: 0.1em;
   color: var(--accent);
 }
+/* Sete ícones não cabem ao lado do rótulo do bloco em 360px: a barra rola no eixo x
+   dentro do cabeçalho em vez de esticar o bloco. */
 .barraFormato {
   display: flex;
   align-items: center;
   gap: 1px;
-  margin-left: 8px;
+  margin-left: var(--sp-2);
+  min-width: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
 }
+.barraFormato::-webkit-scrollbar { display: none; }
+.barraFormato button { flex: none; }
 .barraFormato button {
   display: inline-flex;
   background: none;
   border: none;
   color: var(--faint);
   cursor: pointer;
-  padding: 3px 5px;
+  padding: var(--px-3) var(--px-5);
   border-radius: 4px;
 }
 .barraFormato button:hover { color: var(--ink); background: var(--bg); }
 .barraSep {
   width: 1px;
   height: 14px;
-  margin: 0 5px;
+  margin: 0 var(--px-5);
   background: var(--line);
 }
 
 .blocoAcoes {
   margin-left: auto;
   display: flex;
-  gap: 2px;
+  flex: none;
+  gap: var(--px-2);
 }
 .blocoAcoes button {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: var(--fs-11);
   background: none;
   border: none;
   color: var(--faint);
   cursor: pointer;
-  padding: 2px 6px;
+  padding: var(--px-2) var(--px-6);
 }
 .blocoAcoes button:hover { color: var(--ink); }
-.blocoCorpo { padding: 14px 16px; }
+.blocoCorpo { padding: var(--px-14) var(--sp-4); }
 
 .ta {
   width: 100%;
@@ -238,7 +264,7 @@
   resize: none;
   font-family: var(--font-display);
   font-weight: var(--w-light);
-  font-size: 17px;
+  font-size: var(--fs-17);
   line-height: 1.7;
   color: var(--ink);
   padding: 0;
@@ -248,16 +274,16 @@
   overflow-y: auto;
 }
 .ta::placeholder { color: var(--faint); }
-.ta[data-bt="subtitulo"] { font-size: 22px; font-weight: 500; }
-.ta[data-bt="versiculo"] { font-size: 18px; }
+.ta[data-bt="subtitulo"] { font-size: var(--fs-22); font-weight: var(--w-medium); }
+.ta[data-bt="versiculo"] { font-size: var(--fs-18); }
 .ta[data-bt="nota"], .ta[data-bt="aplicacao"] {
   font-family: var(--font-ui);
-  font-size: 14.5px;
-  font-weight: 400;
+  font-size: var(--fs-14-5);
+  font-weight: var(--w-body);
 }
 .ta[data-bt="html"] {
   font-family: var(--font-mono);
-  font-size: 13px;
+  font-size: var(--fs-ui-sm);
   line-height: 1.6;
   color: var(--soft);
 }
@@ -268,11 +294,11 @@
   border: none;
   outline: none;
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: var(--fs-11);
   letter-spacing: 0.08em;
   color: var(--accent);
   padding: 0;
-  margin-bottom: 10px;
+  margin-bottom: var(--px-10);
 }
 .inputRef::placeholder { color: var(--faint); }
 
@@ -282,7 +308,7 @@
   object-fit: cover;
   border: 1px solid var(--line);
   display: block;
-  margin-bottom: 10px;
+  margin-bottom: var(--px-10);
 }
 /* input nativo escondido atrás de um botão ghost do DS */
 .escolherArquivo {
@@ -293,7 +319,7 @@
   color: var(--ink);
   background: transparent;
   border: 1px solid var(--line);
-  padding: 8px 16px;
+  padding: var(--sp-2) var(--sp-4);
   cursor: pointer;
   transition: all var(--dur-fast) var(--ease);
 }
@@ -304,32 +330,32 @@
   font-family: var(--font-mono);
   font-size: var(--fs-mono-sm);
   color: var(--accent);
-  margin-left: 10px;
+  margin-left: var(--px-10);
 }
 
 .linkPreview {
   font-family: var(--font-ui);
-  font-size: 13px;
+  font-size: var(--fs-ui-sm);
   color: var(--soft);
   margin: 0;
 }
 
 .adicionar {
-  margin-top: 22px;
+  margin-top: var(--sp-5);
   border: 1px dashed var(--line);
-  padding: 16px;
+  padding: var(--sp-4);
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--sp-2);
   flex-wrap: wrap;
 }
 /* Chip do design system: 12.5px, fundo transparente, hover escurece texto/borda */
 .chip {
   font-family: var(--font-mono);
-  font-size: 12.5px;
+  font-size: var(--fs-12-5);
   letter-spacing: 0.02em;
   cursor: pointer;
-  padding: 9px 16px;
+  padding: var(--px-9) var(--sp-4);
   border: 1px solid var(--line);
   background: transparent;
   color: var(--soft);
@@ -353,7 +379,7 @@
   background: transparent;
   color: var(--faint);
   cursor: pointer;
-  padding: 0 6px;
+  padding: 0 var(--px-6);
   transition: all var(--dur-fast) var(--ease);
 }
 .chipX:hover { color: var(--danger); border-color: var(--danger); }
@@ -364,8 +390,8 @@
   border: 1px solid var(--line);
   color: var(--ink);
   font-family: var(--font-mono);
-  font-size: 12px;
-  padding: 10px 12px;
+  font-size: var(--fs-ui-xs);
+  padding: var(--px-10) var(--sp-3);
   color-scheme: light dark; /* o picker nativo acompanha o tema */
 }
 .agendarInput:focus { outline: none; border-color: var(--primary); }
@@ -374,37 +400,37 @@
   font-size: var(--fs-mono-sm);
   color: var(--faint);
   line-height: 1.5;
-  margin: 10px 0 0;
+  margin: var(--px-10) 0 0;
 }
 
 .aside {
   display: flex;
   flex-direction: column;
-  gap: 22px;
+  gap: var(--sp-5);
   position: sticky;
   top: 82px;
 }
 .card {
   background: var(--surface);
   border: 1px solid var(--line);
-  padding: 20px;
+  padding: var(--px-20);
 }
 .cardTitulo {
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--fs-10);
   letter-spacing: 0.12em;
   color: var(--faint);
-  margin: 0 0 12px;
+  margin: 0 0 var(--sp-3);
 }
 .tagChips {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 12px;
+  gap: var(--sp-2);
+  margin-bottom: var(--sp-3);
   max-height: 240px;
   overflow-y: auto;
 }
-.novaTag { display: flex; gap: 6px; }
+.novaTag { display: flex; gap: var(--px-6); }
 .novaTag input {
   flex: 1;
   min-width: 0;
@@ -413,17 +439,17 @@
   color: var(--ink);
   font-family: var(--font-ui);
   font-size: var(--fs-ui);
-  padding: 10px 12px;
+  padding: var(--px-10) var(--sp-3);
 }
 .novaTag input:focus { outline: none; border-color: var(--primary); }
 .novaTag button {
   font-family: var(--font-mono);
-  font-size: 14px;
+  font-size: var(--fs-body-sm);
   background: var(--surface);
   border: 1px solid var(--line);
   color: var(--soft);
   cursor: pointer;
-  padding: 0 12px;
+  padding: 0 var(--sp-3);
 }
 .novaTag button:hover { border-color: var(--soft); color: var(--ink); }
 
@@ -433,7 +459,7 @@
   object-fit: cover;
   border: 1px solid var(--line);
   display: block;
-  margin-bottom: 12px;
+  margin-bottom: var(--sp-3);
 }
 
 /* placeholder listrado do PostImage do design system */
@@ -446,6 +472,6 @@
   font-family: var(--font-mono);
   font-size: var(--fs-mono-sm);
   color: var(--faint);
-  margin-bottom: 10px;
+  margin-bottom: var(--px-10);
 }
-.capaVazia { height: 130px; margin-bottom: 12px; }
+.capaVazia { height: 130px; margin-bottom: var(--sp-3); }

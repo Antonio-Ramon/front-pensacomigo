@@ -11,7 +11,7 @@
 
 .titulo {
   font-family: var(--font-display);
-  font-size: 20px;
+  font-size: var(--fs-h3);
   font-weight: var(--w-medium);
   color: var(--ink);
   margin: 0;
@@ -19,7 +19,7 @@
 .descricao {
   font-size: var(--fs-body-sm);
   color: var(--soft);
-  margin: 6px 0 0;
+  margin: var(--px-6) 0 0;
 }
 
 .form {
@@ -33,7 +33,7 @@
   min-width: 180px;
   background: var(--bg);
   border: 1px solid var(--line);
-  padding: 11px 16px;
+  padding: var(--px-11) var(--sp-4);
   color: var(--ink);
   font-family: var(--font-ui);
   font-size: var(--fs-ui);
@@ -47,7 +47,7 @@
   background: var(--primary);
   color: var(--on-primary);
   border: 1px solid var(--primary);
-  padding: 11px 22px;
+  padding: var(--px-11) var(--sp-5);
   cursor: pointer;
   transition: background var(--dur-fast) var(--ease);
 }
@@ -59,4 +59,16 @@
   color: var(--accent);
   margin: var(--sp-3) 0 0;
   min-height: 16px;
+}
+
+@media (max-width: 620px) {
+  .cta { padding: var(--sp-4); }
+  /* input e botão empilham: lado a lado sobrava ~90px para digitar o e-mail */
+  .form { gap: var(--sp-2); }
+  .form input {
+    flex: 1 1 100%;
+    font-size: var(--fs-body); /* sem zoom automático no iOS */
+    padding: var(--px-13) var(--px-14);
+  }
+  .form button { flex: 1 1 100%; padding: var(--px-13) var(--sp-5); }
 }
