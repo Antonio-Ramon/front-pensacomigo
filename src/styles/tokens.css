@@ -154,7 +154,7 @@ html[data-theme="terra"] {
      nunca abaixo dos 940 da referência */
   --container: clamp(940px, 80vw, 1100px);
   /* gutter fluido: ~8px no celular, ~32-40px em notebook (o conteúdo respira sem media query) */
-  --gutter: clamp(8px, 3.5vw, 40px);
+  --gutter: clamp(8px, 10px, 12px);
   --section-gap: var(--sp-9);
   --rail: 190px;
   /* altura do header fixo — quem gruda embaixo dele (barra de progresso, rail) lê daqui */

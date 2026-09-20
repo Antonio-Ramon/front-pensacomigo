@@ -45,13 +45,19 @@ export default async function AdminLayout({ children }: { children: React.ReactN
     <>
       <Header
         acoes={
-          <span className={styles.usuario} title={usuario.email ?? undefined}>
-            {avatar}
-            <span className={styles.usuarioTexto}>
-              <span className={styles.usuarioNome}>{usuario.nome?.toLowerCase()}</span>
-              {usuario.isAdmin && <span className={styles.usuarioPapel}>admin</span>}
+          <>
+            <span className={styles.usuario} title={usuario.email ?? undefined}>
+              {avatar}
+              <span className={styles.usuarioTexto}>
+                <span className={styles.usuarioNome}>{usuario.nome?.toLowerCase()}</span>
+                {usuario.isAdmin && <span className={styles.usuarioPapel}>admin</span>}
+              </span>
             </span>
-          </span>
+            {/* no celular o sair mora na gaveta — aqui ele sai de cena pelo CSS */}
+            <span className={styles.sairHeader}>
+              <BotaoSair />
+            </span>
+          </>
         }
         menu={
           <MenuMobile>
@@ -82,7 +88,6 @@ export default async function AdminLayout({ children }: { children: React.ReactN
           <Link href="/escrivaninha/editor" className={styles.botaoNova}>
             Nova meditação
           </Link>
-          <BotaoSair />
         </div>
       </Header>
       <main className={`${styles.wrap} ${styles.main}`}>{children}</main>
