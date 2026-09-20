@@ -1,12 +1,16 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
+import { revalidatePath, updateTag } from "next/cache";
 import { fetchAdmin } from "@/lib/api-admin";
+import { TAG_POSTS } from "@/lib/api";
 
 export async function excluirPost(id: string) {
   const res = await fetchAdmin(`/api/v1/Posts/${id}`, { method: "DELETE" });
   if (!res.ok) throw new Error(`Falha ao excluir (${res.status}).`);
   revalidatePath("/escrivaninha");
+  // O post sai das listagens públicas também — sem isto ele continua na home e no arquivo
+  // até o cache vencer sozinho.
+  updateTag(TAG_POSTS);
 }
 
 // Moderação sai por server action de propósito: o CORS do backend não libera PATCH do browser.

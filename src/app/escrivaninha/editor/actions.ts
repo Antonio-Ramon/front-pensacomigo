@@ -1,9 +1,9 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
+import { revalidatePath, updateTag } from "next/cache";
 import type { components } from "@/types/api";
 import { fetchAdmin } from "@/lib/api-admin";
-import type { Mood, StatusPost } from "@/lib/api";
+import { TAG_POSTS, type Mood, type StatusPost } from "@/lib/api";
 
 type PostSalvo = components["schemas"]["PostResponse"];
 export type LinkPreview = components["schemas"]["LinkPreviewResponse"];
@@ -51,7 +51,9 @@ export async function salvarPost(dados: {
   const r = await comErro<PostSalvo>(res);
   if (r.ok) {
     revalidatePath("/escrivaninha");
-    revalidatePath("/");
+    // Por tag, e não por path: o arquivo e cada página de tag também listam posts, e não dá
+    // para enumerar `/tags/*`.
+    updateTag(TAG_POSTS);
     if (r.dados.slug) revalidatePath(`/${r.dados.slug}`);
   }
   return r;
