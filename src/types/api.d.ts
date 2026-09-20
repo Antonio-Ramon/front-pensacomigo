@@ -1051,6 +1051,7 @@ export interface components {
             dataAtualizacao?: string;
             autor?: components["schemas"]["AutorResponse"];
             tags?: components["schemas"]["TagResponse"][] | null;
+            status?: components["schemas"]["StatusPost"];
             /** Format: date-time */
             dataPublicacao?: string | null;
             moods?: components["schemas"]["Mood"][] | null;
