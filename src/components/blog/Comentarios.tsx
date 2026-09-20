@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { HubConnectionBuilder } from "@microsoft/signalr";
 import type { components } from "@/types/api";
 import { API_PUBLICA, mensagemDeErro } from "@/lib/navegador";
 import { dataCurta } from "@/lib/datas";
@@ -58,12 +59,45 @@ export function Comentarios({ postId, autorId }: { postId: string; autorId?: str
   // como qualquer leitor com conta.
   const ehAutorDoPost = !!logado && !!autorId && logado.id === autorId;
 
+  const carregar = useCallback(
+    () =>
+      fetch(`${API_PUBLICA}/api/v1/posts/${postId}/comentarios?PageSize=50&OrderBy=dataCriacao%20desc`)
+        .then((r) => (r.ok ? r.json() : { items: [] }))
+        .then((p) => setItens(p.items ?? []))
+        .catch(() => setAviso("Não foi possível carregar os comentários.")),
+    [postId],
+  );
+
   useEffect(() => {
-    fetch(`${API_PUBLICA}/api/v1/posts/${postId}/comentarios?PageSize=50&OrderBy=dataCriacao%20desc`)
-      .then((r) => (r.ok ? r.json() : { items: [] }))
-      .then((p) => setItens(p.items ?? []))
-      .catch(() => setAviso("Não foi possível carregar os comentários."));
-  }, [postId]);
+    carregar();
+  }, [carregar]);
+
+  // Realtime: o evento é só o AVISO de que algo mudou — o corpo empurrado não traz data,
+  // foto, selo nem respostas, então quem diz a verdade continua sendo o GET.
+  useEffect(() => {
+    const conexao = new HubConnectionBuilder()
+      .withUrl(`${API_PUBLICA}/hubs/comentarios`)
+      .withAutomaticReconnect()
+      .build();
+
+    // O grupo guarda ConnectionId, e o reconnect gera outro: para o Hub somos uma conexão nova.
+    const entrar = () => conexao.invoke("Entrar", postId);
+
+    conexao.on("ComentarioCriado", carregar);
+    conexao.onreconnected(() => {
+      entrar();
+      carregar();
+    });
+    // Sem realtime a página segue como sempre foi: GET + formulário. É melhoria, não requisito.
+    const iniciado = conexao.start().then(entrar).catch(() => {});
+
+    return () => {
+      // só para depois que o start assentar: parar no meio da negociação aborta o
+      // handshake e o SignalR loga "connection was stopped during negotiation" —
+      // acontece a cada remontagem do efeito (StrictMode) e ao sair do post cedo
+      iniciado.finally(() => conexao.stop().catch(() => {}));
+    };
+  }, [postId, carregar]);
 
   useEffect(() => {
     fetch("/api/sessao")
