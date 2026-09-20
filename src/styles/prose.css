@@ -10,14 +10,14 @@
   line-height: var(--lh-prose);
 }
 
-.prose p { margin: 0 0 24px; }
+.prose p { margin: 0 0 var(--px-24); }
 /* Capitular do primeiro paragrafo — assinatura da coluna de leitura na referencia. */
 .prose > p:first-of-type::first-letter {
   float: left;
   font-size: 3.15em;
   line-height: 0.86;
   font-weight: var(--w-body);
-  padding: 6px 12px 0 0;
+  padding: var(--px-6) var(--sp-3) 0 0;
   color: var(--primary);
 }
 
@@ -28,7 +28,7 @@
   line-height: var(--lh-heading);
   letter-spacing: var(--tracking-heading);
   margin: var(--sp-7) 0 var(--sp-4);
-  scroll-margin-top: 80px; /* âncora do TocRail não para sob o header sticky */
+  scroll-margin-top: var(--px-80); /* âncora do TocRail não para sob o header sticky */
 }
 .prose h2 { font-size: 1.36em; }
 .prose h3 { font-size: 1.1em; }
@@ -56,10 +56,10 @@
   font-family: var(--font-mono);
   font-size: 0.85em;
   background: var(--bg-alt);
-  padding: 2px 5px;
+  padding: var(--px-2) var(--px-5);
 }
 
-.prose mark { background: var(--mark); color: inherit; padding: 0 2px; }
+.prose mark { background: var(--mark); color: inherit; padding: 0 var(--px-2); }
 
 .prose hr {
   border: none;
@@ -77,7 +77,7 @@
 }
 .prose .verse .r {
   font-family: var(--font-mono);
-  font-size: 10.5px;
+  font-size: var(--fs-mono-sm);
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--accent);
@@ -95,7 +95,7 @@
 /* Nota lateral: div.aside (com b para o rótulo) — régua accent, sem fundo */
 .prose .aside {
   margin: var(--sp-6) 0;
-  padding: 2px 0 2px 20px;
+  padding: var(--px-2) 0 var(--px-2) var(--px-20);
   border-left: 2px solid var(--accent);
   font-family: var(--font-ui);
   font-size: 0.79em;
@@ -124,7 +124,7 @@
   font-family: var(--font-mono);
   font-size: var(--fs-mono-sm);
   color: var(--faint);
-  margin-top: 10px;
+  margin-top: var(--px-10);
 }
 
 /* .prose a aplica sublinhado/serif nos links de texto — o card opta por fora */
@@ -168,4 +168,24 @@
   font-size: var(--fs-ui-sm);
   color: var(--soft);
   margin: 0;
+}
+
+/* ---- Celular ---------------------------------------------------------------
+   A medida de leitura já é a largura da tela; o que muda é o respiro: corpo um
+   ponto menor, capitular menos dominante e o card de link sem a foto larga. */
+@media (max-width: 620px) {
+  .prose {
+    font-size: var(--fs-17);
+    line-height: 1.7;
+    /* url longa no meio do texto não estoura a coluna */
+    overflow-wrap: break-word;
+  }
+  .prose p { margin-bottom: var(--sp-5); }
+  .prose > p:first-of-type::first-letter { font-size: 2.8em; padding-right: var(--px-10); }
+  .prose h2, .prose h3 { margin: var(--sp-6) 0 var(--sp-3); }
+  .prose .verse { padding: var(--sp-4); }
+  .prose .verse q { font-size: var(--fs-16-5); }
+  .prose .aside { padding-left: var(--sp-4); }
+  .linkCard, .prose a.linkCard { gap: var(--sp-3); }
+  .linkCard img { width: 92px; }
 }
