@@ -27,18 +27,18 @@ export default async function Home() {
       <section className={styles.hero}>
         <div className={styles.heroConteudo}>
           <p className="pc-eyebrow">
-            meditações diárias · por <b>antonio &amp; jéssica</b>
+            Meditações bíblicas · por <b>antonio &amp; jéssica</b>
           </p>
           <h1 className={styles.heroTitulo}>
             A dúvida não é o oposto da fé. É <em>por onde ela começa</em>.
           </h1>
           <p className={styles.heroLede}>
-            Uma leitura curta por dia, do texto bíblico ao chão da vida real — escrita para quem
-            pensa antes de crer, e continua pensando depois.
+            Para quem crê, para quem duvida e para quem está no meio do caminho: meditações
+            sobre a Bíblia, escritas como conversa, não como sermão.
           </p>
           <div className={styles.heroBotoes}>
             <Link href="#hoje" className={styles.botao}>
-              Começar por onde você está
+              Escolher uma leitura para hoje
             </Link>
             <Link href="/meditacoes" className={styles.botaoGhost}>
               Ver todas as meditações
@@ -55,7 +55,7 @@ export default async function Home() {
             </div>
             <div>
               <div className={styles.statNum}>{autores.length}</div>
-              <div className={styles.statRotulo}>quem escreve</div>
+              <div className={styles.statRotulo}>autores</div>
             </div>
           </div>
         </div>
@@ -63,9 +63,10 @@ export default async function Home() {
 
       <section className={styles.secao} id="hoje">
         <p className="pc-eyebrow">ponto de partida</p>
-        <h2 className="pc-titulo">Como você chega hoje?</h2>
+        <h2 className="pc-titulo">Como você está hoje?</h2>
         <p className="pc-lede">
-          Escolha a resposta honesta — não a que soa mais espiritual. A leitura se ajusta a ela.
+          Escolha o que mais se parece com o que você sente agora. A gente mostra meditações
+          para esse momento.
         </p>
         {/* ponytail: chip leva ao arquivo filtrado; verso-por-estado em página fica para depois */}
         <div className={styles.moodChips}>
@@ -78,7 +79,7 @@ export default async function Home() {
         <div className={styles.terminal}>
           <div className={styles.terminalChrome}>
             <i /><i /><i />
-            <span>~/meditacoes/hoje</span>
+            <span>versículo do dia</span>
           </div>
           <div className={styles.terminalCorpo}>
             <p className={styles.terminalCmd}>
@@ -93,10 +94,10 @@ export default async function Home() {
       {etapas.length > 0 && (
         <section className={styles.secao} id="trilha">
           <p className="pc-eyebrow">percurso de leitura</p>
-          <h2 className="pc-titulo">Quatro etapas, na ordem em que a fé costuma acontecer.</h2>
+          <h2 className="pc-titulo">Um caminho em etapas, da pergunta ao descanso.</h2>
           <p className="pc-lede">
-            Não é um curso. É o caminho que a maioria dos textos percorre: da pergunta ao
-            descanso. Comece em qualquer ponto — mas comece.
+            As meditações estão organizadas em etapas. Você pode começar pela que fizer mais
+            sentido para você.
           </p>
           <div className={styles.trilha}>
             {etapas.map((e) => (
@@ -105,7 +106,7 @@ export default async function Home() {
                 <h3 className={styles.etapaTitulo}>{e.titulo}</h3>
                 <p className={styles.etapaDescricao}>{e.descricao}</p>
                 {e.refs && <span className={styles.etapaRefs}>&gt; {e.refs}</span>}
-                <span className={styles.etapaCta}>abrir etapa →</span>
+                <span className={styles.etapaCta}>ver meditações →</span>
               </Link>
             ))}
           </div>
@@ -115,11 +116,11 @@ export default async function Home() {
       <section className={styles.secao}>
         <div className={styles.secaoTopo}>
           <div>
-            <p className="pc-eyebrow">o blog</p>
+            <p className="pc-eyebrow">mais recentes</p>
             <h2 className="pc-titulo">Últimas meditações</h2>
           </div>
           <Link href="/meditacoes" className={styles.linkArquivo}>
-            arquivo completo →
+            ver todas →
           </Link>
         </div>
         <div className={styles.lista}>

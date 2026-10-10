@@ -2,10 +2,10 @@ import type { Mood } from "@/lib/api";
 
 /** Mood do backend (nome do enum) ↔ slug de URL ↔ rótulo — "Como você chega hoje?". */
 export const MOODS = [
-  { valor: "Cansado", slug: "cansado", rotulo: "cansado" },
+  { valor: "Cansado", slug: "cansado", rotulo: "cansado(a)" },
   { valor: "EmDuvida", slug: "duvida", rotulo: "em dúvida" },
   { valor: "ComMedo", slug: "medo", rotulo: "com medo" },
-  { valor: "Grato", slug: "grato", rotulo: "grato" },
+  { valor: "Grato", slug: "grato", rotulo: "grato(a)" },
   { valor: "EmLuto", slug: "luto", rotulo: "em luto" },
 ] as const satisfies readonly { valor: Mood; slug: string; rotulo: string }[];
 

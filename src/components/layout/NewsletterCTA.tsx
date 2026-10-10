@@ -14,9 +14,9 @@ export function NewsletterCTA({ tone = "dashed" }: { tone?: "dashed" | "solid" }
 
   return (
     <div className={`${styles.cta} ${tone === "solid" ? styles.solid : ""}`} id="newsletter">
-      <h4 className={styles.titulo}>Recebe a próxima às 6h?</h4>
+      <h4 className={styles.titulo}>Quer receber as próximas meditações por e-mail?</h4>
       <p className={styles.descricao}>
-        Uma meditação por dia útil. Sem correntes, sem “compartilhe com sete pessoas”.
+        A gente avisa quando sair uma nova. Sem spam, e você cancela quando quiser.
       </p>
       <form
         className={styles.form}

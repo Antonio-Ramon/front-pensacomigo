@@ -136,8 +136,6 @@ export function Comentarios({ postId, autorId }: { postId: string; autorId?: str
 
   return (
     <section className={styles.comentarios}>
-      <h2 className={styles.comentariosTitulo}>O que você pensou?</h2>
-
       <form className={styles.form} onSubmit={enviar}>
         <p className={styles.formTitulo}>
           {respondendoA ? `RESPONDENDO A ${respondendoA.autor.toUpperCase()}` : "DEIXE UM COMENTÁRIO"}
@@ -175,7 +173,11 @@ export function Comentarios({ postId, autorId }: { postId: string; autorId?: str
               setTexto(e.target.value);
               setAviso("");
             }}
-            placeholder="Pense junto — discordar com cuidado também é comentário."
+            placeholder={
+              respondendoA
+                ? `Responda a ${respondendoA.autor}…`
+                : "Concorda, discorda, ficou com dúvida? Escreva do seu jeito."
+            }
             maxLength={2000}
           />
         </label>
