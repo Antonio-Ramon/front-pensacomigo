@@ -15,7 +15,7 @@ export function PostRow({ post }: { post: PostResumo }) {
     <Link href={`/${post.slug}`} className={styles.row}>
       <span className={styles.data}>{dataCurta(post.dataCriacao)}</span>
       <span className={styles.thumb}>
-        {capa ? <img src={capa} alt="" loading="lazy" /> : <span>capa</span>}
+        {capa && <img src={capa} alt="" loading="lazy" />}
       </span>
       <span className={styles.corpo}>
         <h3 className={styles.titulo}>{post.titulo}</h3>

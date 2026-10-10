@@ -24,7 +24,7 @@ function useOffline() {
     const caiu = () => {
       id.current ??= toast.estado("Você está sem conexão", {
         rotulo: "rede",
-        desc: "O que você escreveu continua aqui; salve quando a rede voltar.",
+        desc: "Algumas coisas podem não carregar até a conexão voltar.",
       });
     };
     const voltou = () => {

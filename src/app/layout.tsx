@@ -33,7 +33,8 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"),
   title: { default: "Pensa Comigo", template: "%s · Pensa Comigo" },
-  description: "Meditações cristãs reflexivas — a fé que te obriga a pensar.",
+  description:
+    "Meditações sobre a Bíblia para quem crê, para quem duvida e para quem está no meio do caminho.",
   // ícone do tema padrão; o script inline troca para o tema salvo antes da primeira pintura
   icons: {
     icon: { url: faviconDoTema(TEMA_PADRAO), type: "image/png" },

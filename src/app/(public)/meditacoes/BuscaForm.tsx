@@ -29,7 +29,7 @@ export function BuscaForm({ busca }: { busca?: string }) {
       <input
         type="search"
         name="busca"
-        placeholder="buscar — ex. Habacuque, luto, maná…"
+        placeholder="Buscar pelo título — ex.: Habacuque, maná…"
         defaultValue={busca ?? ""}
         aria-label="Buscar meditações por título"
       />

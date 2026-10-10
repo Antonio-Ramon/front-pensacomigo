@@ -157,7 +157,7 @@ export default async function PaginaPost({ params }: Props) {
 
           {relacionados.length > 0 && (
             <section className={styles.relacionados}>
-              <h3 className={styles.tituloSecao}>Continue por aqui</h3>
+              <h3 className={styles.tituloSecao}>Leia também</h3>
               <PostList posts={relacionados} />
             </section>
           )}

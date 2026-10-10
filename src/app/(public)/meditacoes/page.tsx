@@ -48,7 +48,7 @@ export default async function Arquivo({
   const partes = [
     busca && `“${busca}”`,
     etapaNumero > 0 && `etapa ${etapaCurta(etapaNumero, etapas.find((e) => e.numero === etapaNumero)?.titulo)}`,
-    mood && `quem chega ${mood.rotulo}`,
+    mood?.rotulo,
   ].filter(Boolean);
 
   return (
@@ -56,11 +56,11 @@ export default async function Arquivo({
       <FeedAoVivo />
       <section className={styles.cabecalho}>
         <p className="pc-eyebrow">
-          arquivo completo · <b>{totalItems} meditações</b>
+          meditações
         </p>
         <h1 className={styles.h1}>Todas as meditações</h1>
         <p className="pc-lede">
-          Busque por título — ou filtre pela etapa da trilha e pelo estado em que você chega.
+          Procure pelo título ou filtre por etapa e pelo que você está sentindo.
         </p>
       </section>
 
@@ -68,7 +68,7 @@ export default async function Arquivo({
 
       <div className={styles.filtros}>
         <div>
-          <p className={styles.filtroRotulo}>ETAPA DA TRILHA</p>
+          <p className={styles.filtroRotulo}>ETAPA</p>
           <div className={styles.chips}>
             {etapas.map((e) => {
               const ativa = e.numero === etapaNumero;
@@ -85,7 +85,7 @@ export default async function Arquivo({
           </div>
         </div>
         <div>
-          <p className={styles.filtroRotulo}>ESTADO DE CHEGADA</p>
+          <p className={styles.filtroRotulo}>COMO VOCÊ ESTÁ</p>
           <div className={styles.chips}>
             {MOODS.map((m) => {
               const ativo = m.slug === mood?.slug;
@@ -114,7 +114,7 @@ export default async function Arquivo({
           rotulo="NADA ENCONTRADO"
           frase={
             partes.length
-              ? "Nenhuma meditação bate com esses filtros. Tente afrouxar um deles."
+              ? "Nenhuma meditação encontrada com esses filtros. Tente remover algum."
               : "Nenhuma meditação publicada ainda."
           }
           acao={partes.length ? { label: "limpar filtros →", href: "/meditacoes" } : undefined}
