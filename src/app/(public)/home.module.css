@@ -224,7 +224,7 @@
   border: 1px solid var(--line);
   margin-top: var(--px-26);
 }
-/* célula com AuthorBox do design system: avatar 44px + nome serif 18 */
+/* célula de autor da home: foto maior que a do AuthorBox para o rosto ser reconhecível */
 .autor {
   display: flex;
   gap: var(--sp-4);
@@ -233,15 +233,15 @@
   padding: var(--sp-5) var(--px-20) var(--px-20);
 }
 .iniciais {
-  width: var(--avatar-lg);
-  height: var(--avatar-lg);
+  width: 88px;
+  height: 88px;
   flex: none;
   display: grid;
   place-items: center;
   background: var(--accent);
   color: var(--on-primary);
   font-family: var(--font-mono);
-  font-size: var(--fs-15);
+  font-size: var(--fs-18);
   object-fit: cover;
 }
 .autorNome {
@@ -288,6 +288,7 @@
   .etapa { padding: var(--px-18) var(--sp-4) var(--px-20); }
   .etapaDescricao { min-height: 0; }
   .autor { padding: var(--px-18) var(--sp-4); }
+  .iniciais { width: 64px; height: 64px; }
   .secaoTopo { row-gap: var(--sp-2); }
   .linkArquivo { padding: var(--sp-2) 0; }
 }
